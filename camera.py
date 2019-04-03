@@ -9,12 +9,13 @@ def capture(handle_frame):
         ret, frame = video_capture.retrieve()
 
         if (ret == False):
-            break;
+            break
 
-        image = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_CUBIC)
+        handle_frame(frame)
 
-        handle_frame(image)
-
-        time.sleep(0)
+        if cv2.waitKey(25) & 0xFF == ord('q'):
+            break
 
     video_capture.release()
+
+    cv2.destroyAllWindows()
