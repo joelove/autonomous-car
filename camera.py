@@ -1,5 +1,4 @@
 import cv2
-import time
 
 def capture(handle_frame):
     video_capture = cv2.VideoCapture(0)
