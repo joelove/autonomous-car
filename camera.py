@@ -1,7 +1,7 @@
 import cv2
 import time
 
-def capture(screen, handle_frame):
+def capture(handle_frame):
     video_capture = cv2.VideoCapture(0)
 
     while True:
