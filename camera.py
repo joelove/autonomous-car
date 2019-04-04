@@ -12,6 +12,8 @@ def capture(handle_frame):
 
         handle_frame(frame)
 
+        break
+
         if cv2.waitKey(25) & 0xFF == ord('q'):
             break
 
