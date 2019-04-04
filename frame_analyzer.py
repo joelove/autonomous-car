@@ -19,7 +19,7 @@ def detect_edges(image, low_threshold=50, high_threshold=150):
 
 
 def hough_lines(image):
-    return cv2.HoughLinesP(image, rho=1, theta=np.pi/180, threshold=20, minLineLength=20, maxLineGap=300)
+    return cv2.HoughLinesP(image, rho=0.5, theta=np.pi/180, threshold=20, minLineLength=30, maxLineGap=20)
 
 
 def filter_region(image, vertices):
@@ -47,9 +47,8 @@ def select_region(image):
 def normalize_image_lightness(image):
     lab_image = cv2.cvtColor(image, cv2.COLOR_RGB2LAB)
     l, a, b = cv2.split(lab_image)
-    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
-    cl = clahe.apply(l)
-    limg = cv2.merge((cl, a, b))
+    normalized_lightness = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8)).apply(l)
+    limg = cv2.merge((normalized_lightness, a, b))
 
     return cv2.cvtColor(limg, cv2.COLOR_LAB2RGB)
 
@@ -61,6 +60,76 @@ def select_white(image):
     return cv2.inRange(image, lower, upper)
 
 
+def average_slope_intercept(lines):
+    left_lines    = []
+    left_weights  = []
+    right_lines   = []
+    right_weights = []
+
+    for line in lines:
+        for x1, y1, x2, y2 in line:
+            if x2==x1:
+                continue
+            slope = (y2 - y1) / (x2 - x1)
+            intercept = y1 - slope*x1
+            length = np.sqrt((y2 - y1) ** 2 + (x2 - x1) **2)
+            if slope < 0:
+                left_lines.append((slope, intercept))
+                left_weights.append((length))
+            else:
+                right_lines.append((slope, intercept))
+                right_weights.append((length))
+
+    left_lane  = np.dot(left_weights,  left_lines)  / np.sum(left_weights)  if len(left_weights)  > 0 else None
+    right_lane = np.dot(right_weights, right_lines) / np.sum(right_weights) if len(right_weights) > 0 else None
+
+    return left_lane, right_lane
+
+
+def make_line_points(y1, y2, line):
+    if line is None:
+        return None
+
+    slope, intercept = line
+
+    x1 = int((y1 - intercept)/slope)
+    x2 = int((y2 - intercept)/slope)
+    y1 = int(y1)
+    y2 = int(y2)
+
+    return ((x1, y1), (x2, y2))
+
+
+def get_lanes(image_lines, image_height):
+    left_lane, right_lane = average_slope_intercept(image_lines)
+
+    y1 = image_height
+    y2 = y1 * 0.6
+
+    left_line  = make_line_points(y1, y2, left_lane)
+    right_line = make_line_points(y1, y2, right_lane)
+
+    return left_line, right_line
+
+
+def get_image_height(image):
+    return image.shape[0]
+
+
+def draw_line(image, line, color):
+    if line is not None:
+        cv2.line(image, *line, color, 20)
+
+
+def draw_lanes(image, left_lane, right_lane):
+    lanes_image = np.zeros_like(image)
+
+    draw_line(lanes_image, left_lane, [255, 0, 0])
+    draw_line(lanes_image, right_lane, [0, 255, 0])
+
+    cv2.addWeighted(image, 1.0, lanes_image, 0.95, 0.0)
+
+
 def handle_frame(frame):
     normalized_image = normalize_image_lightness(frame)
     hls_image = convert_hls(normalized_image)
@@ -69,7 +138,15 @@ def handle_frame(frame):
     greyscale_image = convert_gray_scale(masked_image)
     smooth_image = apply_smoothing(greyscale_image)
     image_region = select_region(smooth_image)
+    image_height = get_image_height(image_region)
     image_edges = detect_edges(image_region)
-    # image_lines = hough_lines(image_edges)
+    image_lines = hough_lines(image_edges)
+    left_lane, right_lane = get_lanes(image_lines, image_height)
 
-    cv2.imshow('Preview', image_edges)
+    # draw_lanes(frame, left_lane, right_lane)
+
+    for line in image_lines:
+        x1, y1, x2, y2 = line[0]
+        cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 5)
+
+    cv2.imshow('Preview', frame)
