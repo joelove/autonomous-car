@@ -1,19 +1,30 @@
 import cv2
+import numpy as np
+
+
+def normalize_image_lightness(image):
+    lab_image = cv2.cvtColor(image, cv2.COLOR_RGB2LAB)
+    l, a, b = cv2.split(lab_image)
+    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
+    cl = clahe.apply(l)
+    limg = cv2.merge((cl, a, b))
+    return cv2.cvtColor(limg, cv2.COLOR_LAB2RGB)
+
+
+def convert_hls(image):
+    return cv2.cvtColor(image, cv2.COLOR_RGB2HLS)
+
+
+def select_white(image):
+    lower = np.uint8([0, 180, 0])
+    upper = np.uint8([255, 255, 255])
+    return cv2.inRange(image, lower, upper)
+
 
 def handle_frame(frame):
-    grayscale_image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    normalized_image = cv2.normalize(grayscale_image, None, beta=255, norm_type=cv2.NORM_MINMAX)
+    normalized_image = normalize_image_lightness(frame)
+    hls_image = convert_hls(normalized_image)
+    white_mask = select_white(hls_image)
+    result = cv2.bitwise_and(frame, frame, mask=white_mask)
 
-    # blurred_image = cv2.medianBlur(normalized_image, 7)
-    # ret, thresh = cv2.threshold(blurred_image, 180, 255, 0)
-
-    thresh = cv2.adaptiveThreshold(normalized_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 5)
-
-    cv2.imwrite('test.png', thresh)
-
-    # cv2.imshow('frame', thresh)
-
-    # contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-    # cv2.fillPoly(frame, contours, color=(0, 255, 0))
-    # cv2.imshow('frame', frame)
+    cv2.imshow('Preview', result)
