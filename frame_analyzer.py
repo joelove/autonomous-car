@@ -88,16 +88,21 @@ def average_slope_intercept(lines):
     return left_lane, right_lane
 
 
+def float_to_int(x):
+    if x == float('inf') or x == float('-inf'):
+        return float('nan') # or a large value you choose
+    return int(x)
+
 def make_line_points(y1, y2, line):
     if line is None:
         return None
 
     slope, intercept = line
 
-    x1 = int((y1 - intercept) / slope)
-    x2 = int((y2 - intercept) / slope)
-    y1 = int(y1)
-    y2 = int(y2)
+    x1 = float_to_int((y1 - intercept) / slope)
+    x2 = float_to_int((y2 - intercept) / slope)
+    y1 = float_to_int(y1)
+    y2 = float_to_int(y2)
 
     return ((x1, y1), (x2, y2))
 

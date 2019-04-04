@@ -10,6 +10,8 @@ def capture(handle_frame):
         if (ret == False):
             break
 
+
+
         handle_frame(frame)
 
         if cv2.waitKey(25) & 0xFF == ord('q'):
