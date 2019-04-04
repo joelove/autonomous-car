@@ -70,9 +70,11 @@ def average_slope_intercept(lines):
         for x1, y1, x2, y2 in line:
             if x2==x1:
                 continue
+
             slope = (y2 - y1) / (x2 - x1)
-            intercept = y1 - slope*x1
-            length = np.sqrt((y2 - y1) ** 2 + (x2 - x1) **2)
+            intercept = y1 - slope * x1
+            length = np.sqrt((y2 - y1) ** 2 + (x2 - x1) ** 2)
+
             if slope < 0:
                 left_lines.append((slope, intercept))
                 left_weights.append((length))
@@ -92,8 +94,8 @@ def make_line_points(y1, y2, line):
 
     slope, intercept = line
 
-    x1 = int((y1 - intercept)/slope)
-    x2 = int((y2 - intercept)/slope)
+    x1 = int((y1 - intercept) / slope)
+    x2 = int((y2 - intercept) / slope)
     y1 = int(y1)
     y2 = int(y2)
 
@@ -121,32 +123,24 @@ def draw_line(image, line, color):
         cv2.line(image, *line, color, 20)
 
 
-def draw_lanes(image, left_lane, right_lane):
-    lanes_image = np.zeros_like(image)
-
-    draw_line(lanes_image, left_lane, [255, 0, 0])
-    draw_line(lanes_image, right_lane, [0, 255, 0])
-
-    cv2.addWeighted(image, 1.0, lanes_image, 0.95, 0.0)
-
-
 def handle_frame(frame):
     normalized_image = normalize_image_lightness(frame)
     hls_image = convert_hls(normalized_image)
     white_mask = select_white(hls_image)
-    masked_image = cv2.bitwise_and(frame, frame, mask=white_mask)
+    masked_image = cv2.bitwise_and(normalized_image, normalized_image, mask=white_mask)
     greyscale_image = convert_gray_scale(masked_image)
     smooth_image = apply_smoothing(greyscale_image)
-    image_region = select_region(smooth_image)
-    image_height = get_image_height(image_region)
-    image_edges = detect_edges(image_region)
+    image_height = get_image_height(smooth_image)
+    image_edges = detect_edges(smooth_image)
     image_lines = hough_lines(image_edges)
     left_lane, right_lane = get_lanes(image_lines, image_height)
+    # image_region = select_region(image_lines)
 
-    # draw_lanes(frame, left_lane, right_lane)
+    draw_line(frame, left_lane, (255, 0, 0))
+    draw_line(frame, right_lane, (0, 255, 0))
 
-    for line in image_lines:
-        x1, y1, x2, y2 = line[0]
-        cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 5)
+    # for line in image_lines:
+    #     x1, y1, x2, y2 = line[0]
+    #     cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 5)
 
     cv2.imshow('Preview', frame)
