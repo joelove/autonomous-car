@@ -16,8 +16,8 @@ def convert_hls(image):
 
 
 def select_white(image):
-    lower = np.uint8([0, 180, 0])
-    upper = np.uint8([255, 255, 255])
+    lower = np.uint8([0, 187, 0])
+    upper = np.uint8([255, 255, 51])
     return cv2.inRange(image, lower, upper)
 
 
