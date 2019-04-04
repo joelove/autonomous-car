@@ -46,11 +46,11 @@ def select_region(image):
 
 def normalize_image_lightness(image):
     lab_image = cv2.cvtColor(image, cv2.COLOR_RGB2LAB)
-    l, a, b = cv2.split(lab_image)
-    normalized_lightness = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8)).apply(l)
-    limg = cv2.merge((normalized_lightness, a, b))
+    lightness, a, b = cv2.split(lab_image)
+    normalized_lightness = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8)).apply(lightness)
+    normalized_image = cv2.merge((normalized_lightness, a, b))
 
-    return cv2.cvtColor(limg, cv2.COLOR_LAB2RGB)
+    return cv2.cvtColor(normalized_image, cv2.COLOR_LAB2RGB)
 
 
 def select_white(image):
