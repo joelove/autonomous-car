@@ -34,8 +34,8 @@ def select_region(image):
 
     bottom_left  = [x_height * 0,   y_height * 1]
     middle_left  = [x_height * 0,   y_height * 0.5]
-    top_left     = [x_height * 0.5, y_height * 0]
-    top_right    = [x_height * 0.5, y_height * 0]
+    top_left     = [x_height * 0.35, y_height * 0]
+    top_right    = [x_height * 0.65, y_height * 0]
     middle_right = [x_height * 1,   y_height * 0.5]
     bottom_right = [x_height * 1,   y_height * 1]
 
@@ -129,12 +129,12 @@ def handle_frame(frame):
     white_mask = select_white(hls_image)
     masked_image = cv2.bitwise_and(normalized_image, normalized_image, mask=white_mask)
     greyscale_image = convert_gray_scale(masked_image)
-    smooth_image = apply_smoothing(greyscale_image)
+    image_region = select_region(greyscale_image)
+    smooth_image = apply_smoothing(image_region)
     image_height = get_image_height(smooth_image)
     image_edges = detect_edges(smooth_image)
     image_lines = hough_lines(image_edges)
     left_lane, right_lane = get_lanes(image_lines, image_height)
-    # image_region = select_region(image_lines)
 
     draw_line(frame, left_lane, (255, 0, 0))
     draw_line(frame, right_lane, (0, 255, 0))
