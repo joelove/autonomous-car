@@ -14,12 +14,12 @@ def apply_smoothing(image, kernel_size=9):
     return cv2.GaussianBlur(image, (kernel_size, kernel_size), 0)
 
 
-def detect_edges(image, low_threshold=50, high_threshold=150):
+def detect_edges(image, low_threshold=30, high_threshold=150):
     return cv2.Canny(image, low_threshold, high_threshold)
 
 
 def hough_lines(image):
-    return cv2.HoughLinesP(image, rho=0.5, theta=np.pi/180, threshold=20, minLineLength=30, maxLineGap=20)
+    return cv2.HoughLinesP(image, rho=0.5, theta=np.pi/180, threshold=20, minLineLength=80, maxLineGap=20)
 
 
 def filter_region(image, vertices):
@@ -129,18 +129,19 @@ def handle_frame(frame):
     white_mask = select_white(hls_image)
     masked_image = cv2.bitwise_and(normalized_image, normalized_image, mask=white_mask)
     greyscale_image = convert_gray_scale(masked_image)
-    image_region = select_region(greyscale_image)
-    smooth_image = apply_smoothing(image_region)
+    # image_region = select_region(greyscale_image)
+    smooth_image = apply_smoothing(greyscale_image)
     image_height = get_image_height(smooth_image)
     image_edges = detect_edges(smooth_image)
     image_lines = hough_lines(image_edges)
-    left_lane, right_lane = get_lanes(image_lines, image_height)
+    # left_lane, right_lane = get_lanes(image_lines, image_height)
 
-    draw_line(frame, left_lane, (255, 0, 0))
-    draw_line(frame, right_lane, (0, 255, 0))
+    # draw_line(frame, left_lane, (255, 0, 0))
+    # draw_line(frame, right_lane, (0, 255, 0))
 
-    # for line in image_lines:
-    #     x1, y1, x2, y2 = line[0]
-    #     cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 5)
+    if image_lines is not None:
+        for line in image_lines:
+            x1, y1, x2, y2 = line[0]
+            cv2.line(masked_image, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
-    cv2.imshow('Preview', frame)
+    cv2.imshow('Preview', masked_image)
