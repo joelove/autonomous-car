@@ -4,7 +4,7 @@ import numpy as np
 from funcy import compose
 
 
-reverse_tuple = compose(reversed, tuple)
+reverse_tuple = compose(tuple, reversed)
 
 
 def perspective_warp(image):
@@ -21,8 +21,8 @@ def perspective_warp(image):
     return cv2.warpPerspective(image, transformation, image_dimensions)
 
 
-def reduce_noise(image):
-    return cv2.GaussianBlur(image, (3, 3), 0)
+def reduce_noise(image, ksize=3):
+    return cv2.GaussianBlur(image, (ksize, ksize), 0)
 
 
 def rgb_to_grayscale(image):
