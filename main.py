@@ -1,8 +1,10 @@
 import camera
-import frame_analyzer
+import lane_detector
+
 
 def main():
-    camera.capture(frame_analyzer.handle_frame)
+    camera.capture(lane_detector.detect_lanes)
+
 
 if __name__ == '__main__':
     main()
