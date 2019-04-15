@@ -1,5 +1,6 @@
 import cv2
 
+
 def capture(handle_frame):
     video_capture = cv2.VideoCapture(0)
 

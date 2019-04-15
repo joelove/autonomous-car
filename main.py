@@ -1,9 +1,11 @@
-import camera
-import lane_detector
+import camera_interface
+import frame_analyzer
+import car_controller
 
 
 def main():
-    camera.capture(lane_detector.detect_lanes)
+    # camera_interface.capture(frame_analyzer.handle_frame)
+    car_controller.automatic()
 
 
 if __name__ == '__main__':

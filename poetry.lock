@@ -1,5 +1,24 @@
 [[package]]
 category = "main"
+description = "Abseil Python Common Libraries, see https://github.com/abseil/abseil-py."
+name = "absl-py"
+optional = false
+python-versions = "*"
+version = "0.7.1"
+
+[package.dependencies]
+six = "*"
+
+[[package]]
+category = "main"
+description = "Read/rewrite/write Python ASTs"
+name = "astor"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "0.7.1"
+
+[[package]]
+category = "main"
 description = "A Python module to use a PiCamera easily"
 name = "camera"
 optional = false
@@ -8,11 +27,300 @@ version = "1.3.0"
 
 [[package]]
 category = "main"
+description = "Python package for providing Mozilla's CA Bundle."
+name = "certifi"
+optional = false
+python-versions = "*"
+version = "2019.3.9"
+
+[[package]]
+category = "main"
+description = "Universal encoding detector for Python 2 and 3"
+name = "chardet"
+optional = false
+python-versions = "*"
+version = "3.0.4"
+
+[[package]]
+category = "main"
+description = "Composable command line interface toolkit"
+name = "click"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "7.0"
+
+[[package]]
+category = "main"
+description = "Better living through Python with decorators"
+name = "decorator"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*"
+version = "4.4.0"
+
+[[package]]
+category = "main"
+description = "DNS toolkit"
+name = "dnspython"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "1.16.0"
+
+[[package]]
+category = "main"
+description = "Pythonic argument parser, that will make you smile"
+name = "docopt"
+optional = false
+python-versions = "*"
+version = "0.6.2"
+
+[[package]]
+category = "main"
+description = "Self driving library for python."
+name = "donkeycar"
+optional = false
+python-versions = "*"
+version = "2.5.8"
+
+[package.dependencies]
+docopt = "*"
+eventlet = "*"
+flask = "*"
+h5py = "*"
+moviepy = "*"
+numpy = "*"
+pandas = "*"
+pillow = "*"
+python-socketio = "*"
+requests = "*"
+tornado = "4.5.3"
+
+[[package]]
+category = "main"
+description = "Python 3.4 Enum backported to 3.3, 3.2, 3.1, 2.7, 2.6, 2.5, and 2.4"
+name = "enum34"
+optional = false
+python-versions = "*"
+version = "1.1.6"
+
+[[package]]
+category = "main"
+description = "Highly concurrent networking library"
+name = "eventlet"
+optional = false
+python-versions = "*"
+version = "0.24.1"
+
+[package.dependencies]
+dnspython = ">=1.15.0"
+greenlet = ">=0.3"
+monotonic = ">=1.4"
+six = ">=1.10.0"
+
+[[package]]
+category = "main"
+description = "A simple framework for building complex web applications."
+name = "flask"
+optional = false
+python-versions = "*"
+version = "1.0.2"
+
+[package.dependencies]
+Jinja2 = ">=2.10"
+Werkzeug = ">=0.14"
+click = ">=5.1"
+itsdangerous = ">=0.24"
+
+[[package]]
+category = "main"
 description = "A fancy and practical functional tools"
 name = "funcy"
 optional = false
 python-versions = "*"
 version = "1.11"
+
+[[package]]
+category = "main"
+description = "Backport of the concurrent.futures package from Python 3.2"
+name = "futures"
+optional = false
+python-versions = "*"
+version = "3.1.1"
+
+[[package]]
+category = "main"
+description = "Python AST that abstracts the underlying Python version"
+name = "gast"
+optional = false
+python-versions = "*"
+version = "0.2.2"
+
+[[package]]
+category = "main"
+description = "Lightweight in-process concurrent programming"
+name = "greenlet"
+optional = false
+python-versions = "*"
+version = "0.4.15"
+
+[[package]]
+category = "main"
+description = "HTTP/2-based RPC framework"
+name = "grpcio"
+optional = false
+python-versions = "*"
+version = "1.19.0"
+
+[package.dependencies]
+enum34 = ">=1.0.4"
+futures = ">=2.2.0"
+six = ">=1.5.2"
+
+[[package]]
+category = "main"
+description = "Read and write HDF5 files from Python"
+name = "h5py"
+optional = false
+python-versions = "*"
+version = "2.9.0"
+
+[package.dependencies]
+numpy = ">=1.7"
+six = "*"
+
+[[package]]
+category = "main"
+description = "Internationalized Domain Names in Applications (IDNA)"
+name = "idna"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "2.8"
+
+[[package]]
+category = "main"
+description = "Library for reading and writing a wide range of image, video, scientific, and volumetric data formats."
+marker = "python_version >= \"3.4\""
+name = "imageio"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "2.5.0"
+
+[package.dependencies]
+numpy = "*"
+pillow = "*"
+
+[[package]]
+category = "main"
+description = "FFMPEG wrapper for Python"
+marker = "python_version >= \"3.4\""
+name = "imageio-ffmpeg"
+optional = false
+python-versions = "*"
+version = "0.3.0"
+
+[[package]]
+category = "main"
+description = "Various helpers to pass data to untrusted environments and back."
+name = "itsdangerous"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "1.1.0"
+
+[[package]]
+category = "main"
+description = "A small but fast and easy to use stand-alone template engine written in pure python."
+name = "jinja2"
+optional = false
+python-versions = "*"
+version = "2.10.1"
+
+[package.dependencies]
+MarkupSafe = ">=0.23"
+
+[[package]]
+category = "main"
+description = "Reference implementations of popular deep learning models"
+name = "keras-applications"
+optional = false
+python-versions = "*"
+version = "1.0.7"
+
+[package.dependencies]
+h5py = "*"
+numpy = ">=1.9.1"
+
+[[package]]
+category = "main"
+description = "Easy data preprocessing and data augmentation for deep learning models"
+name = "keras-preprocessing"
+optional = false
+python-versions = "*"
+version = "1.0.9"
+
+[package.dependencies]
+numpy = ">=1.9.1"
+six = ">=1.9.0"
+
+[[package]]
+category = "main"
+description = "Python implementation of Markdown."
+name = "markdown"
+optional = false
+python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*"
+version = "3.1"
+
+[package.dependencies]
+setuptools = ">=36"
+
+[[package]]
+category = "main"
+description = "Safely add untrusted strings to HTML/XML markup."
+name = "markupsafe"
+optional = false
+python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
+version = "1.1.1"
+
+[[package]]
+category = "main"
+description = "Rolling backport of unittest.mock for all Pythons"
+name = "mock"
+optional = false
+python-versions = "*"
+version = "2.0.0"
+
+[package.dependencies]
+pbr = ">=0.11"
+six = ">=1.9"
+
+[[package]]
+category = "main"
+description = "An implementation of time.monotonic() for Python 2 & < 3.3"
+name = "monotonic"
+optional = false
+python-versions = "*"
+version = "1.5"
+
+[[package]]
+category = "main"
+description = "Video editing with Python"
+name = "moviepy"
+optional = false
+python-versions = "*"
+version = "1.0.0"
+
+[package.dependencies]
+decorator = ">=4.0.2,<5.0"
+numpy = "*"
+proglog = "<=1.0.0"
+requests = ">=2.8.1,<3.0"
+tqdm = ">=4.11.2,<5.0"
+
+[package.dependencies.imageio]
+python = ">=3.4"
+version = ">=2.5,<3.0"
+
+[package.dependencies.imageio_ffmpeg]
+python = ">=3.4"
+version = ">=0.2.0"
 
 [[package]]
 category = "main"
@@ -33,12 +341,283 @@ version = "4.1.0.25"
 [package.dependencies]
 numpy = ">=1.11.1"
 
+[[package]]
+category = "main"
+description = "Powerful data structures for data analysis, time series, and statistics"
+name = "pandas"
+optional = false
+python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*"
+version = "0.24.2"
+
+[package.dependencies]
+numpy = ">=1.12.0"
+python-dateutil = ">=2.5.0"
+pytz = ">=2011k"
+
+[[package]]
+category = "main"
+description = "Python Build Reasonableness"
+name = "pbr"
+optional = false
+python-versions = "*"
+version = "5.1.3"
+
+[[package]]
+category = "main"
+description = "Python Imaging Library (Fork)"
+name = "pillow"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+version = "6.0.0"
+
+[[package]]
+category = "main"
+description = "Log and progress bar manager for console, notebooks, web..."
+name = "proglog"
+optional = false
+python-versions = "*"
+version = "0.1.9"
+
+[package.dependencies]
+tqdm = "*"
+
+[[package]]
+category = "main"
+description = "Protocol Buffers"
+name = "protobuf"
+optional = false
+python-versions = "*"
+version = "3.7.1"
+
+[package.dependencies]
+setuptools = "*"
+six = ">=1.9"
+
+[[package]]
+category = "main"
+description = "Extensions to the standard Python datetime module"
+name = "python-dateutil"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
+version = "2.8.0"
+
+[package.dependencies]
+six = ">=1.5"
+
+[[package]]
+category = "main"
+description = "Engine.IO server"
+name = "python-engineio"
+optional = false
+python-versions = "*"
+version = "3.5.1"
+
+[package.dependencies]
+six = ">=1.9.0"
+
+[[package]]
+category = "main"
+description = "Socket.IO server"
+name = "python-socketio"
+optional = false
+python-versions = "*"
+version = "4.0.0"
+
+[package.dependencies]
+python-engineio = ">=3.2.0"
+six = ">=1.9.0"
+
+[[package]]
+category = "main"
+description = "World timezone definitions, modern and historical"
+name = "pytz"
+optional = false
+python-versions = "*"
+version = "2019.1"
+
+[[package]]
+category = "main"
+description = "Python HTTP for Humans."
+name = "requests"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "2.21.0"
+
+[package.dependencies]
+certifi = ">=2017.4.17"
+chardet = ">=3.0.2,<3.1.0"
+idna = ">=2.5,<2.9"
+urllib3 = ">=1.21.1,<1.25"
+
+[[package]]
+category = "main"
+description = "Python 2 and 3 compatibility utilities"
+name = "six"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*"
+version = "1.12.0"
+
+[[package]]
+category = "main"
+description = "TensorBoard lets you watch Tensors Flow"
+name = "tensorboard"
+optional = false
+python-versions = ">= 2.7, != 3.0.*, != 3.1.*"
+version = "1.13.1"
+
+[package.dependencies]
+absl-py = ">=0.4"
+grpcio = ">=1.6.3"
+markdown = ">=2.6.8"
+numpy = ">=1.12.0"
+protobuf = ">=3.6.0"
+six = ">=1.10.0"
+werkzeug = ">=0.11.15"
+
+[package.dependencies.wheel]
+python = ">=3"
+version = ">=0.26"
+
+[[package]]
+category = "main"
+description = "TensorFlow is an open source machine learning framework for everyone."
+name = "tensorflow"
+optional = false
+python-versions = "*"
+version = "1.13.1"
+
+[package.dependencies]
+absl-py = ">=0.1.6"
+astor = ">=0.6.0"
+gast = ">=0.2.0"
+grpcio = ">=1.8.6"
+keras-applications = ">=1.0.6"
+keras-preprocessing = ">=1.0.5"
+numpy = ">=1.13.3"
+protobuf = ">=3.6.1"
+six = ">=1.10.0"
+tensorboard = ">=1.13.0,<1.14.0"
+tensorflow-estimator = ">=1.13.0,<1.14.0rc0"
+termcolor = ">=1.1.0"
+wheel = ">=0.26"
+
+[[package]]
+category = "main"
+description = "TensorFlow Estimator."
+name = "tensorflow-estimator"
+optional = false
+python-versions = "*"
+version = "1.13.0"
+
+[package.dependencies]
+absl-py = ">=0.1.6"
+mock = ">=2.0.0"
+numpy = ">=1.13.3"
+six = ">=1.10.0"
+
+[[package]]
+category = "main"
+description = "ANSII Color formatting for output in terminal."
+name = "termcolor"
+optional = false
+python-versions = "*"
+version = "1.1.0"
+
+[[package]]
+category = "main"
+description = "Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed."
+name = "tornado"
+optional = false
+python-versions = "*"
+version = "4.5.3"
+
+[[package]]
+category = "main"
+description = "Fast, Extensible Progress Meter"
+name = "tqdm"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*"
+version = "4.31.1"
+
+[[package]]
+category = "main"
+description = "HTTP library with thread-safe connection pooling, file post, and more."
+name = "urllib3"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, <4"
+version = "1.24.1"
+
+[[package]]
+category = "main"
+description = "The comprehensive WSGI web application library."
+name = "werkzeug"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "0.15.2"
+
+[[package]]
+category = "main"
+description = "A built-package format for Python."
+name = "wheel"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "0.33.1"
+
 [metadata]
-content-hash = "9db1442fd413c9e4dc8a10c6cff41038c50d85b9a6c7e4d1caafc7ad06a67a99"
+content-hash = "6ace520acd685359fce74ff1db3b34fe9420bbb7f2c05e8ecb139096c2355e14"
 python-versions = "^3.7.0"
 
 [metadata.hashes]
+absl-py = ["b943d1c567743ed0455878fcd60bc28ac9fae38d129d1ccfad58079da00b8951"]
+astor = ["95c30d87a6c2cf89aa628b87398466840f0ad8652f88eb173125a6df8533fb8d", "fb503b9e2fdd05609fbf557b916b4a7824171203701660f0c55bbf5a7a68713e"]
 camera = ["d40079745de154048277810e151f23a6b8e917983f116e98dbbc8674d17ee578"]
+certifi = ["59b7658e26ca9c7339e00f8f4636cdfe59d34fa37b9b04f6f9e9926b3cece1a5", "b26104d6835d1f5e49452a26eb2ff87fe7090b89dfcaee5ea2212697e1e1d7ae"]
+chardet = ["84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae", "fc323ffcaeaed0e0a02bf4d117757b98aed530d9ed4531e3e15460124c106691"]
+click = ["2335065e6395b9e67ca716de5f7526736bfa6ceead690adf616d925bdc622b13", "5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7"]
+decorator = ["86156361c50488b84a3f148056ea716ca587df2f0de1d34750d35c21312725de", "f069f3a01830ca754ba5258fde2278454a0b5b79e0d7f5c13b3b97e57d4acff6"]
+dnspython = ["36c5e8e38d4369a08b6780b7f27d790a292b2b08eea01607865bf0936c558e01", "f69c21288a962f4da86e56c4905b49d11aba7938d3d740e80d9e366ee4f1632d"]
+docopt = ["49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"]
+donkeycar = ["045469dcceeaab550b754454ee9370c3df65093100f24c514be088c3d941b9bd"]
+enum34 = ["2d81cbbe0e73112bdfe6ef8576f2238f2ba27dd0d55752a776c41d38b7da2850", "644837f692e5f550741432dd3f223bbb9852018674981b1664e5dc339387588a", "6bd0f6ad48ec2aa117d3d141940d484deccda84d4fcd884f5c3d93c23ecd8c79", "8ad8c4783bf61ded74527bffb48ed9b54166685e4230386a9ed9b1279e2df5b1"]
+eventlet = ["c584163e006e613707e224552fafc63e4e0aa31d7de0ab18b481ac0b385254c8", "d9d31a3c8dbcedbcce5859a919956d934685b17323fc80e1077cb344a2ffa68d"]
+flask = ["2271c0070dbcb5275fad4a82e29f23ab92682dc45f9dfbc22c02ba9b9322ce48", "a080b744b7e345ccfcbc77954861cb05b3c63786e93f2b3875e0913d44b43f05"]
 funcy = ["b2d424c83cf8e0b6e90708e7325bbd6240008993479e7c273f53d8b220d18f1e", "b5e399eb739afcb5a3ad38302b7817f6e7fee6f5fc79b213a5d82ea8bce0d9e6"]
+futures = ["51ecb45f0add83c806c68e4b06106f90db260585b25ef2abfcda0bd95c0132fd", "c4884a65654a7c45435063e14ae85280eb1f111d94e542396717ba9828c4337f"]
+gast = ["fe939df4583692f0512161ec1c880e0a10e71e6a232da045ab8edd3756fbadf0"]
+greenlet = ["000546ad01e6389e98626c1367be58efa613fa82a1be98b0c6fc24b563acc6d0", "0d48200bc50cbf498716712129eef819b1729339e34c3ae71656964dac907c28", "23d12eacffa9d0f290c0fe0c4e81ba6d5f3a5b7ac3c30a5eaf0126bf4deda5c8", "37c9ba82bd82eb6a23c2e5acc03055c0e45697253b2393c9a50cef76a3985304", "51503524dd6f152ab4ad1fbd168fc6c30b5795e8c70be4410a64940b3abb55c0", "8041e2de00e745c0e05a502d6e6db310db7faa7c979b3a5877123548a4c0b214", "81fcd96a275209ef117e9ec91f75c731fa18dcfd9ffaa1c0adbdaa3616a86043", "853da4f9563d982e4121fed8c92eea1a4594a2299037b3034c3c898cb8e933d6", "8b4572c334593d449113f9dc8d19b93b7b271bdbe90ba7509eb178923327b625", "9416443e219356e3c31f1f918a91badf2e37acf297e2fa13d24d1cc2380f8fbc", "9854f612e1b59ec66804931df5add3b2d5ef0067748ea29dc60f0efdcda9a638", "99a26afdb82ea83a265137a398f570402aa1f2b5dfb4ac3300c026931817b163", "a19bf883b3384957e4a4a13e6bd1ae3d85ae87f4beb5957e35b0be287f12f4e4", "a9f145660588187ff835c55a7d2ddf6abfc570c2651c276d3d4be8a2766db490", "ac57fcdcfb0b73bb3203b58a14501abb7e5ff9ea5e2edfa06bb03035f0cff248", "bcb530089ff24f6458a81ac3fa699e8c00194208a724b644ecc68422e1111939", "beeabe25c3b704f7d56b573f7d2ff88fc99f0138e43480cecdfcaa3b87fe4f87", "d634a7ea1fc3380ff96f9e44d8d22f38418c1c381d5fac680b272d7d90883720", "d97b0661e1aead761f0ded3b769044bb00ed5d33e1ec865e891a8b128bf7c656"]
+grpcio = ["07c7f7b251b26ef94e29d2c19245e34d4d05897325a289b31de3b6a5e16fbd6c", "2ddbca16c2e7b3f2ffc6e34c7cfa6886fb01de9f156ad3f77b72ad652d632097", "30d84f9684b4c81ee37906bb303a84435948c2dd3db55d3ef38f8daf28bc6ea3", "316e6c79fb1585b23ae100ee26f6ffefa91a21e4d39588fa42efadd7f20c7225", "400abff9a772351fff72d5698c8758b837bec3d7f4ed93de70bae744d8f63f53", "4ed90a256f6f8690b5c95b9d4f2e9fe6513628f3674e9068e10637e50c2f93d6", "51fd87ff610ca2f483c668c3fa7f70d479bffb3c14805d2065b51194edea5e26", "5569aba69041530e04eff3d40536027db8851f4e11e6282849b9fc5b1855075d", "566b752e36cdcd5a4d38f292aca4c8e3095f13cfe82606e010d67749cacba341", "5817f970fbfed72a6203ff96349e796d8f6ff3ce85b58af241c4a14190d9f4d1", "5a97bb5a4af16f840f1211dbe66d61592f02110f286d96e67bf6006d7f96aab7", "5d57e41c913152b215eda070955b3544bdf20ed2327e5e5eed3005186220ebd0", "6cec17145978cef3d20093cdc05e88da597ce05076db566a66a35b9c55d416a3", "6ef7ab9b6ba09ce087ddb3b27f12504f50efdbf5d319b8b23173478765452301", "756c0d65e4ebce1c47787dbb48955864f2a768e1df76902f33d3e4062c209f3e", "828d13f0edd27f452af7fc23093c8a2d63d8fbd92595dbd0f698c78b13af9bdb", "8cf02c4e07520be61ad8b59b0043771ef2af666cb73066516eabfee562a28df4", "919dfe84d22ce2e2ae81d82238586d7c2a86714fb0b6cf9b437e336851e3c32d", "b04a061280b06cdc4e68c4147a0f46b98c395cf62f0c6df4fa2a30a083cdc333", "b2dbe7d2f9685bdbb4415f8e475dd96b1b1776193b7286705f90490c3f039037", "b60df7cbc3e77c39d5befe6a1e6e4213f3ca683d743ff7c1622b1d4412245a55", "b740681332b5a042b9e22246a3cdbfc3d644cf73d38e117f20ad9d8deab8f1a5", "ba434873945d5d4542589674cb60c43a1cf76b2b5f0c0f759aa76d499055722f", "bcb44cd53beccc92c730254ad3d50715b67a7432e693961b566d982f759b1787", "be1cbb6cad1d4242e3aaa4143eabcfbf383358f6c8e9951be2c497b65561b075", "c4e38326fcab5c52fd1a8c8e0f908bfe830629a5ffc60793ec5545ef913d62d2", "d03c0524d5953568f74269e0faebb1e880ba9f36ca8c773be397087c35bd8188", "ea897ffa80276565acdd92349ef82a768db0e3327aacd4aec82f79ca10989689", "edc50e8bcd10b165f34c3cf3e1d4f97e9c71b165b85a85b91cf3444000a17692", "f96a2e97df522b50da9cb3795f08199b110ceab4146bf70ea7f6a3a0213786cc", "fadb649a69e3b08e01f090c24f0c8cccc122e92c362c1a1727b695a63be8416b", "fbe4360ff1689a9753cbf1b27dad11e683d39117a32a64372a7c95c6abc81b81"]
+h5py = ["05750b91640273c69989c657eaac34b091abdd75efc8c4824c82aaf898a2da0a", "082a27208aa3a2286e7272e998e7e225b2a7d4b7821bd840aebf96d50977abbb", "08e2e8297195f9e813e894b6c63f79372582787795bba2014a2db6a2de95f713", "0dd2adeb2e9de5081eb8dcec88874e7fd35dae9a21557be3a55a3c7d491842a4", "0f94de7a10562b991967a66bbe6dda9808e18088676834c0a4dcec3fdd3bcc6f", "106e42e2e01e486a3d32eeb9ba0e3a7f65c12fa8998d63625fa41fb8bdc44cdb", "1606c66015f04719c41a9863c156fc0e6b992150de21c067444bcb82e7d75579", "1854c4beff9961e477e133143c5e5e355dac0b3ebf19c52cf7cc1b1ef757703c", "1e9fb6f1746500ea91a00193ce2361803c70c6b13f10aae9a33ad7b5bd28e800", "2cca17e80ddb151894333377675db90cd0279fa454776e0a4f74308376afd050", "30e365e8408759db3778c361f1e4e0fe8e98a875185ae46c795a85e9bafb9cdf", "3206bac900e16eda81687d787086f4ffd4f3854980d798e191a9868a6510c3ae", "3c23d72058647cee19b30452acc7895621e2de0a0bd5b8a1e34204b9ea9ed43c", "407b5f911a83daa285bbf1ef78a9909ee5957f257d3524b8606be37e8643c5f0", "4162953714a9212d373ac953c10e3329f1e830d3c7473f2a2e4f25dd6241eef0", "5fc7aba72a51b2c80605eba1c50dbf84224dcd206279d30a75c154e5652e1fe4", "713ac19307e11de4d9833af0c4bd6778bde0a3d967cafd2f0f347223711c1e31", "71b946d80ef3c3f12db157d7778b1fe74a517ca85e94809358b15580983c2ce2", "8cc4aed71e20d87e0a6f02094d718a95252f11f8ed143bc112d22167f08d4040", "9d41ca62daf36d6b6515ab8765e4c8c4388ee18e2a665701fef2b41563821002", "a744e13b000f234cd5a5b2a1f95816b819027c57f385da54ad2b7da1adace2f3", "b087ee01396c4b34e9dc41e3a6a0442158206d383c19c7d0396d52067b17c1cb", "b0f03af381d33306ce67d18275b61acb4ca111ced645381387a02c8a5ee1b796", "b9e4b8dfd587365bdd719ae178fa1b6c1231f81280b1375eef8626dfd8761bf3", "c5dd4ec75985b99166c045909e10f0534704d102848b1d9f0992720e908928e7", "d2b82f23cd862a9d05108fe99967e9edfa95c136f532a71cb3d28dc252771f50", "e58a25764472af07b7e1c4b10b0179c8ea726446c7141076286e41891bf3a563", "f3b49107fbfc77333fc2b1ef4d5de2abcd57e7ea3a1482455229494cf2da56ce"]
+idna = ["c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e9c3407", "ea8b7f6188e6fa117537c3df7da9fc686d485087abf6ac197f9c46432f7e4a3c"]
+imageio = ["1a2bbbb7cd38161340fa3b14d806dfbf914abf3ee6fd4592af2afb87d049f209", "42e65aadfc3d57a1043615c92bdf6319b67589e49a0aae2b985b82144aceacad"]
+imageio-ffmpeg = ["28500544acdebc195159d53a4670b76d596f368b218317bad5d3cbf43b00d6c2", "400345dd194f2cb2b424294aa0f3c90afce1de96879ffe3266afeece3494d93c", "991416c0eed0d221229e67342b8264a8b9defdec61d8a9e7688b90dbb838fb1e", "f3d4096bf6e211540c4f6b9628c56d8e700cf12027ed842724173ab9c6666d1a", "f99476aa42aac2ca0657483b417874a825b2f526aaa8a7a823b8a803f366caab"]
+itsdangerous = ["321b033d07f2a4136d3ec762eac9f16a10ccd60f53c0c91af90217ace7ba1f19", "b12271b2047cb23eeb98c8b5622e2e5c5e9abd9784a153e9d8ef9cb4dd09d749"]
+jinja2 = ["065c4f02ebe7f7cf559e49ee5a95fb800a9e4528727aec6f24402a5374c65013", "14dd6caf1527abb21f08f86c784eac40853ba93edb79552aa1e4b8aef1b61c7b"]
+keras-applications = ["60607b2b98868983e5153bf1cc6aa468ba73adc93bc977a90edaa4bc595e69fa", "94b8acc84fb8b1e3d752e20ed4cafa8377c9ecf6e6c1aa09942d959dc02e439a"]
+keras-preprocessing = ["0170b799a7562f80ad7931d22d56de22cf4bdd502e11c48f31a46380137a70a8", "5e3700117981c2db762e512ed6586638124fac5842170701628088a11aeb51ac"]
+markdown = ["fc4a6f69a656b8d858d7503bda633f4dd63c2d70cf80abdc6eafa64c4ae8c250", "fe463ff51e679377e3624984c829022e2cfb3be5518726b06f608a07a3aad680"]
+markupsafe = ["00bc623926325b26bb9605ae9eae8a215691f33cae5df11ca5424f06f2d1f473", "09027a7803a62ca78792ad89403b1b7a73a01c8cb65909cd876f7fcebd79b161", "09c4b7f37d6c648cb13f9230d847adf22f8171b1ccc4d5682398e77f40309235", "1027c282dad077d0bae18be6794e6b6b8c91d58ed8a8d89a89d59693b9131db5", "24982cc2533820871eba85ba648cd53d8623687ff11cbb805be4ff7b4c971aff", "29872e92839765e546828bb7754a68c418d927cd064fd4708fab9fe9c8bb116b", "43a55c2930bbc139570ac2452adf3d70cdbb3cfe5912c71cdce1c2c6bbd9c5d1", "46c99d2de99945ec5cb54f23c8cd5689f6d7177305ebff350a58ce5f8de1669e", "500d4957e52ddc3351cabf489e79c91c17f6e0899158447047588650b5e69183", "535f6fc4d397c1563d08b88e485c3496cf5784e927af890fb3c3aac7f933ec66", "62fe6c95e3ec8a7fad637b7f3d372c15ec1caa01ab47926cfdf7a75b40e0eac1", "6dd73240d2af64df90aa7c4e7481e23825ea70af4b4922f8ede5b9e35f78a3b1", "717ba8fe3ae9cc0006d7c451f0bb265ee07739daf76355d06366154ee68d221e", "79855e1c5b8da654cf486b830bd42c06e8780cea587384cf6545b7d9ac013a0b", "7c1699dfe0cf8ff607dbdcc1e9b9af1755371f92a68f706051cc8c37d447c905", "88e5fcfb52ee7b911e8bb6d6aa2fd21fbecc674eadd44118a9cc3863f938e735", "8defac2f2ccd6805ebf65f5eeb132adcf2ab57aa11fdf4c0dd5169a004710e7d", "98c7086708b163d425c67c7a91bad6e466bb99d797aa64f965e9d25c12111a5e", "9add70b36c5666a2ed02b43b335fe19002ee5235efd4b8a89bfcf9005bebac0d", "9bf40443012702a1d2070043cb6291650a0841ece432556f784f004937f0f32c", "ade5e387d2ad0d7ebf59146cc00c8044acbd863725f887353a10df825fc8ae21", "b00c1de48212e4cc9603895652c5c410df699856a2853135b3967591e4beebc2", "b1282f8c00509d99fef04d8ba936b156d419be841854fe901d8ae224c59f0be5", "b2051432115498d3562c084a49bba65d97cf251f5a331c64a12ee7e04dacc51b", "ba59edeaa2fc6114428f1637ffff42da1e311e29382d81b339c1817d37ec93c6", "c8716a48d94b06bb3b2524c2b77e055fb313aeb4ea620c8dd03a105574ba704f", "cd5df75523866410809ca100dc9681e301e3c27567cf498077e8551b6d20e42f", "e249096428b3ae81b08327a63a485ad0878de3fb939049038579ac0ef61e17e7"]
+mock = ["5ce3c71c5545b472da17b72268978914d0252980348636840bd34a00b5cc96c1", "b158b6df76edd239b8208d481dc46b6afd45a846b7812ff0ce58971cf5bc8bba"]
+monotonic = ["23953d55076df038541e648a53676fb24980f7a1be290cdda21300b3bc21dfb0", "552a91f381532e33cbd07c6a2655a21908088962bb8fa7239ecbcc6ad1140cc7"]
+moviepy = ["16c7ffca23d90c76dd7b163f648c8166dfd589b7c180b8ff75aa327ae0a2fc6d"]
 numpy = ["1980f8d84548d74921685f68096911585fee393975f53797614b34d4f409b6da", "22752cd809272671b273bb86df0f505f505a12368a3a5fc0aa811c7ece4dfd5c", "23cc40313036cffd5d1873ef3ce2e949bdee0646c5d6f375bf7ee4f368db2511", "2b0b118ff547fecabc247a2668f48f48b3b1f7d63676ebc5be7352a5fd9e85a5", "3a0bd1edf64f6a911427b608a894111f9fcdb25284f724016f34a84c9a3a6ea9", "3f25f6c7b0d000017e5ac55977a3999b0b1a74491eacb3c1aa716f0e01f6dcd1", "4061c79ac2230594a7419151028e808239450e676c39e58302ad296232e3c2e8", "560ceaa24f971ab37dede7ba030fc5d8fa173305d94365f814d9523ffd5d5916", "62be044cd58da2a947b7e7b2252a10b42920df9520fc3d39f5c4c70d5460b8ba", "6c692e3879dde0b67a9dc78f9bfb6f61c666b4562fd8619632d7043fb5b691b0", "6f65e37b5a331df950ef6ff03bd4136b3c0bbcf44d4b8e99135d68a537711b5a", "7a78cc4ddb253a55971115f8320a7ce28fd23a065fc33166d601f51760eecfa9", "80a41edf64a3626e729a62df7dd278474fc1726836552b67a8c6396fd7e86760", "893f4d75255f25a7b8516feb5766c6b63c54780323b9bd4bc51cdd7efc943c73", "972ea92f9c1b54cc1c1a3d8508e326c0114aaf0f34996772a30f3f52b73b942f", "9f1d4865436f794accdabadc57a8395bd3faa755449b4f65b88b7df65ae05f89", "9f4cd7832b35e736b739be03b55875706c8c3e5fe334a06210f1a61e5c2c8ca5", "adab43bf657488300d3aeeb8030d7f024fcc86e3a9b8848741ea2ea903e56610", "bd2834d496ba9b1bdda3a6cf3de4dc0d4a0e7be306335940402ec95132ad063d", "d20c0360940f30003a23c0adae2fe50a0a04f3e48dc05c298493b51fd6280197", "d3b3ed87061d2314ff3659bb73896e622252da52558f2380f12c421fbdee3d89", "dc235bf29a406dfda5790d01b998a1c01d7d37f449128c0b1b7d1c89a84fae8b", "fb3c83554f39f48f3fa3123b9c24aecf681b1c289f9334f8215c1d3c8e2f6e5b"]
 opencv-python = ["1703a296a96d3d46615e5053f224867977accb4240bcaa0fcabcb0768bf5ac13", "1777ce7535ee7a1995cae168a107a1320e9df13648b930e72a1a2c2eccd64cda", "1e5520482fb18fbd64d079e7f17ac0018f195fd75f6360a53bb82d7903106b50", "25522dcf2529614750a71112a6659759080b4bdc2323f19d47f4d895960fd796", "2af5f2842ad44c65ae2647377e0ff198719e1a1cfc9c6a19bc0c525c035d4bd8", "31ec48d7eca13fc25c287dea7cecab453976e372cad8f50d55c054a247efda21", "47cf48ff5dbd554e9f58cc9e98cf0b5de3f6a971172612bffa06bc5fb79ce872", "494f98366bb5d6c2ac7e50e6617139f353704fd97a6d12ec9d392e72817d5cb0", "4a9845870739e640e3350a8d98d511c92c087fe3d66090e83be7bf94e0ac64f7", "4ac29cc0847d948a6636899014e84e165c30cc8779d6218394d44363462a01ce", "5857ace03b7854221abf8072462d306c2c2ce4e366190b21d90ee8ee8aaf5bb4", "5b4a23d99d5a2874767034466f5a8fd37b9f93ac14955a01b1a208983c76b9ad", "78005c1c5d15ef4e32e0f485557bd15b5b6d87f49c19db7fe3e9246a61ebe7e4", "81ae2283225c5c52fc3d72debd4241c30ccff2bb922578bf7867f9851cce3acb", "8c98ea7b8d327a31cd6028782a06147d0e0329ae8e829e881fb5d02f7ed8aec9", "937d4686fef6967921145290f5b50c01c00c5b5d3542a6519e8a85cd88448723", "a057958c0e362b3c4f03b9af1cbdb6d5af035fd22ecd7fd794eba8fdeb049eb8", "c41eab31fa2c641226c6187caa391a688d064c99f078d604574f1912296b771f", "cf4f7e62d1f80d1fa85a1693a3500def5cde54b2b75212b3609e552e4c25acfb", "db3106b7ca86999a7bd1f2fcc93e49314e5e6e451356774e421a69428df5020b", "dbaf264db56f4771dfac6624f438bc4dc670aa94f61a6138848fcab7e9e77380", "e65206c4cf651dc9cf0829962fae8bec986767c9f123d6a1ad17f9356bf7257e", "eac94ddc78c58e891cff7180274317dad2938a4ddfc6ced1c04846c7f50e77e9", "f2e828711f044a965509c862b3a59b3181e9c56c145a950cb53d43fec54e66d2"]
+pandas = ["071e42b89b57baa17031af8c6b6bbd2e9a5c68c595bc6bf9adabd7a9ed125d3b", "17450e25ae69e2e6b303817bdf26b2cd57f69595d8550a77c308be0cd0fd58fa", "17916d818592c9ec891cbef2e90f98cc85e0f1e89ed0924c9b5220dc3209c846", "2538f099ab0e9f9c9d09bbcd94b47fd889bad06dc7ae96b1ed583f1dc1a7a822", "366f30710172cb45a6b4f43b66c220653b1ea50303fbbd94e50571637ffb9167", "42e5ad741a0d09232efbc7fc648226ed93306551772fc8aecc6dce9f0e676794", "4e718e7f395ba5bfe8b6f6aaf2ff1c65a09bb77a36af6394621434e7cc813204", "4f919f409c433577a501e023943e582c57355d50a724c589e78bc1d551a535a2", "4fe0d7e6438212e839fc5010c78b822664f1a824c0d263fd858f44131d9166e2", "5149a6db3e74f23dc3f5a216c2c9ae2e12920aa2d4a5b77e44e5b804a5f93248", "627594338d6dd995cfc0bacd8e654cd9e1252d2a7c959449228df6740d737eb8", "83c702615052f2a0a7fb1dd289726e29ec87a27272d775cb77affe749cca28f8", "8c872f7fdf3018b7891e1e3e86c55b190e6c5cee70cab771e8f246c855001296", "90f116086063934afd51e61a802a943826d2aac572b2f7d55caaac51c13db5b5", "a3352bacac12e1fc646213b998bce586f965c9d431773d9e91db27c7c48a1f7d", "bcdd06007cca02d51350f96debe51331dec429ac8f93930a43eb8fb5639e3eb5", "c1bd07ebc15285535f61ddd8c0c75d0d6293e80e1ee6d9a8d73f3f36954342d0", "c9a4b7c55115eb278c19aa14b34fcf5920c8fe7797a09b7b053ddd6195ea89b3", "cc8fc0c7a8d5951dc738f1c1447f71c43734244453616f32b8aa0ef6013a5dfb", "d7b460bc316064540ce0c41c1438c416a40746fd8a4fb2999668bf18f3c4acf1"]
+pbr = ["8257baf496c8522437e8a6cfe0f15e00aedc6c0e0e7c9d55eeeeab31e0853843", "8c361cc353d988e4f5b998555c88098b9d5964c2e11acf7b0d21925a66bb5824"]
+pillow = ["0683e80d81e840d401b687ebc00a02bbb23d0793c34d0852a5af64cfa1589540", "09c4e81c3277199898e8dc2d85d94febad87c41251ecbd447ba7d64d94765bd8", "0ee74a23022af9baf997e3016b4e090e4ff08688d37a6f49010338ab46cfe101", "10860baedfe5da7c43cd17835b091494dcc59dda5ad176a011713fe398ea6ac2", "15c056bfa284c30a7f265a41ac4cbbc93bdbfc0dfe0613b9cb8a8581b51a9e55", "1a4e06ba4f74494ea0c58c24de2bb752818e9d504474ec95b0aa94f6b0a7e479", "1c3c707c76be43c9e99cb7e3d5f1bee1c8e5be8b8a2a5eeee665efbf8ddde91a", "1fd0b290203e3b0882d9605d807b03c0f47e3440f97824586c173eca0aadd99d", "24114e4a6e1870c5a24b1da8f60d0ba77a0b4027907860188ea82bd3508c80eb", "258d886a49b6b058cd7abb0ab4b2b85ce78669a857398e83e8b8e28b317b5abb", "2734c55f7d054b0ad889c971136cbb0a5b35a921e27beaa44fdc2436af529c6e", "2ac36ec56727a95bd5a04dfca6abce1db8042c31ee73b65796a42f31fd52d009", "2bc1002b573d107c0b172a5da0f34b4900b2ddc6c3296b82d601e966d5ac1959", "33c79b6dd6bc7f65079ab9ca5bebffb5f5d1141c689c9c6a7855776d1b09b7e8", "367385fc797b2c31564c427430c7a8630db1a00bd040555dfc1d5c52e39fcd72", "3c1884ff078fb8bf5f63d7d86921838b82ed4a7d0c027add773c2f38b3168754", "44e5240e8f4f8861d748f2a58b3f04daadab5e22bfec896bf5434745f788f33f", "46aa988e15f3ea72dddd81afe3839437b755fffddb5e173886f11460be909dce", "492e1e4df823b57f9334f591c78a1e0e65a361e92594534e0568eeeeea56bbba", "50fb9e25d25cfcb50b2e6842c4e104e4f0b424be4624e1724532bf005c67589a", "5ceadd60dbd1e56ab7faffbfee1df5ecb83c3f0420e47f652cd5306d70eb0296", "74d90d499c9c736d52dd6d9b7221af5665b9c04f1767e35f5dd8694324bd4601", "7eeac51fc37e6b19631a4b8e38b8261a074efcf7cc27fc16a6bee4697af7aaa5", "809c0a2ce9032cbcd7b5313f71af4bdc5c8c771cb86eb7559afd954cab82ebb5", "85d1ef2cdafd5507c4221d201aaf62fc9276f8b0f71bd3933363e62a33abc734", "8c3889c7681af77ecfa4431cd42a2885d093ecb811e81fbe5e203abc07e0995b", "9218d81b9fca98d2c47d35d688a0cea0c42fd473159dfd5612dcb0483c63e40b", "9319215530e236822169cbe92426cdc18d16b88c943fdf365a6309a89876e335", "96ec275c83bf839972d6a7dd7d685fdfb6a3233c3c382ecff839d04e7d53955d", "9aa4f3827992288edd37c9df345783a69ef58bd20cc02e64b36e44bcd157bbf1", "9d80f44137a70b6f84c750d11019a3419f409c944526a95219bea0ac31f4dd91", "b7ebd36128a2fe93991293f997e44be9286503c7530ace6a55b938b20be288d8", "c30857e1fbf7d4a4b79d7d376eefaf293ea4307b8293d00a62e6f517f51bfe9b", "c4c78e2c71c257c136cdd43869fd3d5e34fc2162dc22e4a5406b0ebe86958239", "c5472ea3945e8f9eb0659f37fc1f592fd06f4f725f0f03774a8999ad8c130334", "c6a842537f887be1fe115d8abb5daa9bc8cc124e455ff995830cc785624a97af", "cf0a2e040fdf5a6d95f4c286c6ef1df6b36c218b528c8a9158ec2452a804b9b8", "cfd28aad6fc61f7a5d4ee556a997dc6e5555d9381d1390c00ecaf984d57e4232", "d0fd1ec2e7c3e0aeaae999efe83f5d0f42c1160a1f8be5120d40857d20baa452", "dca5660e25932771460d4688ccbb515677caaf8595f3f3240ec16c117deff89a", "de7aedc85918c2f887886442e50f52c1b93545606317956d65f342bd81cb4fc3", "e6c0bbf8e277b74196e3140c35f9a1ae3eafd818f7f2d3a15819c49135d6c062"]
+proglog = ["d8c4ccbf2138e0c5e3f3fc0d80dc51d7e69dcfe8bfde4cacb566725092a5b18d"]
+protobuf = ["21e395d7959551e759d604940a115c51c6347d90a475c9baf471a1a86b5604a9", "57e05e16955aee9e6a0389fcbd58d8289dd2420e47df1a1096b3a232c26eb2dd", "67819e8e48a74c68d87f25cad9f40edfe2faf278cdba5ca73173211b9213b8c9", "75da7d43a2c8a13b0bc7238ab3c8ae217cbfd5979d33b01e98e1f78defb2d060", "78e08371e236f193ce947712c072542ff19d0043ab5318c2ea46bbc2aaebdca6", "7ee5b595db5abb0096e8c4755e69c20dfad38b2d0bcc9bc7bafc652d2496b471", "86260ecfe7a66c0e9d82d2c61f86a14aa974d340d159b829b26f35f710f615db", "92c77db4bd33ea4ee5f15152a835273f2338a5246b2cbb84bab5d0d7f6e9ba94", "9c7b90943e0e188394b4f068926a759e3b4f63738190d1ab3d500d53b9ce7614", "a77f217ea50b2542bae5b318f7acee50d9fc8c95dd6d3656eaeff646f7cab5ee", "ad589ed1d1f83db22df867b10e01fe445516a5a4d7cfa37fe3590a5f6cfc508b", "b06a794901bf573f4b2af87e6139e5cd36ac7c91ac85d7ae3fe5b5f6fc317513", "bd8592cc5f8b4371d0bad92543370d4658dc41a5ccaaf105597eb5524c616291", "be48e5a6248a928ec43adf2bea037073e5da692c0b3c10b34f9904793bd63138", "cc5eb13f5ccc4b1b642cc147c2cdd121a34278b341c7a4d79e91182fff425836", "cd3b0e0ad69b74ee55e7c321f52a98effed2b4f4cc9a10f3683d869de00590d5", "d6e88c4920660aa75c0c2c4b53407aef5efd9a6e0ca7d2fc84d79aba2ccbda3a", "ec3c49b6d247152e19110c3a53d9bb4cf917747882017f70796460728b02722e", "f1f5d8b8e0bc9651d81b40ad3d9fb7cdd858ea31fc116dd230393465849dbecd"]
+python-dateutil = ["7e6584c74aeed623791615e26efd690f29817a27c73085b78e4bad02493df2fb", "c89805f6f4d64db21ed966fda138f8a5ed7a4fdbc1a8ee329ce1b74e3c74da9e"]
+python-engineio = ["a89d2cff7f9b447d37c450c2666101d97043b4b22524bf4efaafcb9784c9f7f4", "fd14357f0b854de729cc2dba960ceba1d20da973c91f289110807f0bb2f69935"]
+python-socketio = ["626381a6940f0e4ec6a8bbd2dc95e231a515b2838ee0cc98c535076a4650a872", "64feb0817f1bf7e3e7fc05f6f65e28d76146d8061cb7de25b63502717f80e908"]
+pytz = ["303879e36b721603cc54604edcac9d20401bdbe31e1e4fdee5b9f98d5d31dfda", "d747dd3d23d77ef44c6a3526e274af6efeb0a6f1afd5a69ba4d5be4098c8e141"]
+requests = ["502a824f31acdacb3a35b6690b5fbf0bc41d63a24a45c4004352b0242707598e", "7bf2a778576d825600030a110f3c0e3e8edc51dfaafe1c146e39a2027784957b"]
+six = ["3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c", "d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"]
+tensorboard = ["53d8f40589c903dae65f39a799c2bc49defae3703754984d90613d26ebd714a4", "b664fe7772be5670d8b04200342e681af7795a12cd752709aed565c06c0cc196"]
+tensorflow = ["0de5887495c20e1130ae4d9bcfaf80cec87f579a9c27a84141a588a46e5aa853", "0f305f3c461ed2ce5e0b65fccc7b7452f483c7935dd8a52a466d622e642fdea8", "4325f20b5a703b80a5f7a8807f07ad8735025bd2a947093ffff1c26fbdc7980b", "4c86be0e476b64cedf4ffa059d71b764e75b895effb697345687e3057929a7b5", "6b0a0a413390302ce7c22c98695983d6fb8406861cfb418b25536f57a96c0b89", "77eec2351d0a9b5312ea01ee4c78c13996f249cf1bead2e68256a65e533f45ef", "87bf719a564f11d63e4f614e933e5a612dd4e67c88266b774236e0982f5fcf69", "ba29e66331cd2a8f824e0fa937ce44bd624bc37739f2f083694e473051d89ace", "bc374f5a662b6e164cd1c4da61ccc752ec208a44893d2f9dcf47d2a0a2cef311", "bcf86966b7554e407bb7d73341f2e108df62a910d40b4cd2a914867f2a5de51c", "c3abffd51c168cfd62a557243c47a29ab48deb52a64465e6818060f20755ddb4", "c41862c65628261229db22e33f9e570d845eeb5cea66dcbaebe404405edaa69b", "d7341617aedd73c2c847755e87697e9c19eb625c73da26d6cd669220c5565119", "de0425b58cb34006e4500565239b4c3a3055b95bff132f097fa46c87d8e463c9", "f21fb65c8e874f40c654bc9b3ff3db3ec26f98f03fe64a541bc768f6f5c52ac2"]
+tensorflow-estimator = ["7cfdaa3e83e3532f31713713feb98be7ea9f3065722be4267e49b6c301271419"]
+termcolor = ["1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b"]
+tornado = ["5ef073ac6180038ccf99411fe05ae9aafb675952a2c8db60592d5daf8401f803", "6d14e47eab0e15799cf3cdcc86b0b98279da68522caace2bd7ce644287685f0a", "92b7ca81e18ba9ec3031a7ee73d4577ac21d41a0c9b775a9182f43301c3b5f8e", "ab587996fe6fb9ce65abfda440f9b61e4f9f2cf921967723540679176915e4c3", "b36298e9f63f18cad97378db2222c0e0ca6a55f6304e605515e05a25483ed51a"]
+tqdm = ["d385c95361699e5cf7622485d9b9eae2d4864b21cd5a2374a9c381ffed701021", "e22977e3ebe961f72362f6ddfb9197cc531c9737aaf5f607ef09740c849ecd05"]
+urllib3 = ["61bf29cada3fc2fbefad4fdf059ea4bd1b4a86d2b6d15e1c7c0b582b9752fe39", "de9529817c93f27c8ccbfead6985011db27bd0ddfcdb2d86f3f663385c6a9c22"]
+werkzeug = ["0a73e8bb2ff2feecfc5d56e6f458f5b99290ef34f565ffb2665801ff7de6af7a", "7fad9770a8778f9576693f0cc29c7dcc36964df916b83734f4431c0e612a7fbc"]
+wheel = ["66a8fd76f28977bb664b098372daef2b27f60dc4d1688cfab7b37a09448f0e9d", "8eb4a788b3aec8abf5ff68d4165441bc57420c9f64ca5f471f58c3969fe08668"]

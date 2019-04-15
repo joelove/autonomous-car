@@ -46,8 +46,7 @@ def detect_edges(image):
     return edges
 
 
-def detect_lanes(image):
-    apply_filters = compose(detect_edges, perspective_warp, rgb_to_grayscale, reduce_noise)
-    filtered_image = apply_filters(image)
+def apply_filters(image):
+    filter = compose(detect_edges, perspective_warp, rgb_to_grayscale, reduce_noise)
 
-    cv2.imshow('Preview', filtered_image)
+    return filter(image)
