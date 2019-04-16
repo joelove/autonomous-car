@@ -642,8 +642,8 @@ python-versions = "*"
 version = "1.11.1"
 
 [metadata]
-content-hash = "c755610865d4908dcefd7560acb69407eeb22a097a9946265083c90fe1670d45"
-python-versions = "^3.7.0"
+content-hash = "f3da0f78f4a23d6250958f1a55b22b05c1cd45e992f68f762a91c7c5651ba628"
+python-versions = "^3.5.0"
 
 [metadata.hashes]
 absl-py = ["b943d1c567743ed0455878fcd60bc28ac9fae38d129d1ccfad58079da00b8951"]
