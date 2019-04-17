@@ -105,3 +105,32 @@ def automatic():
 
     vehicle.start(rate_hz=config.DRIVE_LOOP_HZ,
                   max_loop_count=config.MAX_LOOPS)
+
+
+def manual():
+    """
+    Manual driving with a controller
+    """
+    config = donkeycar.load_config()
+
+    steering = Steering(channel=config.STEERING_CHANNEL,
+                        left_pulse=config.STEERING_LEFT_PWM,
+                        right_pulse=config.STEERING_RIGHT_PWM)
+
+    throttle = Throttle(channel=config.THROTTLE_CHANNEL,
+                        max_pulse=config.THROTTLE_FORWARD_PWM,
+                        zero_pulse=config.THROTTLE_STOPPED_PWM,
+                        min_pulse=config.THROTTLE_REVERSE_PWM)
+
+    controller = Controller(throttle_scale=config.JOYSTICK_MAX_THROTTLE,
+                            steering_scale=config.JOYSTICK_STEERING_SCALE,
+                            auto_record_on_throttle=config.AUTO_RECORD_ON_THROTTLE)
+
+    vehicle = donkeycar.Vehicle()
+
+    vehicle.add(controller, outputs=['angle', 'throttle'], threaded=True)
+    vehicle.add(steering, inputs=['angle'])
+    vehicle.add(throttle, inputs=['throttle'])
+
+    vehicle.start(rate_hz=config.DRIVE_LOOP_HZ,
+                  max_loop_count=config.MAX_LOOPS)
