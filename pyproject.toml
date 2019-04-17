@@ -12,6 +12,7 @@ funcy = "^1.11"
 camera = "^1.3"
 donkeycar = "^2.5"
 tensorflow = "^1.13"
+picamera = { version = "^1.13", optional = true }
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.3"
