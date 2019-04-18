@@ -1,7 +1,8 @@
-
-import glob
 import cv2
+import glob
+import json
 import numpy as np
+import re
 
 from funcy import rcompose as pipe
 from keras.models import Model
@@ -43,25 +44,27 @@ def create_model():
     return model
 
 
-def train_model(src_directory="training_images"):
-    image_directories = glob.glob(src_directory + "/*")
+def train_model(src_directory="tubs"):
+    record_files = glob.glob(src_directory + "/*.json")
 
     X_train = []
     Y_train = []
 
-    for _, directory in enumerate(image_directories):
-        image_files = glob.glob(directory + "/*.png")
+    for _, filepath in enumerate(record_files):
+        with open(filepath) as record_file:
+            record = json.load(record_file)
 
-        letter = directory.split("/")[-1]
-        letter_vector = np.zeros(26)
-        letter_vector[ord(letter) - ord("a")] = 1
+            angle = record["user/angle"]
+            throttle = record["user/throttle"]
+            image_array_filename = record["cam/image_array"]
 
-        for _, filename in enumerate(image_files):
-            letter_image = cv2.imread(filename)
-            letter_image = cv2.cvtColor(letter_image, cv2.COLOR_BGR2GRAY)
-            letter_image = letter_image.reshape(letter_image.shape + (1,))
-            X_train.append(letter_image)
-            Y_train.append(letter_vector)
+            image_array = cv2.imread(src_directory + "/" + image_array_filename)
+            image_array = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
+            image_array = image_array / 255.0
+            image_array = image_array.reshape(image_array.shape + (1,))
+
+            X_train.append(image_array)
+            Y_train.append((angle, throttle))
 
     X_train = np.array(X_train)
     Y_train = np.array(Y_train)
@@ -74,3 +77,7 @@ def train_model(src_directory="training_images"):
 
 if __name__ == "__main__":
     train_model()
+
+# 58022_cam-image_array_.jpg
+# record_58022.json
+# {"cam/image_array": "58022_cam-image_array_.jpg", "user/throttle": -0.24747459334086122, "user/mode": "user", "timestamp": "2019-04-15 16:33:41.246618", "user/angle": 0.0}
