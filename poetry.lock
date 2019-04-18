@@ -365,7 +365,7 @@ description = "Wrapper package for OpenCV python bindings."
 name = "opencv-python"
 optional = false
 python-versions = "*"
-version = "4.1.0.25"
+version = "3.4.4.19"
 
 [package.dependencies]
 numpy = ">=1.11.1"
