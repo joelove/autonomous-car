@@ -1,15 +1,9 @@
 import os
 import time
-
-# try:
-from picamera import PiCamera
-from picamera.array import PiRGBArray
-# except ImportError:
 import cv2
 
-
-def is_linux():
-    return os.path.exists('/proc/cpuinfo')
+from picamera import PiCamera
+from picamera.array import PiRGBArray
 
 
 def capture_webcam(handle_frame):
@@ -32,7 +26,7 @@ def capture_webcam(handle_frame):
     cv2.destroyAllWindows()
 
 
-def capture_picam(handle_frame):
+def capture(handle_frame):
     camera = PiCamera()
     camera.resolution = (640, 480)
     camera.framerate = 10
@@ -45,10 +39,3 @@ def capture_picam(handle_frame):
         handle_frame(frame.array)
         rawCapture.truncate(0)
         break
-
-
-def capture(handle_frame):
-    if is_linux():
-        capture_picam(handle_frame)
-    else:
-        capture_webcam(handle_frame)
