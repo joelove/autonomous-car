@@ -1,11 +1,11 @@
 import os
 import time
 
-try:
-    from picamera import PiCamera
-    from picamera.array import PiRGBArray
-except ImportError:
-    import cv2
+# try:
+from picamera import PiCamera
+from picamera.array import PiRGBArray
+# except ImportError:
+import cv2
 
 
 def is_linux():
