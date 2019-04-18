@@ -4,7 +4,7 @@ import frame_analyzer
 
 
 def main():
-    camera_interface.capture_webcam(frame_analyzer.handle_frame)
+    camera_interface.capture(frame_analyzer.handle_frame)
     # drive.manual()
 
 

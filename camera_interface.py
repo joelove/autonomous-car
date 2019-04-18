@@ -2,8 +2,8 @@ import os
 import time
 import cv2
 
-# from picamera import PiCamera
-# from picamera.array import PiRGBArray
+from picamera import PiCamera
+from picamera.array import PiRGBArray
 
 
 def capture_webcam(handle_frame):
@@ -26,16 +26,16 @@ def capture_webcam(handle_frame):
     cv2.destroyAllWindows()
 
 
-# def capture(handle_frame):
-#     camera = PiCamera()
-#     camera.resolution = (640, 480)
-#     camera.framerate = 10
-#
-#     rawCapture = PiRGBArray(camera, size=camera.resolution)
-#
-#     time.sleep(0.1)
-#
-#     for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
-#         handle_frame(frame.array)
-#         rawCapture.truncate(0)
-#         break
+def capture(handle_frame):
+    camera = PiCamera()
+    camera.resolution = (640, 480)
+    camera.framerate = 10
+
+    rawCapture = PiRGBArray(camera, size=camera.resolution)
+
+    time.sleep(0.1)
+
+    for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
+        handle_frame(frame.array)
+        rawCapture.truncate(0)
+        break
