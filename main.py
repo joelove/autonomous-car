@@ -1,11 +1,11 @@
-import camera_interface
-import frame_analyzer
-# import drive
+# import camera_interface
+# import frame_analyzer
+import drive
 
 
 def main():
-    camera_interface.capture(frame_analyzer.handle_frame)
-    # drive.manual()
+    # camera_interface.capture(frame_analyzer.handle_frame)
+    drive.manual()
 
 
 if __name__ == '__main__':
