@@ -10,13 +10,14 @@ reverse_tuple = compose(tuple, reversed)
 def perspective_warp(image):
     image_dimensions = reverse_tuple(image.shape)
 
-    source_shape = [(0, 0.4), (1, 0.4), (1, 1), (0, 1)]
+    source_shape = [(0.25, 0.3), (0.75, 0.3), (1, 1), (0, 1)]
     destination_shape = [(1, 0), (0, 0), (0, 1), (1, 1)]
 
-    source_pixels = np.float32(source_shape) * np.float32(image_dimensions)
-    destination_pixels = np.float32(destination_shape) * np.float32(image_dimensions)
+    source_points = np.float32(source_shape) * np.float32(image_dimensions)
+    destination_points = np.float32(destination_shape) * np.float32(image_dimensions)
 
-    transformation = cv2.getPerspectiveTransform(source_pixels, destination_pixels)
+    # homography, _ = cv2.findHomography(source_points, destination_points)
+    transformation = cv2.getPerspectiveTransform(source_points, destination_points)
 
     return cv2.warpPerspective(image, transformation, image_dimensions)
 
@@ -47,6 +48,6 @@ def detect_edges(image):
 
 
 def apply_filters(image):
-    filter = compose(perspective_warp, detect_edges, rgb_to_grayscale, reduce_noise)
+    filter = compose(perspective_warp, rgb_to_grayscale, reduce_noise)
 
     return filter(image)
