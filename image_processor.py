@@ -10,7 +10,7 @@ reverse_tuple = compose(tuple, reversed)
 def perspective_warp(image):
     image_dimensions = reverse_tuple(image.shape)
 
-    source_shape = [(0, 0.25), (1, 0.25), (1, 1), (0, 1)]
+    source_shape = [(0, 0.4), (1, 0.4), (1, 1), (0, 1)]
     destination_shape = [(0, 0), (1, 0), (1, 1), (0, 1)]
 
     source_points = np.float32(source_shape) * np.float32(image_dimensions)
