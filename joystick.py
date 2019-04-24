@@ -180,7 +180,7 @@ class Joystick():
                         fvalue = value / 32767.0
                         self.axis_states[axis] = fvalue
 
-                queue.put(self.axis_states)
+                queue.put_nowait(self.axis_states)
 
 
     # def end_polling(self):
