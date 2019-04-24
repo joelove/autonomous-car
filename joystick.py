@@ -1,6 +1,8 @@
 import array
 import time
 import struct
+import threading
+
 
 class Joystick():
     """
@@ -155,32 +157,40 @@ class Joystick():
         pressed, or released. axis_val will be a float from -1 to +1. button and axis will
         be the string label determined by the axis map in init.
         """
-        button = None
-        button_state = None
-        axis = None
-        axis_val = None
+        while(not self.stop_polling.is_set()):
+            evbuf = self.jsdev.read(8)
 
-        # Main event loop
-        evbuf = self.jsdev.read(8)
+            if evbuf:
+                tval, value, typev, number = struct.unpack('IhBB', evbuf)
 
-        if evbuf:
-            tval, value, typev, number = struct.unpack('IhBB', evbuf)
+                if typev & 0x80:
+                    # ignore initialization event
+                    return
 
-            if typev & 0x80:
-                #ignore initialization event
-                return button, button_state, axis, axis_val
+                if typev & 0x01:
+                    button = self.button_map[number]
+                    if button:
+                        self.button_states[button] = value
+                        button_state = value
 
-            if typev & 0x01:
-                button = self.button_map[number]
-                if button:
-                    self.button_states[button] = value
-                    button_state = value
+                if typev & 0x02:
+                    axis = self.axis_map[number]
+                    if axis:
+                        fvalue = value / 32767.0
+                        self.axis_states[axis] = fvalue
+                        axis_val = fvalue
 
-            if typev & 0x02:
-                axis = self.axis_map[number]
-                if axis:
-                    fvalue = value / 32767.0
-                    self.axis_states[axis] = fvalue
-                    axis_val = fvalue
 
-        return button, button_state, axis, axis_val
+    def begin_polling(self):
+       self.stop_polling = threading.Event()
+       thread = threading.Thread(target=self.poll, args=(self))
+       thread.daemon = True
+       thread.start()
+
+
+    def end_polling(self):
+        self.stop_polling.set()
+
+
+    def get_states(self):
+        return self.axis_states, self.button_states
