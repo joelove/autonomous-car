@@ -20,6 +20,10 @@ def read_controller():
     while True:
         start_time = time.time()
 
-        print(queue.get_nowait())
+        axis_states = {}
+        if not queue.empty():
+            axis_states = queue.get_nowait()
+
+        print(axis_states)
 
         time.sleep(TICK_LENGTH - ((time.time() - start_time) % TICK_LENGTH))
