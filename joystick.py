@@ -186,8 +186,6 @@ class Joystick():
         process = Process(target=polling_loop, args=(self,))
         process.start()
 
-        return self
-
 
     # def end_polling(self):
     #     self.stop_polling.set()
