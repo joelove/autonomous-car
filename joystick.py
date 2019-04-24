@@ -151,7 +151,7 @@ class Joystick():
         print ('%d buttons found: %s' % (self.num_buttons, ', '.join(self.button_map)))
 
 
-    def polling_loop(self):
+    def polling_loop(_, self):
         # while (not self.stop_polling.is_set()):
         while True:
             evbuf = self.jsdev.read(8)
@@ -185,7 +185,7 @@ class Joystick():
         be the string label determined by the axis map in init.
         """
         # self.stop_polling = threading.Event()
-        process = Process(target=self.polling_loop)
+        process = Process(target=self.polling_loop, args=(self,))
         process.start()
 
 
