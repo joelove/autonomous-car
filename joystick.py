@@ -11,9 +11,10 @@ class Joystick():
     """
     access_url = None #required to be consistent with web controller
 
+    axis_states = {}
+    button_states = {}
+
     def __init__(self, dev_fn='/dev/input/js0'):
-        self.axis_states = {}
-        self.button_states = {}
         self.axis_map = []
         self.button_map = []
         self.jsdev = None
