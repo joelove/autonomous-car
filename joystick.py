@@ -160,8 +160,8 @@ class Joystick():
         self.stop_polling = threading.Event()
 
         def polling_loop():
-            print('loop')
             while (not self.stop_polling.is_set()):
+                print('loop')
                 evbuf = self.jsdev.read(8)
 
                 if evbuf:
