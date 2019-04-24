@@ -15,6 +15,7 @@ def read_controller():
     while True:
         start_time = time.time()
 
-        joystick.poll()
+        button, button_state, axis, axis_val = joystick.poll()
+        print(axis, axis_val)
 
         time.sleep(TICK_LENGTH - ((time.time() - start_time) % TICK_LENGTH))
