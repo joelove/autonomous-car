@@ -24,7 +24,7 @@ def read_controller():
     while True:
         start_time = time.time()
 
-        if not queue.empty():
+        while not queue.empty():
             axis_states = queue.get_nowait()
 
         print(axis_states)

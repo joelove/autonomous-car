@@ -182,10 +182,8 @@ class Joystick():
                         fvalue = value / 32767.0
                         self.axis_states[axis] = fvalue
 
-            if previously_empty:
+            if not queue.full():
                 queue.put_nowait(self.axis_states)
-
-            previously_empty = queue.empty()
 
 
 
