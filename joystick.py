@@ -189,7 +189,6 @@ class Joystick():
 
         process = Process(target=polling_loop)
         process.start()
-        process.join()
 
 
     # def end_polling(self):
