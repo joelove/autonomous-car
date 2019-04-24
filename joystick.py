@@ -2,8 +2,6 @@ import array
 import time
 import struct
 
-from multiprocessing import Process
-
 
 class Joystick():
     """
@@ -151,7 +149,14 @@ class Joystick():
         print ('%d buttons found: %s' % (self.num_buttons, ', '.join(self.button_map)))
 
 
-    def polling_loop(self):
+    def begin_polling(self):
+        """
+        query the state of the joystick, returns button which was pressed, if any,
+        and axis which was moved, if any. button_state will be None, 1, or 0 if no changes,
+        pressed, or released. axis_val will be a float from -1 to +1. button and axis will
+        be the string label determined by the axis map in init.
+        """
+        # self.stop_polling = threading.Event()
         # while (not self.stop_polling.is_set()):
         while True:
             evbuf = self.jsdev.read(8)
@@ -173,20 +178,6 @@ class Joystick():
                     if axis:
                         fvalue = value / 32767.0
                         self.axis_states[axis] = fvalue
-
-                print(self.axis_states)
-
-
-    def begin_polling(self):
-        """
-        query the state of the joystick, returns button which was pressed, if any,
-        and axis which was moved, if any. button_state will be None, 1, or 0 if no changes,
-        pressed, or released. axis_val will be a float from -1 to +1. button and axis will
-        be the string label determined by the axis map in init.
-        """
-        # self.stop_polling = threading.Event()
-        process = Process(target=self.polling_loop)
-        process.start()
 
 
     # def end_polling(self):
