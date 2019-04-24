@@ -159,6 +159,8 @@ class Joystick():
         """
         # self.stop_polling = threading.Event()
         # while (not self.stop_polling.is_set()):
+        previously_empty = False
+
         while True:
             evbuf = self.jsdev.read(8)
 
@@ -180,8 +182,11 @@ class Joystick():
                         fvalue = value / 32767.0
                         self.axis_states[axis] = fvalue
 
-
+            if not previously_empty:
                 queue.put_nowait(self.axis_states)
+
+            previously_empty = queue.empty()
+
 
 
     # def end_polling(self):
