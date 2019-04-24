@@ -12,7 +12,32 @@ poetry install \
   && sudo apt-get install libjasper-dev -y \
   && sudo apt-get install libqtgui4 -y \
   && sudo apt-get install libqt4-test -y \
-  && sudo apt-get install xboxdrv -y
+  && sudo apt-get install xboxdrv -y \
+  && sudo apt-get install joystick -y
+```
+
+Disabling ERTM so we can connect a controller:
+```bash
+sudo echo "options bluetooth disable_ertm=Y" > /etc/modprobe.d/bluetooth.conf
+sudo reboot
+```
+
+Connecting the controller:
+```bash
+sudo bluetoothctl
+```
+```
+agent on
+default-agent
+scan on
+connect [CONTROLLER MAC ADDRESS]
+trust [CONTROLLER MAC ADDRESS]
+exit
+```
+
+Testing the connected controller:
+```bash
+sudo jstest /dev/input/js0
 ```
 
 ---
