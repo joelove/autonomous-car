@@ -1,26 +1,25 @@
 import time
 
 from joystick import Joystick
-from multiprocessing import Process
+from multiprocessing import Process, Queue
 
 
 SAMPLE_HZ = 10
 TICK_LENGTH = 1.0 / SAMPLE_HZ
 
-def polling_loop(joystick):
+
+def read_controller():
+    queue = Queue()
+
+    joystick = Joystick()
+    joystick.init()
+
+    process = Process(target=joystick.begin_polling, args=(queue,))
+    process.start()
+
     while True:
         start_time = time.time()
 
-        print(joystick.axis_states)
+        print(queue.get())
 
         time.sleep(TICK_LENGTH - ((time.time() - start_time) % TICK_LENGTH))
-
-
-def read_controller():
-    joystick = Joystick()
-
-    process = Process(target=polling_loop, args=(joystick,))
-    process.start()
-
-    joystick.init()
-    joystick.begin_polling()
