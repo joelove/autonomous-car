@@ -183,9 +183,10 @@ class Joystick():
         be the string label determined by the axis map in init.
         """
         # self.stop_polling = threading.Event()
-
         process = Process(target=polling_loop, args=(self,))
         process.start()
+
+        return self
 
 
     # def end_polling(self):
