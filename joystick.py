@@ -171,7 +171,7 @@ class Joystick():
 
                     if typev & 0x80:
                         # ignore initialization event
-                        return
+                        pass
 
                     if typev & 0x01:
                         button = self.button_map[number]
