@@ -157,9 +157,7 @@ class Joystick():
         pressed, or released. axis_val will be a float from -1 to +1. button and axis will
         be the string label determined by the axis map in init.
         """
-        print('foo')
-        
-        while(not self.stop_polling.is_set()):
+        while (not self.stop_polling.is_set()):
             evbuf = self.jsdev.read(8)
 
             if evbuf:
@@ -185,7 +183,7 @@ class Joystick():
 
     def begin_polling(self):
        self.stop_polling = threading.Event()
-       thread = threading.Thread(target=self.poll, args=(self))
+       thread = threading.Thread(target=self.poll)
        thread.daemon = True
        thread.start()
 
