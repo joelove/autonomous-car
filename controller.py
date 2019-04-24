@@ -10,6 +10,8 @@ TICK_LENGTH = 1.0 / SAMPLE_HZ
 def read_controller():
     joystick = Joystick()
 
+    joystick.init()
+
     while True:
         start_time = time.time()
 
