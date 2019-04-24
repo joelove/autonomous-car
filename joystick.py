@@ -1,7 +1,8 @@
 import array
 import time
 import struct
-import threading
+
+from multiprocessing import Process
 
 
 class Joystick():
@@ -157,7 +158,7 @@ class Joystick():
         pressed, or released. axis_val will be a float from -1 to +1. button and axis will
         be the string label determined by the axis map in init.
         """
-        self.stop_polling = threading.Event()
+        # self.stop_polling = threading.Event()
 
         def polling_loop():
             # while (not self.stop_polling.is_set()):
@@ -185,13 +186,14 @@ class Joystick():
                             self.axis_states[axis] = fvalue
                             axis_val = fvalue
 
-        thread = threading.Thread(target=polling_loop)
-        thread.daemon = True
-        thread.start()
+
+        process = Process(target=polling_loop)
+        process.start()
+        process.join()
 
 
-    def end_polling(self):
-        self.stop_polling.set()
+    # def end_polling(self):
+    #     self.stop_polling.set()
 
 
     def get_states(self):
