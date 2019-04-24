@@ -174,7 +174,7 @@ class Joystick():
                         fvalue = value / 32767.0
                         self.axis_states[axis] = fvalue
 
-            self.axis_states
+                print(self.axis_states)
 
 
     def begin_polling(self):
