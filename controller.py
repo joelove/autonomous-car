@@ -19,16 +19,14 @@ def read_controller():
     thread.daemon = True
     thread.start()
 
-    controller = {}
+    axis_states = {}
 
     while True:
         start_time = time.time()
 
         while not queue.empty():
-            controller = queue.get_nowait()
+            axis_states = queue.get_nowait()
 
-        print('Throttle: ' + controller.throttle)
-        print('Angle: ' + controller.angle)
-
+        print(axis_states)
 
         time.sleep(TICK_LENGTH - ((time.time() - start_time) % TICK_LENGTH))
