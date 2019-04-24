@@ -5,30 +5,6 @@ import struct
 from multiprocessing import Process
 
 
-def polling_loop(self):
-    # while (not self.stop_polling.is_set()):
-    while True:
-        evbuf = self.jsdev.read(8)
-
-        if evbuf:
-            _, value, typev, number = struct.unpack('IhBB', evbuf)
-
-            if typev & 0x80:
-                # ignore initialization event
-                pass
-
-            if typev & 0x01:
-                button = self.button_map[number]
-                if button:
-                    self.button_states[button] = value
-
-            if typev & 0x02:
-                axis = self.axis_map[number]
-                if axis:
-                    fvalue = value / 32767.0
-                    self.axis_states[axis] = fvalue
-
-
 class Joystick():
     """
     An interface to a physical joystick available at /dev/input
@@ -183,6 +159,30 @@ class Joystick():
         be the string label determined by the axis map in init.
         """
         # self.stop_polling = threading.Event()
+
+        def polling_loop(self):
+            # while (not self.stop_polling.is_set()):
+            while True:
+                evbuf = self.jsdev.read(8)
+
+                if evbuf:
+                    _, value, typev, number = struct.unpack('IhBB', evbuf)
+
+                    if typev & 0x80:
+                        # ignore initialization event
+                        pass
+
+                    if typev & 0x01:
+                        button = self.button_map[number]
+                        if button:
+                            self.button_states[button] = value
+
+                    if typev & 0x02:
+                        axis = self.axis_map[number]
+                        if axis:
+                            fvalue = value / 32767.0
+                            self.axis_states[axis] = fvalue
+
         process = Process(target=polling_loop, args=(self))
         process.start()
 
