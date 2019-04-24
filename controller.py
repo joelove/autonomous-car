@@ -1,7 +1,7 @@
 import time
 
 from joystick import Joystick
-from multiprocessing import Process, Queue
+from multiprocessing import Process, Pipe
 
 
 SAMPLE_HZ = 10
@@ -9,20 +9,18 @@ TICK_LENGTH = 1.0 / SAMPLE_HZ
 
 
 def read_controller():
-    queue = Queue()
+    parent_connection, child_connection = Pipe()
 
     joystick = Joystick()
     joystick.init()
 
-    process = Process(target=joystick.begin_polling, args=(queue,))
+    process = Process(target=joystick.begin_polling, args=(child_connection,))
     process.start()
 
     while True:
         start_time = time.time()
 
-        axis_states = {}
-        if not queue.empty():
-            axis_states = queue.get_nowait()
+        axis_states = parent_connection.recv()
 
         print(axis_states)
 

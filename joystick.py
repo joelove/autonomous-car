@@ -150,7 +150,7 @@ class Joystick():
         print ('%d axes found: %s' % (self.num_axes, ', '.join(self.axis_map)))
         print ('%d buttons found: %s' % (self.num_buttons, ', '.join(self.button_map)))
 
-    def begin_polling(self, queue):
+    def begin_polling(self, connection):
         """
         query the state of the joystick, returns button which was pressed, if any,
         and axis which was moved, if any. button_state will be None, 1, or 0 if no changes,
@@ -180,7 +180,7 @@ class Joystick():
                         fvalue = value / 32767.0
                         self.axis_states[axis] = fvalue
 
-                queue.put_nowait(self.axis_states)
+                connection.send(self.axis_states)
 
 
     # def end_polling(self):
