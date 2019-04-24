@@ -179,6 +179,7 @@ class Joystick():
 
                     if typev & 0x02:
                         axis = self.axis_map[number]
+                        print(axis)
                         if axis:
                             fvalue = value / 32767.0
                             self.axis_states[axis] = fvalue
