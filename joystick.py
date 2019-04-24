@@ -160,29 +160,28 @@ class Joystick():
         self.stop_polling = threading.Event()
 
         def polling_loop():
-            while (not self.stop_polling.is_set()):
-                print('loop')
-                evbuf = self.jsdev.read(8)
+            # while (not self.stop_polling.is_set()):
+            evbuf = self.jsdev.read(8)
 
-                if evbuf:
-                    tval, value, typev, number = struct.unpack('IhBB', evbuf)
+            if evbuf:
+                tval, value, typev, number = struct.unpack('IhBB', evbuf)
 
-                    if typev & 0x80:
-                        # ignore initialization event
-                        return
+                if typev & 0x80:
+                    # ignore initialization event
+                    return
 
-                    if typev & 0x01:
-                        button = self.button_map[number]
-                        if button:
-                            self.button_states[button] = value
-                            button_state = value
+                if typev & 0x01:
+                    button = self.button_map[number]
+                    if button:
+                        self.button_states[button] = value
+                        button_state = value
 
-                    if typev & 0x02:
-                        axis = self.axis_map[number]
-                        if axis:
-                            fvalue = value / 32767.0
-                            self.axis_states[axis] = fvalue
-                            axis_val = fvalue
+                if typev & 0x02:
+                    axis = self.axis_map[number]
+                    if axis:
+                        fvalue = value / 32767.0
+                        self.axis_states[axis] = fvalue
+                        axis_val = fvalue
 
         thread = threading.Thread(target=polling_loop)
         thread.daemon = True
