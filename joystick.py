@@ -174,7 +174,7 @@ class Joystick():
                         fvalue = value / 32767.0
                         self.axis_states[axis] = fvalue
 
-                # print(self.axis_states)
+                print(self.axis_states)
 
 
     def begin_polling(self):
@@ -187,11 +187,6 @@ class Joystick():
         # self.stop_polling = threading.Event()
         process = Process(target=self.polling_loop)
         process.start()
-
-        def get_states():
-            return self.axis_states
-
-        return get_states
 
 
     # def end_polling(self):
