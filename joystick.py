@@ -166,9 +166,7 @@ class Joystick():
                 evbuf = self.jsdev.read(8)
 
                 if evbuf:
-                    tval, value, typev, number = struct.unpack('IhBB', evbuf)
-
-                    print(tval, value, typev, number)
+                    _, value, typev, number = struct.unpack('IhBB', evbuf)
 
                     if typev & 0x80:
                         # ignore initialization event
@@ -178,14 +176,12 @@ class Joystick():
                         button = self.button_map[number]
                         if button:
                             self.button_states[button] = value
-                            button_state = value
 
                     if typev & 0x02:
                         axis = self.axis_map[number]
                         if axis:
                             fvalue = value / 32767.0
                             self.axis_states[axis] = fvalue
-                            axis_val = fvalue
 
 
         process = Process(target=polling_loop)
@@ -194,7 +190,3 @@ class Joystick():
 
     # def end_polling(self):
     #     self.stop_polling.set()
-
-
-    def get_states(self):
-        return self.axis_states, self.button_states
