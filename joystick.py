@@ -163,11 +163,12 @@ class Joystick():
         def polling_loop():
             # while (not self.stop_polling.is_set()):
             while True:
-                print('loop')
                 evbuf = self.jsdev.read(8)
 
                 if evbuf:
                     tval, value, typev, number = struct.unpack('IhBB', evbuf)
+
+                    print(tval, value, typev, number)
 
                     if typev & 0x80:
                         # ignore initialization event
