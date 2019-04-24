@@ -21,7 +21,7 @@ class Joystick():
 
         # These constants were borrowed from linux/input.h
         self.axis_names = {
-            0x00 : 'x',
+            0x00 : 'angle',
             0x01 : 'y',
             0x02 : 'z',
             0x03 : 'rx',
@@ -30,7 +30,7 @@ class Joystick():
             0x06 : 'trottle',
             0x07 : 'rudder',
             0x08 : 'wheel',
-            0x09 : 'gas',
+            0x09 : 'throttle',
             0x0a : 'brake',
             0x10 : 'hat0x',
             0x11 : 'hat0y',
