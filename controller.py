@@ -3,7 +3,7 @@ import time
 from joystick import Joystick
 
 
-SAMPLE_HZ = 10
+SAMPLE_HZ = 100
 TICK_LENGTH = 1.0 / SAMPLE_HZ
 
 
