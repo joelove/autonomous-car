@@ -181,7 +181,7 @@ class Joystick():
                         self.axis_states[axis] = fvalue
 
             if queue.empty():
-                queue.send(self.axis_states)
+                queue.put_nowait(self.axis_states)
 
 
     # def end_polling(self):
