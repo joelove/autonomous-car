@@ -18,6 +18,4 @@ def read_controller():
 
         axis_states, button_states = joystick.get_states()
 
-        print(axis_states)
-
         time.sleep(TICK_LENGTH - ((time.time() - start_time) % TICK_LENGTH))

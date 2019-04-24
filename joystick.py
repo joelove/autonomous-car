@@ -150,42 +150,42 @@ class Joystick():
         print ('%d buttons found: %s' % (self.num_buttons, ', '.join(self.button_map)))
 
 
-    def poll(self):
+    def begin_polling(self):
         """
         query the state of the joystick, returns button which was pressed, if any,
         and axis which was moved, if any. button_state will be None, 1, or 0 if no changes,
         pressed, or released. axis_val will be a float from -1 to +1. button and axis will
         be the string label determined by the axis map in init.
         """
-        while (not self.stop_polling.is_set()):
-            evbuf = self.jsdev.read(8)
+        self.stop_polling = threading.Event()
 
-            if evbuf:
-                tval, value, typev, number = struct.unpack('IhBB', evbuf)
+        def polling_loop():
+            while (not self.stop_polling.is_set()):
+                evbuf = self.jsdev.read(8)
 
-                if typev & 0x80:
-                    # ignore initialization event
-                    return
+                if evbuf:
+                    tval, value, typev, number = struct.unpack('IhBB', evbuf)
 
-                if typev & 0x01:
-                    button = self.button_map[number]
-                    if button:
-                        self.button_states[button] = value
-                        button_state = value
+                    if typev & 0x80:
+                        # ignore initialization event
+                        return
 
-                if typev & 0x02:
-                    axis = self.axis_map[number]
-                    if axis:
-                        fvalue = value / 32767.0
-                        self.axis_states[axis] = fvalue
-                        axis_val = fvalue
+                    if typev & 0x01:
+                        button = self.button_map[number]
+                        if button:
+                            self.button_states[button] = value
+                            button_state = value
 
+                    if typev & 0x02:
+                        axis = self.axis_map[number]
+                        if axis:
+                            fvalue = value / 32767.0
+                            self.axis_states[axis] = fvalue
+                            axis_val = fvalue
 
-    def begin_polling(self):
-       self.stop_polling = threading.Event()
-       thread = threading.Thread(target=self.poll)
-       thread.daemon = True
-       thread.start()
+        thread = threading.Thread(target=polling_loop)
+        thread.daemon = True
+        thread.start()
 
 
     def end_polling(self):
