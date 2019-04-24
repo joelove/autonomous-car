@@ -2,16 +2,17 @@
 
 ## A Python script to be run on a RaspberryPi for piloting an autonomous car
 
-```
-sudo apt-get update -y
-sudo apt-get install libcblas-dev
-sudo apt-get install libhdf5-dev
-sudo apt-get install libhdf5-serial-dev
-sudo apt-get install libatlas-base-dev
-sudo apt-get install libjasper-dev
-sudo apt-get install libqtgui4
-sudo apt-get install libqt4-test
-sudo apt-get install xboxdrv
+```bash
+poetry install \
+  && sudo apt-get update -y \
+  && sudo apt-get install libcblas-dev -y \
+  && sudo apt-get install libhdf5-dev -y \
+  && sudo apt-get install libhdf5-serial-dev -y \
+  && sudo apt-get install libatlas-base-dev -y \
+  && sudo apt-get install libjasper-dev -y \
+  && sudo apt-get install libqtgui4 -y \
+  && sudo apt-get install libqt4-test -y \
+  && sudo apt-get install xboxdrv -y
 ```
 
 ---
