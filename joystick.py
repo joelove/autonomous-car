@@ -184,6 +184,8 @@ class Joystick():
                             print(axis, fvalue)
                             self.axis_states[axis] = fvalue
 
+                    print(self.axis_states)
+
 
         process = Process(target=polling_loop)
         process.start()
