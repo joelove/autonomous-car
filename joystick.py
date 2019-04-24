@@ -157,6 +157,8 @@ class Joystick():
         pressed, or released. axis_val will be a float from -1 to +1. button and axis will
         be the string label determined by the axis map in init.
         """
+        print('foo')
+        
         while(not self.stop_polling.is_set()):
             evbuf = self.jsdev.read(8)
 
