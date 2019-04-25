@@ -6,7 +6,7 @@ authors = ["Joe Love <joe.love@futurice.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "3.5.0"
+python = "3.5.3"
 opencv-python = "3.4.4.19"
 funcy = "^1.11"
 camera = "^1.3"
