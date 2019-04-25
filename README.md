@@ -2,6 +2,8 @@
 
 ## A Python script to be run on a RaspberryPi for piloting an autonomous car
 
+Installation steps:
+
 ```bash
 poetry install \
   && sudo apt-get update -y \
@@ -13,16 +15,20 @@ poetry install \
   && sudo apt-get install libqtgui4 -y \
   && sudo apt-get install libqt4-test -y \
   && sudo apt-get install xboxdrv -y \
-  && sudo apt-get install joystick -y
+  && sudo apt-get install joystick -y \
+  && sudo apt-get install python-smbus -y \
+  && sudo apt-get install i2c-tools -y
 ```
 
 Disabling ERTM so we can connect a controller:
+
 ```bash
 sudo echo "options bluetooth disable_ertm=Y" > /etc/modprobe.d/bluetooth.conf
 sudo reboot
 ```
 
 Connecting the controller:
+
 ```bash
 sudo bluetoothctl
 ```
@@ -30,19 +36,20 @@ sudo bluetoothctl
 agent on
 default-agent
 scan on
-connect [CONTROLLER MAC ADDRESS]
-trust [CONTROLLER MAC ADDRESS]
+connect CONTROLLER_MAC_ADDRESS
+trust CONTROLLER_MAC_ADDRESS
 exit
 ```
 
 Testing the connected controller:
+
 ```bash
 sudo jstest /dev/input/js0
 ```
 
-Running the script:
+Starting the vehicle:
 ```bash
-poetry run sudo python main.py
+poetry run sudo python start.py --help
 ```
 ---
 
