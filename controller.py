@@ -29,7 +29,9 @@ def read_controller():
         while not queue.empty():
             axis_states = queue.get_nowait()
 
-        steering_angle = axis_states.x
+        print(axis_states)
+
+        steering_angle = axis_states['x']
 
         kit = ServoKit(channels=16)
 
