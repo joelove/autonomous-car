@@ -29,14 +29,13 @@ def read_controller():
         while not queue.empty():
             axis_states = queue.get_nowait()
 
-        print(axis_states)
+        if axis_states:
+            steering_angle = axis_states['x']
 
-        steering_angle = axis_states['x']
+            kit = ServoKit(channels=16)
 
-        kit = ServoKit(channels=16)
-
-        steering_servo = kit.servo[config.STEERING_CHANNEL]
-        steering_servo.angle = ((steering_angle + 1.0) / 2) * 180
+            steering_servo = kit.servo[config.STEERING_CHANNEL]
+            steering_servo.angle = ((steering_angle + 1.0) / 2) * 180
 
         # throttle_value = axis_states.gas
         # throttle_controller = PCA9685(config.THROTTLE_CHANNEL)
