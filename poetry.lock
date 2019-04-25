@@ -11,26 +11,85 @@ six = "*"
 
 [[package]]
 category = "main"
-description = "Library to provide a cross-platform GPIO interface on the Raspberry Pi and Beaglebone Black using the RPi.GPIO and Adafruit_BBIO libraries."
-name = "adafruit-gpio"
+description = "CircuitPython APIs for non-CircuitPython versions of Python such as CPython on Linux and MicroPython."
+name = "adafruit-blinka"
 optional = false
-python-versions = "*"
-version = "1.0.3"
+python-versions = ">=3.4.0"
+version = "1.2.8"
 
 [package.dependencies]
-adafruit-pureio = "*"
+Adafruit-PlatformDetect = "*"
+Adafruit-PureIO = "*"
+"RPi.GPIO" = "*"
+rpi_ws281x = ">=4.0.0"
 spidev = "*"
+sysv_ipc = "*"
 
 [[package]]
 category = "main"
-description = "Python code to use the PCA9685 PWM servo/LED controller with a Raspberry Pi or BeagleBone Black."
-name = "adafruit-pca9685"
+description = "CircuitPython bus device classes to manage bus sharing."
+name = "adafruit-circuitpython-busdevice"
 optional = false
 python-versions = "*"
-version = "1.0.1"
+version = "2.2.9"
 
 [package.dependencies]
-Adafruit-GPIO = ">=0.6.5"
+Adafruit-Blinka = "*"
+
+[[package]]
+category = "main"
+description = "CircuitPython helper library provides higher level objects to control motors and servos."
+name = "adafruit-circuitpython-motor"
+optional = false
+python-versions = "*"
+version = "1.4.1"
+
+[package.dependencies]
+Adafruit-Blinka = "*"
+
+[[package]]
+category = "main"
+description = "CircuitPython driver for motor, stepper, and servo based on PCA9685."
+name = "adafruit-circuitpython-pca9685"
+optional = false
+python-versions = "*"
+version = "3.2.5"
+
+[package.dependencies]
+Adafruit-Blinka = "*"
+adafruit-circuitpython-busdevice = "*"
+adafruit-circuitpython-register = "*"
+
+[[package]]
+category = "main"
+description = "CircuitPython data descriptor classes to represent hardware registers on I2C and SPI devices."
+name = "adafruit-circuitpython-register"
+optional = false
+python-versions = "*"
+version = "1.7.0"
+
+[[package]]
+category = "main"
+description = "CircuitPython helper library for PWM/Servo FeatherWing, Shield, and Pi HAT and Bonnet kits."
+name = "adafruit-circuitpython-servokit"
+optional = false
+python-versions = "*"
+version = "1.1.0"
+
+[package.dependencies]
+Adafruit-Blinka = "*"
+adafruit-circuitpython-busdevice = "*"
+adafruit-circuitpython-motor = "*"
+adafruit-circuitpython-pca9685 = "*"
+adafruit-circuitpython-register = "*"
+
+[[package]]
+category = "main"
+description = "Platform detection for use by libraries like Adafruit-Blinka."
+name = "adafruit-platformdetect"
+optional = false
+python-versions = ">=3.4.0"
+version = "1.0.0"
 
 [[package]]
 category = "main"
@@ -533,6 +592,24 @@ urllib3 = ">=1.21.1,<1.25"
 
 [[package]]
 category = "main"
+description = "Userspace Raspberry Pi PWM/PCM/SPI library for SK6812 and WS281X LEDs."
+marker = "platform_machine == \"armv7l\" or platform_machine == \"armv6l\""
+name = "rpi-ws281x"
+optional = false
+python-versions = "*"
+version = "4.1.0"
+
+[[package]]
+category = "main"
+description = "A module to control Raspberry Pi GPIO channels"
+marker = "platform_machine == \"armv7l\" or platform_machine == \"armv6l\""
+name = "rpi.gpio"
+optional = false
+python-versions = "*"
+version = "0.6.5"
+
+[[package]]
+category = "main"
 description = "Python 2 and 3 compatibility utilities"
 name = "six"
 optional = false
@@ -542,10 +619,20 @@ version = "1.12.0"
 [[package]]
 category = "main"
 description = "Python bindings for Linux SPI access through spidev"
+marker = "sys_platform == \"linux\""
 name = "spidev"
 optional = false
 python-versions = "*"
 version = "3.4"
+
+[[package]]
+category = "main"
+description = "System V IPC primitives (semaphores, shared memory and message queues) for Python"
+marker = "platform_system != \"Windows\""
+name = "sysv-ipc"
+optional = false
+python-versions = "*"
+version = "1.0.0"
 
 [[package]]
 category = "main"
@@ -671,13 +758,18 @@ python-versions = "*"
 version = "1.11.1"
 
 [metadata]
-content-hash = "181e7290d080a4c92c1f9ac5bebc4460444f1d7c02e569157077f8181f218b5f"
+content-hash = "9fe7cc5710db0b8136c8573eb8c0be379b564aee63697f944d7d3af5a7fd3087"
 python-versions = "^3.5.0"
 
 [metadata.hashes]
 absl-py = ["b943d1c567743ed0455878fcd60bc28ac9fae38d129d1ccfad58079da00b8951"]
-adafruit-gpio = ["d6465b92c866c51ca8f3bc1e8f2ec36f5ccdb46d0fd54101c1109756d4a2dcd0"]
-adafruit-pca9685 = ["24d632c912a23f44416369555f3f39f2509975b89d37955f125bc009040a1dfd", "24d9c8c1fd17093d3255823c5b43f7dccd0b95a042d663832af473507f188ea9"]
+adafruit-blinka = ["13e3afcd0895d6172be837d1f625fc0478dba0453ce288bcd759c9bb85ba81a4"]
+adafruit-circuitpython-busdevice = ["c02a649347cbe0bf6ba091fd2886be08cd3bdb22148ef2a820a771afd8b1acd3"]
+adafruit-circuitpython-motor = ["b2474df056c3a7f079395e4e07906d890fd108368423f736232905120b923348"]
+adafruit-circuitpython-pca9685 = ["f951d074bb630b792acd237d550960e993ebcfbb99507ce57278e4be1b4e2fcf"]
+adafruit-circuitpython-register = ["d1749f54e416eaf6ef4138fa022e9a909035c0c6411df810fa7d327a582cbb6b"]
+adafruit-circuitpython-servokit = ["c39102b473ac5a9d3ded80e788e1f1d32c89adec1535ac8e9c9d194b85afeb29"]
+adafruit-platformdetect = ["7ad147c759b5a661e19e6c31985efe93076efc644f38576dadcdee00469ddf40"]
 adafruit-pureio = ["e65cd929f1d8e109513ed1e457c2742bf4f15349c1a9b7f5b1e04191624d7488"]
 astor = ["95c30d87a6c2cf89aa628b87398466840f0ad8652f88eb173125a6df8533fb8d", "fb503b9e2fdd05609fbf557b916b4a7824171203701660f0c55bbf5a7a68713e"]
 astroid = ["6560e1e1749f68c64a4b5dee4e091fce798d2f0d84ebe638cf0e0585a343acf4", "b65db1bbaac9f9f4d190199bb8680af6f6f84fd3769a5ea883df8a91fe68b4c4"]
@@ -726,15 +818,18 @@ python-engineio = ["a89d2cff7f9b447d37c450c2666101d97043b4b22524bf4efaafcb9784c9
 python-socketio = ["626381a6940f0e4ec6a8bbd2dc95e231a515b2838ee0cc98c535076a4650a872", "64feb0817f1bf7e3e7fc05f6f65e28d76146d8061cb7de25b63502717f80e908"]
 pytz = ["303879e36b721603cc54604edcac9d20401bdbe31e1e4fdee5b9f98d5d31dfda", "d747dd3d23d77ef44c6a3526e274af6efeb0a6f1afd5a69ba4d5be4098c8e141"]
 requests = ["502a824f31acdacb3a35b6690b5fbf0bc41d63a24a45c4004352b0242707598e", "7bf2a778576d825600030a110f3c0e3e8edc51dfaafe1c146e39a2027784957b"]
+rpi-ws281x = ["303bde432a46079cbb1af9544c565b21acbf8dba5723de8b73b36504f838a375", "82b84afb7f06a9e1d85d9597edbd83a48f250e4fae7e67b66c856bea3567ae9e", "b5e368c46f83b01e0451d9715a6085b537207010a4676591a34a788860ff16b0", "dc1309a30b2ec9644e243fa6ddb360b292952a9d288ed5f36b65225a3043000b"]
+"rpi.gpio" = ["a4210ad63bfe844e43995286de0d3950dfacfa0f3799bb9392770ac54a7d2e47"]
 six = ["3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c", "d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"]
 spidev = ["4314e52f573d95233c907f307558893313a8a606e197e77bb711526b0e179e80"]
+sysv-ipc = ["b284e961274c67ed3debfdd8a43f197451c5f100955142bbed380258c6c73e06", "b59fbd42c9de27b42fdda69c4aa7556312112dc6ac7246e44cd875cf049e4273", "cd70548a92218ede2da499080b31e52f1d7cf60716c5cc7d468ec89e8b73c530"]
 tensorboard = ["53d8f40589c903dae65f39a799c2bc49defae3703754984d90613d26ebd714a4", "b664fe7772be5670d8b04200342e681af7795a12cd752709aed565c06c0cc196"]
 tensorflow = ["0de5887495c20e1130ae4d9bcfaf80cec87f579a9c27a84141a588a46e5aa853", "0f305f3c461ed2ce5e0b65fccc7b7452f483c7935dd8a52a466d622e642fdea8", "4325f20b5a703b80a5f7a8807f07ad8735025bd2a947093ffff1c26fbdc7980b", "4c86be0e476b64cedf4ffa059d71b764e75b895effb697345687e3057929a7b5", "6b0a0a413390302ce7c22c98695983d6fb8406861cfb418b25536f57a96c0b89", "77eec2351d0a9b5312ea01ee4c78c13996f249cf1bead2e68256a65e533f45ef", "87bf719a564f11d63e4f614e933e5a612dd4e67c88266b774236e0982f5fcf69", "ba29e66331cd2a8f824e0fa937ce44bd624bc37739f2f083694e473051d89ace", "bc374f5a662b6e164cd1c4da61ccc752ec208a44893d2f9dcf47d2a0a2cef311", "bcf86966b7554e407bb7d73341f2e108df62a910d40b4cd2a914867f2a5de51c", "c3abffd51c168cfd62a557243c47a29ab48deb52a64465e6818060f20755ddb4", "c41862c65628261229db22e33f9e570d845eeb5cea66dcbaebe404405edaa69b", "d7341617aedd73c2c847755e87697e9c19eb625c73da26d6cd669220c5565119", "de0425b58cb34006e4500565239b4c3a3055b95bff132f097fa46c87d8e463c9", "f21fb65c8e874f40c654bc9b3ff3db3ec26f98f03fe64a541bc768f6f5c52ac2"]
 tensorflow-estimator = ["7cfdaa3e83e3532f31713713feb98be7ea9f3065722be4267e49b6c301271419"]
 termcolor = ["1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b"]
 tornado = ["5ef073ac6180038ccf99411fe05ae9aafb675952a2c8db60592d5daf8401f803", "6d14e47eab0e15799cf3cdcc86b0b98279da68522caace2bd7ce644287685f0a", "92b7ca81e18ba9ec3031a7ee73d4577ac21d41a0c9b775a9182f43301c3b5f8e", "ab587996fe6fb9ce65abfda440f9b61e4f9f2cf921967723540679176915e4c3", "b36298e9f63f18cad97378db2222c0e0ca6a55f6304e605515e05a25483ed51a"]
 tqdm = ["d385c95361699e5cf7622485d9b9eae2d4864b21cd5a2374a9c381ffed701021", "e22977e3ebe961f72362f6ddfb9197cc531c9737aaf5f607ef09740c849ecd05"]
-typed-ast = ["04894d268ba6eab7e093d43107869ad49e7b5ef40d1a94243ea49b352061b200", "16616ece19daddc586e499a3d2f560302c11f122b9c692bc216e821ae32aa0d0", "2af80a373af123d0b9f44941a46df67ef0ff7a60f95872412a145f4500a7fc99", "2ea99c029ebd4b5a308d915cc7fb95b8e1201d60b065450d5d26deb65d3f2bc1", "56b6978798502ef66625a2e0f80cf923da64e328da8bbe16c1ff928c70c873de", "644ee788222d81555af543b70a1098f2025db38eaa99226f3a75a6854924d4db", "64cf762049fc4775efe6b27161467e76d0ba145862802a65eefc8879086fc6f8", "68c362848d9fb71d3c3e5f43c09974a0ae319144634e7a47db62f0f2a54a7fa7", "6c1f3c6f6635e611d58e467bf4371883568f0de9ccc4606f17048142dec14a1f", "b213d4a02eec4ddf622f4d2fbc539f062af3788d1f332f028a2e19c42da53f15", "c9d414512eaa417aadae7758bc118868cd2396b0e6138c1dd4fda96679c079d3", "fb96a6e2c11059ecf84e6741a319f93f683e440e341d4489c9b161eca251cf2a"]
+typed-ast = ["04894d268ba6eab7e093d43107869ad49e7b5ef40d1a94243ea49b352061b200", "16616ece19daddc586e499a3d2f560302c11f122b9c692bc216e821ae32aa0d0", "252fdae740964b2d3cdfb3f84dcb4d6247a48a6abe2579e8029ab3be3cdc026c", "2af80a373af123d0b9f44941a46df67ef0ff7a60f95872412a145f4500a7fc99", "2c88d0a913229a06282b285f42a31e063c3bf9071ff65c5ea4c12acb6977c6a7", "2ea99c029ebd4b5a308d915cc7fb95b8e1201d60b065450d5d26deb65d3f2bc1", "3d2e3ab175fc097d2a51c7a0d3fda442f35ebcc93bb1d7bd9b95ad893e44c04d", "4766dd695548a15ee766927bf883fb90c6ac8321be5a60c141f18628fb7f8da8", "56b6978798502ef66625a2e0f80cf923da64e328da8bbe16c1ff928c70c873de", "5cddb6f8bce14325b2863f9d5ac5c51e07b71b462361fd815d1d7706d3a9d682", "644ee788222d81555af543b70a1098f2025db38eaa99226f3a75a6854924d4db", "64cf762049fc4775efe6b27161467e76d0ba145862802a65eefc8879086fc6f8", "68c362848d9fb71d3c3e5f43c09974a0ae319144634e7a47db62f0f2a54a7fa7", "6c1f3c6f6635e611d58e467bf4371883568f0de9ccc4606f17048142dec14a1f", "b213d4a02eec4ddf622f4d2fbc539f062af3788d1f332f028a2e19c42da53f15", "bb27d4e7805a7de0e35bd0cb1411bc85f807968b2b0539597a49a23b00a622ae", "c9d414512eaa417aadae7758bc118868cd2396b0e6138c1dd4fda96679c079d3", "f0937165d1e25477b01081c4763d2d9cdc3b18af69cb259dd4f640c9b900fe5e", "fb96a6e2c11059ecf84e6741a319f93f683e440e341d4489c9b161eca251cf2a", "fc71d2d6ae56a091a8d94f33ec9d0f2001d1cb1db423d8b4355debfe9ce689b7"]
 urllib3 = ["4c291ca23bbb55c76518905869ef34bdd5f0e46af7afe6861e8375643ffee1a0", "9a247273df709c4fedb38c711e44292304f73f39ab01beda9f6b9fc375669ac3"]
 werkzeug = ["0a73e8bb2ff2feecfc5d56e6f458f5b99290ef34f565ffb2665801ff7de6af7a", "7fad9770a8778f9576693f0cc29c7dcc36964df916b83734f4431c0e612a7fbc"]
 wheel = ["66a8fd76f28977bb664b098372daef2b27f60dc4d1688cfab7b37a09448f0e9d", "8eb4a788b3aec8abf5ff68d4165441bc57420c9f64ca5f471f58c3969fe08668"]
