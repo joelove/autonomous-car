@@ -22,7 +22,9 @@ def axis_to_throttle(axis):
     return throttle
 
 
-def process_controller_state(axis_states):
+def process_controller_state(controller_state):
+    axis_states, button_states = controller_state
+
     angle = axis_to_angle(axis_states['x'])
     throttle = axis_to_throttle(axis_states['gas'])
 
