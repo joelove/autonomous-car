@@ -1,12 +1,27 @@
 # futurice-london-donkey-car
 
-## A Python script to be run on a RaspberryPi for piloting an autonomous car
+## A Python script to be run on a Raspberry Pi for piloting an autonomous car
 
-#### Installation steps:
+### Prerequisites
+
+#### Package management
+
+This project uses [Poetry](https://poetry.eustace.io/) to make package and dependency management easier. Installation instructions can be found in the documentation:
+
+> https://poetry.eustace.io/docs/#installation
+
+#### Hardware
+
+This code has been developer and tested on a Raspberry Pi 3 Model B+ running [NOOBS](https://www.raspberrypi.org/downloads/noobs/). Available from the [Raspberry Pi](https://www.raspberrypi.org/) shop:
+
+> https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/
+
+### Installation steps
+
+#### Installing dependencies
 
 ```bash
-poetry install \
-  && sudo apt-get update -y \
+  sudo apt-get update -y \
   && sudo apt-get install libcblas-dev -y \
   && sudo apt-get install libhdf5-dev -y \
   && sudo apt-get install libhdf5-serial-dev -y \
@@ -19,15 +34,20 @@ poetry install \
   && sudo apt-get install python-smbus -y \
   && sudo apt-get install i2c-tools -y
 ```
+```bash
+poetry install
+```
 
-#### Disabling ERTM so we can connect a controller:
+#### Connecting a controller
+
+##### Disable ERTM
 
 ```bash
 sudo echo "options bluetooth disable_ertm=Y" > /etc/modprobe.d/bluetooth.conf
 sudo reboot
 ```
 
-#### Connecting the controller:
+##### Connect using Bluetooth
 
 ```bash
 sudo bluetoothctl
@@ -41,13 +61,13 @@ trust CONTROLLER_MAC_ADDRESS
 exit
 ```
 
-#### Testing the connected controller:
+##### Testing the connected controller
 
 ```bash
 sudo jstest /dev/input/js0
 ```
 
-#### Starting the vehicle:
+### Starting the vehicle
 
 ```bash
 poetry run sudo python start.py --help
