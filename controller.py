@@ -23,7 +23,9 @@ class Controller:
         self.thread.start()
 
 
-    def poll_joystick(self, state_handler):
+    def query_joystick_state(self, state_handler):
+        joystick_state = None
+
         while not self.joystick_state.empty():
             joystick_state = self.joystick_state.get_nowait()
 
@@ -38,5 +40,5 @@ class Controller:
 
         while True:
             start_time = time.time()
-            self.poll_joystick(state_handler)
+            self.query_joystick_state(state_handler)
             time.sleep(self.TICK_LENGTH - ((time.time() - start_time) % self.TICK_LENGTH))
