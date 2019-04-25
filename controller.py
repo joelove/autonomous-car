@@ -1,41 +1,42 @@
 import time
-import config
 
 from joystick import Joystick
 from threading import Thread
 from multiprocessing import Queue
-from adafruit_servokit import ServoKit
 
 
-SAMPLE_HZ = 10
-TICK_LENGTH = 1.0 / SAMPLE_HZ
+class Controller:
+    SAMPLE_HZ = 10
+    TICK_LENGTH = 1.0 / SAMPLE_HZ
 
 
-def read_controller():
-    joystick = Joystick()
-    joystick.init()
+    def __init__(self):
+        self.joystick = Joystick()
+        self.joystick_state = Queue()
 
-    queue = Queue()
 
-    thread = Thread(target=joystick.begin_polling, args=(queue,))
-    thread.daemon = True
-    thread.start()
+    def initialize_joystick(self):
+        self.joystick.init()
 
-    axis_states = {}
+        self.thread = Thread(target=self.joystick.begin_polling, args=(self.joystick_state,))
+        self.thread.daemon = True
+        self.thread.start()
 
-    while True:
-        start_time = time.time()
 
-        while not queue.empty():
-            axis_states = queue.get_nowait()
+    def poll_joystick(self, state_handler):
+        while not self.joystick_state.empty():
+            joystick_state = self.joystick_state.get_nowait()
 
-        if axis_states:
-            steering_angle = axis_states['x']
+        if joystick_state:
+            state_handler(joystick_state)
 
-            kit = ServoKit(channels=16)
 
-            servo_angle = int(((steering_angle + 1.0) / 2) * 180)
+    def read(self, state_handler):
+        self.initialize_joystick()
 
-            kit.servo[config.STEERING_CHANNEL].angle = servo_angle
+        joystick_state = {}
 
-        time.sleep(TICK_LENGTH - ((time.time() - start_time) % TICK_LENGTH))
+        while True:
+            start_time = time.time()
+            self.poll_joystick(state_handler)
+            time.sleep(self.TICK_LENGTH - ((time.time() - start_time) % self.TICK_LENGTH))

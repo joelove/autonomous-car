@@ -150,6 +150,7 @@ class Joystick():
         print ('%d axes found: %s' % (self.num_axes, ', '.join(self.axis_map)))
         print ('%d buttons found: %s' % (self.num_buttons, ', '.join(self.button_map)))
 
+
     def begin_polling(self, queue):
         """
         query the state of the joystick, returns button which was pressed, if any,
@@ -157,10 +158,6 @@ class Joystick():
         pressed, or released. axis_val will be a float from -1 to +1. button and axis will
         be the string label determined by the axis map in init.
         """
-        # self.stop_polling = threading.Event()
-        # while (not self.stop_polling.is_set()):
-        previously_empty = False
-
         while True:
             evbuf = self.jsdev.read(8)
 
@@ -168,7 +165,6 @@ class Joystick():
                 _, value, typev, number = struct.unpack('IhBB', evbuf)
 
                 if typev & 0x80:
-                    # ignore initialization event
                     pass
 
                 if typev & 0x01:
@@ -184,8 +180,3 @@ class Joystick():
 
             if not queue.full():
                 queue.put_nowait(self.axis_states)
-
-
-
-    # def end_polling(self):
-    #     self.stop_polling.set()
