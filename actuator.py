@@ -4,7 +4,8 @@ Class to control the motor and servos.
 """
 
 import time
-import Adafruit_PCA9685
+
+from Adafruit_PCA9685 import PCA9685
 
 
 class PCA9685:
@@ -14,7 +15,7 @@ class PCA9685:
     """
     def __init__(self, channel, frequency=60):
         # Initialise the PCA9685 using the default address (0x40).
-        self.pwm = Adafruit_PCA9685.PCA9685()
+        self.pwm = PCA9685()
         self.pwm.set_pwm_freq(frequency)
         self.channel = channel
 
