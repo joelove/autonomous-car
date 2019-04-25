@@ -25,6 +25,9 @@ def process_controller_state(axis_states):
     angle = axis_to_angle(axis_states['x'])
     throttle = axis_to_throttle(axis_states['gas'])
 
+    print(angle)
+    print(throttle)
+
     servos = ServoDriver()
     servos.set_angle(angle)
     servos.set_throttle(throttle)
