@@ -36,10 +36,9 @@ def read_controller():
 
             servo_angle = int(((steering_angle + 1.0) / 2) * 180)
 
+            print(servo_angle)
+
             steering_servo = kit.servo[config.STEERING_CHANNEL]
             steering_servo.angle = servo_angle
-
-        # throttle_value = axis_states.gas
-        # throttle_controller = PCA9685(config.THROTTLE_CHANNEL)
 
         time.sleep(TICK_LENGTH - ((time.time() - start_time) % TICK_LENGTH))
