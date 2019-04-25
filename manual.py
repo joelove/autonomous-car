@@ -43,5 +43,6 @@ class Manual:
 
     def drive(self):
         print('>> Manual driving <<')
+
         controller = Controller()
         controller.read(self.process_controller_state)
