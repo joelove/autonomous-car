@@ -1,3 +1,5 @@
+import config
+
 from controller import Controller
 from servo_driver import ServoDriver
 
@@ -7,16 +9,15 @@ def axis_to_unit_interval(range):
 
 
 def axis_to_angle(axis):
-    STEERING_ANGLE_RANGE = 180
-
-    unit_interval = axis_to_unit_interval(axis)
-    angle = unit_interval * STEERING_ANGLE_RANGE
+    interval = axis_to_unit_interval(axis)
+    angle = interval * config.STEERING_RANGE
 
     return angle
 
 
 def axis_to_throttle(axis):
-    throttle = axis_to_unit_interval(axis)
+    interval = axis_to_unit_interval(axis)
+    throttle = interval * config.THROTTLE_MAX
 
     return throttle
 
