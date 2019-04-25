@@ -37,6 +37,7 @@ def read_controller():
             servo_angle = int(((steering_angle + 1.0) / 2) * 180)
 
             print(servo_angle)
+            print(config.STEERING_CHANNEL)
 
             steering_servo = kit.servo[config.STEERING_CHANNEL]
             steering_servo.angle = servo_angle
