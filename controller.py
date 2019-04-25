@@ -1,6 +1,5 @@
 import time
 import config
-import cv2
 
 from joystick import Joystick
 from threading import Thread
