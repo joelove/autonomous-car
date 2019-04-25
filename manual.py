@@ -43,6 +43,7 @@ class Manual:
 
     def drive(self):
         print('>> Manual driving <<')
+        print('Data capture: ' + self.capture)
 
         controller = Controller()
         controller.read(self.process_controller_state)

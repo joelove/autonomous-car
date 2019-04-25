@@ -105,7 +105,10 @@ class Joystick():
         """
         # Open the joystick device.
         print('Opening %s...' % self.dev_fn)
-        self.jsdev = open(self.dev_fn, 'rb')
+        try:
+            self.jsdev = open(self.dev_fn, 'rb')
+        except FileNotFoundError:
+            raise Exception(f'No controller found at {self.dev_fn}, it\'s probably fallen asleep!')
 
         # Get the device name.
         buf = array.array('B', [0] * 64)
