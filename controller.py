@@ -34,10 +34,10 @@ def read_controller():
 
             kit = ServoKit(channels=16)
 
-            print(((steering_angle + 1.0) / 2) * 180)
+            servo_angle = int(((steering_angle + 1.0) / 2) * 180)
 
             steering_servo = kit.servo[config.STEERING_CHANNEL]
-            steering_servo.angle = ((steering_angle + 1.0) / 2) * 180
+            steering_servo.angle = servo_angle
 
         # throttle_value = axis_states.gas
         # throttle_controller = PCA9685(config.THROTTLE_CHANNEL)
