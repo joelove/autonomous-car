@@ -42,4 +42,17 @@ def start():
 
 
 if __name__ == '__main__':
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser(description='Start the vehicle')
+    parser.add_argument("-n", "--nocapture", help="disable capturing of training data",
+                                             action="store_false",
+                                             dest="capture",
+                                             default=True)
+
+
+    args = parser.parse_args()
+
+    print(args)
+
     start()
