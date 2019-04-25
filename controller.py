@@ -36,10 +36,6 @@ def read_controller():
 
             servo_angle = int(((steering_angle + 1.0) / 2) * 180)
 
-            print(servo_angle)
-            print(config.STEERING_CHANNEL)
-
-            steering_servo = kit.servo[config.STEERING_CHANNEL]
-            steering_servo.angle = servo_angle
+            kit.servo[config.STEERING_CHANNEL].angle = servo_angle
 
         time.sleep(TICK_LENGTH - ((time.time() - start_time) % TICK_LENGTH))
