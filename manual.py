@@ -30,8 +30,8 @@ class Manual:
     def process_controller_state(self, controller_state):
         axis_states, button_states = controller_state
 
-        angle = self.axis_to_angle(axis_states["x"])
-        throttle = self.axis_to_throttle(axis_states["gas"])
+        angle = self.axis_to_angle(axis_states["left_stick_x"])
+        throttle = self.axis_to_throttle(axis_states["right_trigger"])
 
         print(angle)
         print(throttle)
