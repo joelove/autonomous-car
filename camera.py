@@ -1,20 +1,22 @@
-import os
 import time
+import config
 
 from picamera import PiCamera
 from picamera.array import PiRGBArray
 
 
-def capture(handle_frame):
-    camera = PiCamera()
-    camera.resolution = (640, 480)
-    camera.framerate = 10
+class Camera:
+    def __init__(self):
+        self.camera = PiCamera()
+        self.camera.resolution = config.CAMERA_RESOLUTION
+        self.camera.framerate = config.CAMERA_FRAMERATE
 
-    rawCapture = PiRGBArray(camera, size=camera.resolution)
+        self.stream = PiRGBArray(self.camera)
 
-    time.sleep(0.1)
+        time.sleep(0.1) # warm up
 
-    for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
-        handle_frame(frame.array)
-        rawCapture.truncate(0)
-        break
+
+    def capture(self):
+        self.camera.capture(self.stream, format='bgr')
+
+        return self.stream.array

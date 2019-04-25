@@ -1,4 +1,6 @@
 import time
+import config
+import cv2
 
 from joystick import Joystick
 from threading import Thread
@@ -6,10 +8,6 @@ from multiprocessing import Queue
 
 
 class Controller:
-    SAMPLE_HZ = 10
-    TICK_LENGTH = 1.0 / SAMPLE_HZ
-
-
     def __init__(self):
         self.joystick = Joystick()
         self.joystick_state = Queue()
@@ -37,8 +35,9 @@ class Controller:
         self.initialize_joystick()
 
         joystick_state = {}
+        tick_length = 1.0 / config.DRIVE_LOOP_HZ
 
         while True:
             start_time = time.time()
             self.query_joystick_state(state_handler)
-            time.sleep(self.TICK_LENGTH - ((time.time() - start_time) % self.TICK_LENGTH))
+            time.sleep(tick_length - ((time.time() - start_time) % tick_length))

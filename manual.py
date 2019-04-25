@@ -1,5 +1,7 @@
+import cv2
 import config
 
+from camera import Camera
 from controller import Controller
 from servo_driver import ServoDriver
 
@@ -7,6 +9,7 @@ from servo_driver import ServoDriver
 class Manual:
     def __init__(self, **kwargs):
         self.capture = kwargs["capture"]
+        self.camera = Camera()
 
 
     def axis_to_unit_interval(self, range):
@@ -32,9 +35,12 @@ class Manual:
 
         angle = self.axis_to_angle(axis_states["left_stick_x"])
         throttle = self.axis_to_throttle(axis_states["right_trigger"])
+        frame = self.camera.capture()
 
         print(angle)
         print(throttle)
+
+        cv2.imshow('Preview', frame)
 
         servos = ServoDriver()
         servos.set_angle(angle)
