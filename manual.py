@@ -1,6 +1,7 @@
-import cv2
 import time
 import json
+import numpy.core.multiarray
+import cv2
 import config
 
 from camera import Camera
