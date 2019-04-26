@@ -10,6 +10,13 @@ This project uses [Poetry](https://poetry.eustace.io/) to make package and depen
 
 > https://poetry.eustace.io/docs/#installation
 
+If you want your virtual environments to be stored within the project directory (like `npm` or `yarn`):
+
+```bash
+poetry config settings.virtualenvs.in-project true
+```
+
+
 #### Hardware
 
 This code has been developer and tested on a Raspberry Pi 3 Model B+ running [NOOBS](https://www.raspberrypi.org/downloads/noobs/). Available from the [Raspberry Pi](https://www.raspberrypi.org/) shop:
@@ -43,7 +50,8 @@ poetry install
 ##### Disable ERTM
 
 ```bash
-sudo echo "options bluetooth disable_ertm=Y" > /etc/modprobe.d/bluetooth.conf
+sudo touch /etc/modprobe.d/bluetooth.conf
+sudo echo "options bluetooth disable_ertm=Y" >> /etc/modprobe.d/bluetooth.conf
 sudo reboot
 ```
 

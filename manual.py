@@ -1,4 +1,6 @@
 import cv2
+import time
+import json
 import config
 
 from camera import Camera
@@ -10,6 +12,7 @@ class Manual:
     def __init__(self, **kwargs):
         self.capture = kwargs["capture"]
         self.camera = Camera()
+        self.servos = ServoDriver()
 
 
     def axis_to_unit_interval(self, range):
@@ -30,21 +33,36 @@ class Manual:
         return throttle
 
 
+    def save_data_record(self, angle, throttle, frame):
+        print(frame) #debug
+        print(angle) # debug
+        print(throttle) # debug
+
+        timestamp = time.time()
+
+        frame_filename = f'data/{timestamp}_frame.jpg'
+        record_filename = f'data/{timestamp}_record.json'
+
+        cv2.imwrite(frame_filename, frame)
+
+        with open(record_filename, 'w') as record_file:
+            json.dump({ timestamp, throttle, angle, frame_filename }, record_file)
+
+
     def process_controller_state(self, controller_state):
         axis_states, button_states = controller_state
 
         angle = self.axis_to_angle(axis_states["left_stick_x"])
         throttle = self.axis_to_throttle(axis_states["right_trigger"])
-        frame = self.camera.capture()
 
-        print(angle)
-        print(throttle)
+        record = button_states["a"]
 
-        cv2.imshow('Preview', frame)
+        if record and self.capture:
+            frame = self.camera.capture()
+            self.save_data_record(angle, throttle, frame)
 
-        servos = ServoDriver()
-        servos.set_angle(angle)
-        servos.set_throttle(throttle)
+        self.servos.set_angle(angle)
+        self.servos.set_throttle(throttle)
 
 
     def drive(self):
