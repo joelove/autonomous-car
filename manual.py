@@ -33,20 +33,15 @@ class Manual:
         return throttle
 
 
-    def save_data_record(self, angle, throttle, frame):
-        print(frame) #debug
+    def save_data_record(self, angle, throttle, frame_array):
+        print(frame_array) #debug
         print(angle) # debug
         print(throttle) # debug
 
         timestamp = time.time()
 
-        frame_filename = f'data/{timestamp}_frame.jpg'
-        record_filename = f'data/{timestamp}_record.json'
-
-        cv2.imwrite(frame_filename, frame)
-
-        with open(record_filename, 'w') as record_file:
-            json.dump({ timestamp, throttle, angle, frame_filename }, record_file)
+        with open(f'{config.DATA_PATH}/{timestamp}_record.json', 'w') as record_file:
+            json.dump({ timestamp, throttle, angle, frame_array }, record_file)
 
 
     def process_controller_state(self, controller_state):
@@ -58,8 +53,8 @@ class Manual:
         record = button_states["a"]
 
         if record and self.capture:
-            frame = self.camera.capture()
-            self.save_data_record(angle, throttle, frame)
+            frame_array = self.camera.capture()
+            self.save_data_record(angle, throttle, frame_array)
 
         self.servos.set_angle(angle)
         self.servos.set_throttle(throttle)

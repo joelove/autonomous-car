@@ -1,8 +1,10 @@
+import sys
 import cv2
 import glob
 import json
 import numpy as np
 import re
+import config
 
 from funcy import rcompose as pipe
 from keras.models import Model
@@ -44,21 +46,26 @@ def create_model():
     return model
 
 
-def train_model(src_directory="tubs"):
-    record_files = glob.glob(src_directory + "/*.json")
+def train_model():
+    record_files = glob.glob(config.DATA_PATH + "/*.json")
+    total_records = len(record_files)
 
     X_train = []
     Y_train = []
 
-    for _, filepath in enumerate(record_files):
+    for index, filepath in enumerate(record_files):
+        completion_ratio = float(index) / total_records
+        percent_complete = int(round(completion_ratio * 100))
+
+        print(f'Processing record {index} of {total_records}... ({percent_complete}%)', end="\r")
+
         with open(filepath) as record_file:
             record = json.load(record_file)
 
-            angle = record["user/angle"]
-            throttle = record["user/throttle"]
-            image_array_filename = record["cam/image_array"]
+            angle = record["angle"]
+            throttle = record["throttle"]
+            image_array = record["image_array"]
 
-            image_array = cv2.imread(src_directory + "/" + image_array_filename)
             image_array = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
             image_array = image_array / 255.0
             image_array = image_array.reshape(image_array.shape + (1,))
@@ -66,13 +73,24 @@ def train_model(src_directory="tubs"):
             X_train.append(image_array)
             Y_train.append((angle, throttle))
 
+            print(".", end="")
+
+    print("{total_records} records processed!")
+
     X_train = np.array(X_train)
     Y_train = np.array(Y_train)
 
+    print("Creating model...", end="\r")
     model = create_model()
-    model.fit(X_train, Y_train, validation_split=0.1, epochs=5, verbose=1)
+    print("Model created!")
 
+    print("Training model...", end="\r")
+    model.fit(X_train, Y_train, validation_split=0.1, epochs=5, verbose=1)
+    print("Model trained!")
+
+    print("Saving model...", end="\r")
     save_model(model)
+    print("Model saved!")
 
 
 if __name__ == "__main__":
