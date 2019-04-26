@@ -78,7 +78,7 @@ sudo jstest /dev/input/js0
 ### Starting the vehicle
 
 ```bash
-poetry run sudo python start.py --help
+poetry run python start.py --help
 ```
 ---
 
