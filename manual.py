@@ -1,6 +1,5 @@
 import time
 import json
-import numpy.core.multiarray
 import cv2
 import config
 
