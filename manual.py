@@ -39,8 +39,9 @@ class Manual:
         print(throttle) # debug
 
         timestamp = time.time()
+        record_path = f'{config.DATA_PATH}/{timestamp}_record.json'
 
-        with open(f'{config.DATA_PATH}/{timestamp}_record.json', 'w') as record_file:
+        with open(record_path, 'w') as record_file:
             json.dump({ timestamp, throttle, angle, frame_array }, record_file)
 
 
