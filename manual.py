@@ -20,7 +20,7 @@ class Manual:
 
     def axis_to_angle(self, axis):
         interval = self.axis_to_unit_interval(axis)
-        angle = interval * config.STEERING_RANGE
+        angle = (interval * -1) * config.STEERING_RANGE
 
         return angle
 
@@ -35,6 +35,11 @@ class Manual:
             return throttle
 
         return interval
+
+    def axis_to_reverse_throttle(self, axis):
+        throttle = self.axis_to_throttle(axis)
+
+        return throttle * -1
 
 
     def save_data_record(self, angle, throttle, frame_array):
@@ -53,9 +58,7 @@ class Manual:
 
         angle = self.axis_to_angle(axis_states["left_stick_x"])
         throttle = self.axis_to_throttle(axis_states["right_trigger"])
-        reverse_throttle = self.axis_to_throttle(axis_states["left_trigger"])
-
-        print(throttle)
+        reverse_throttle = self.axis_to_reverse_throttle(axis_states["left_trigger"])
 
         record = button_states["a"]
 
@@ -64,11 +67,10 @@ class Manual:
             self.save_data_record(angle, throttle, frame_array)
 
         self.servos.set_angle(angle)
+        self.servos.set_throttle(throttle)
 
-        if throttle:
-            self.servos.set_throttle(throttle)
-        else:
-            self.servos.set_throttle(-reverse_throttle)
+        if not throttle:
+            self.servos.set_throttle(reverse_throttle)
 
 
     def drive(self):
