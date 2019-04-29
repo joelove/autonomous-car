@@ -8,7 +8,8 @@ class ServoDriver:
         kit = ServoKit(channels=channels)
         self.throttle_servo = kit.continuous_servo[config.THROTTLE_CHANNEL]
         self.steering_servo = kit.servo[config.STEERING_CHANNEL]
-        self.steering_servo.actuation_range = config.STEERING_RANGE
+        self.steering_servo.set_pulse_width_range(config.STEERING_LEFT_PWM,
+                                                  config.STEERING_RIGHT_PWM)
 
     def set_angle(self, angle):
         self.steering_servo.angle = angle
