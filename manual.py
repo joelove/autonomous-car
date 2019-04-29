@@ -70,7 +70,6 @@ class Manual:
         self.servos.set_throttle(throttle)
 
         if not throttle:
-            print(reverse_throttle)
             self.servos.set_throttle(reverse_throttle)
 
 
