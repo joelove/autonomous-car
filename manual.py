@@ -49,6 +49,8 @@ class Manual:
         angle = self.axis_to_angle(axis_states["left_stick_x"])
         throttle = self.axis_to_throttle(axis_states["right_trigger"])
 
+        print(throttle)
+
         record = button_states["a"]
 
         if record and self.capture:
