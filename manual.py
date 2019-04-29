@@ -53,6 +53,7 @@ class Manual:
 
         angle = self.axis_to_angle(axis_states["left_stick_x"])
         throttle = self.axis_to_throttle(axis_states["right_trigger"])
+        reverse_throttle = self.axis_to_throttle(axis_states["left_trigger"])
 
         print(throttle)
 
@@ -63,7 +64,11 @@ class Manual:
             self.save_data_record(angle, throttle, frame_array)
 
         self.servos.set_angle(angle)
-        self.servos.set_throttle(throttle)
+
+        if throttle:
+            self.servos.set_throttle(throttle)
+        else:
+            self.servos.set_throttle(-reverse_throttle)
 
 
     def drive(self):
