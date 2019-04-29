@@ -1,6 +1,5 @@
 import time
 import json
-import cv2
 import config
 
 from camera import Camera
