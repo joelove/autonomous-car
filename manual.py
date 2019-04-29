@@ -27,9 +27,14 @@ class Manual:
 
     def axis_to_throttle(self, axis):
         interval = self.axis_to_unit_interval(axis)
-        throttle = interval * config.THROTTLE_MAX
 
-        return throttle
+        if interval:
+            throttle_range = config.THROTTLE_MAX - config.THROTTLE_MIN
+            throttle = config.THROTTLE_MIN + interval * throttle_range
+
+            return throttle
+
+        return interval
 
 
     def save_data_record(self, angle, throttle, frame_array):
