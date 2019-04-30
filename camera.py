@@ -30,6 +30,6 @@ class Camera:
             self.camera.capture(stream, format='bgr')
 
             if not frames.full():
-                frames.put_nowait(stream)
+                frames.put_nowait(stream.array)
 
             stream.truncate(0)

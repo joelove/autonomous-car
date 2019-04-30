@@ -72,7 +72,7 @@ class Manual:
         while True:
             start_time = time.time()
 
-            joystick_state = (None, None)
+            joystick_state = ({}, {})
 
             while not self.controller.joystick_state.empty():
                 joystick_state = self.controller.joystick_state.get_nowait()
