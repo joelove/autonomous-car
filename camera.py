@@ -4,6 +4,9 @@ import config
 from picamera import PiCamera
 from picamera.array import PiRGBArray
 
+from threading import Thread
+from multiprocessing import Queue
+
 
 class Camera:
     def __init__(self):
@@ -11,13 +14,22 @@ class Camera:
         self.camera.resolution = config.CAMERA_RESOLUTION
         self.camera.framerate = config.CAMERA_FRAMERATE
 
-        self.stream = PiRGBArray(self.camera)
+        self.frames = Queue()
+
+        self.thread = Thread(target=self.begin_capture, args=(self.frames,))
+        self.thread.daemon = True
+        self.thread.start()
 
         time.sleep(0.1) # warm up
 
 
-    def capture(self):
-        self.stream.truncate(0)
-        self.camera.capture(self.stream, format='bgr')
+    def begin_capture(self, frames):
+        stream = PiRGBArray(self.camera)
 
-        return self.stream.array
+        while True:
+            self.camera.capture(stream, format='bgr')
+
+            if not frames.full():
+                frames.put_nowait(stream)
+
+            stream.truncate(0)

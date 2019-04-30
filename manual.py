@@ -1,7 +1,6 @@
 import time
 import json
 import config
-import numpy as np
 
 from PIL import Image
 from camera import Camera
@@ -9,16 +8,11 @@ from controller import Controller
 from servo_driver import ServoDriver
 
 
-def numpy_encoder(obj):
-    if isinstance(obj, np.ndarray):
-        return obj.tolist()
-    return json.JSONEncoder.default(obj)
-
-
 class Manual:
     def __init__(self, **kwargs):
         self.capture = kwargs["capture"]
         self.camera = Camera()
+        self.controller = Controller()
         self.servos = ServoDriver()
 
 
@@ -45,12 +39,6 @@ class Manual:
         return interval
 
 
-    def axis_to_reverse_throttle(self, axis):
-        throttle = self.axis_to_throttle(axis)
-
-        return throttle * -1
-
-
     def save_data_record(self, angle, throttle, frame):
         timestamp = time.time()
 
@@ -73,29 +61,40 @@ class Manual:
         print(timestamp, throttle, angle)
 
 
-    def process_controller_state(self, controller_state):
-        axis_states, button_states = controller_state
-
-        angle = self.axis_to_angle(axis_states["left_stick_x"])
-        throttle = self.axis_to_throttle(axis_states["right_trigger"])
-        reverse_throttle = self.axis_to_reverse_throttle(axis_states["left_trigger"])
-
-        record = button_states["a"]
-
-        if record and self.capture:
-            frame = self.camera.capture()
-            self.save_data_record(angle, throttle, frame)
-
-        self.servos.set_angle(angle)
-        self.servos.set_throttle(throttle)
-
-        if not throttle:
-            self.servos.set_throttle(reverse_throttle)
-
-
     def drive(self):
         print('>> Manual driving <<')
         print('Data capture: ' + str(self.capture))
 
-        controller = Controller()
-        controller.read(self.process_controller_state)
+        joystick_state = None
+        latest_frame = None
+        tick_length = 1.0 / config.DRIVE_LOOP_HZ
+
+        while True:
+            start_time = time.time()
+
+            joystick_state = (None, None)
+
+            while not self.controller.joystick_state.empty():
+                joystick_state = self.controller.joystick_state.get_nowait()
+
+            if joystick_state:
+                axis_states, button_states = joystick_state
+
+                angle = self.axis_to_angle(axis_states["left_stick_x"])
+                throttle = self.axis_to_throttle(axis_states["right_trigger"])
+
+                record = button_states["a"]
+
+                if record and self.capture:
+                    latest_frame = None
+
+                    while not self.camera.frames.empty():
+                        latest_frame = self.camera.frames.get_nowait()
+
+                    if latest_frame:
+                        self.save_data_record(angle, throttle, latest_frame)
+
+                self.servos.set_angle(angle)
+                self.servos.set_throttle(throttle)
+
+            time.sleep(tick_length - ((time.time() - start_time) % tick_length))
