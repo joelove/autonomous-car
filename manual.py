@@ -85,6 +85,8 @@ class Manual:
                 if button_states:
                     record = button_states["a"]
 
+                    print('Record', str(record))
+
                     if record and self.capture:
                         latest_frame = np.array([])
 
@@ -92,6 +94,8 @@ class Manual:
                             latest_frame = self.camera.frames.get_nowait()
 
                         if latest_frame.size:
+                            print('Found frame!')
+
                             self.save_data_record(angle, throttle, latest_frame)
 
                 self.servos.set_angle(angle)

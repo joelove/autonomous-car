@@ -161,10 +161,15 @@ class Joystick():
         pressed, or released. axis_val will be a float from -1 to +1. button and axis will
         be the string label determined by the axis map in init.
         """
+        buffer = None
+
         while True:
             evbuf = self.jsdev.read(8)
 
             if evbuf:
+                buffer = evbuf
+
+            if buffer:
                 _, value, typev, number = struct.unpack('IhBB', evbuf)
 
                 if typev & 0x80:
