@@ -54,12 +54,13 @@ class Manual:
     def save_data_record(self, angle, throttle, frame):
         timestamp = time.time()
 
-        data = { timestamp: timestamp,
-                 angle: angle,
-                 throttle: throttle,
-                 frame: tuple(frame.tolist()) }
-
         record_path = config.DATA_PATH + '/' + str(timestamp) + '_record.json'
+        frame_path = config.DATA_PATH + '/' + str(timestamp) + '_frame.jpg'
+
+        frame_image = Image.fromarray(frame)
+        frame_image.save(frame_path)
+
+        data = { timestamp: timestamp, angle: angle, throttle: throttle, frame_path: frame_path }
 
         with open(record_path, 'w') as record_file:
             json.dump(data, record_file)
