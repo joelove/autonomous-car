@@ -57,7 +57,7 @@ class Manual:
         data = { timestamp: timestamp,
                  angle: angle,
                  throttle: throttle,
-                 frame: frame.tolist() }
+                 frame: tuple(frame.tolist()) }
 
         record_path = config.DATA_PATH + '/' + str(timestamp) + '_record.json'
 
