@@ -64,8 +64,9 @@ def train_model():
 
             angle = record["angle"]
             throttle = record["throttle"]
-            image_array = record["image_array"]
+            frame_path = record["frame_path"]
 
+            image_array = cv2.imread(frame_path)
             image_array = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
             image_array = image_array / 255.0
             image_array = image_array.reshape(image_array.shape + (1,))
@@ -73,9 +74,7 @@ def train_model():
             X_train.append(image_array)
             Y_train.append((angle, throttle))
 
-            print(".", end="")
-
-    print("{total_records} records processed!")
+    print(f'{total_records} records processed!')
 
     X_train = np.array(X_train)
     Y_train = np.array(Y_train)
