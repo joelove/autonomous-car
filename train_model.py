@@ -64,9 +64,9 @@ def train_model():
 
             angle = record["angle"]
             throttle = record["throttle"]
-            frame_path = record["frame_path"]
+            frame_filename = record["frame_filename"]
 
-            image_array = cv2.imread(f'{config.DATA_PATH}/{frame_path}')
+            image_array = cv2.imread(f'{config.DATA_PATH}/{frame_filename}')
             image_array = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
             image_array = image_array / 255.0
             image_array = image_array.reshape(image_array.shape + (1,))
