@@ -53,9 +53,12 @@ class Manual:
     def save_data_record(self, angle, throttle, frame):
         timestamp = time.time()
 
+        data = json.dumps({ timestamp, throttle, angle, frame }, cls=NumpyEncoder)
+
         with open(config.DATA_PATH + '/' + str(timestamp) + '_record.json', 'w') as record_file:
-            json.dump({ timestamp, throttle, angle, frame }, record_file, cls=NumpyEncoder)
-            print(timestamp, throttle, angle)
+            json.dump(data, record_file)
+
+        print(timestamp, throttle, angle)
 
 
     def process_controller_state(self, controller_state):
