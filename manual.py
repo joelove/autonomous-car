@@ -68,21 +68,22 @@ class Manual:
 
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
 
+        joystick_state = ({}, {})
+
         while True:
             start_time = time.time()
 
-            joystick_state = ({}, {})
-
             while not self.controller.joystick_state.empty():
                 joystick_state = self.controller.joystick_state.get_nowait()
-
-            print(joystick_state)
 
             axis_states, button_states = joystick_state
 
             if axis_states:
                 angle = self.axis_to_angle(axis_states["left_stick_x"])
                 throttle = self.axis_to_throttle(axis_states["right_trigger"])
+
+                self.servos.set_angle(angle)
+                self.servos.set_throttle(throttle)
 
                 if button_states:
                     record = button_states["a"]
@@ -97,10 +98,5 @@ class Manual:
                             print('Found frame!')
 
                             self.save_data_record(angle, throttle, latest_frame)
-
-                self.servos.set_angle(angle)
-                self.servos.set_throttle(throttle)
-
-            print(time.time() - start_time)
 
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))

@@ -21,7 +21,7 @@ MODELS_PATH = os.path.join(CAR_PATH, 'models')
 TUB_PATH = os.path.join(CAR_PATH, 'tub')
 
 #VEHICLE
-DRIVE_LOOP_HZ = 10
+DRIVE_LOOP_HZ = 20
 MAX_LOOPS = 100000
 
 #CAMERA
