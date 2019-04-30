@@ -68,7 +68,9 @@ class Manual:
 
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
 
+
         joystick_state = ({}, {})
+        latest_frame = np.array([])
 
         while True:
             start_time = time.time()
@@ -89,8 +91,6 @@ class Manual:
                     record = button_states["a"]
 
                     if record and self.capture:
-                        latest_frame = np.array([])
-
                         while not self.camera.frames.empty():
                             latest_frame = self.camera.frames.get_nowait()
 
