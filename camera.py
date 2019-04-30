@@ -17,7 +17,7 @@ class Camera:
 
 
     def capture(self):
-        self.stream.clear()
+        self.stream.truncate(0)
         self.camera.capture(self.stream, format='bgr')
 
         return self.stream.array
