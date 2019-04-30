@@ -99,4 +99,6 @@ class Manual:
 
                             self.save_data_record(angle, throttle, latest_frame)
 
+            print(time.time() - start_time)
+
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
