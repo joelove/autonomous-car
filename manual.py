@@ -1,3 +1,4 @@
+import np
 import time
 import json
 import config
@@ -5,6 +6,13 @@ import config
 from camera import Camera
 from controller import Controller
 from servo_driver import ServoDriver
+
+
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
 
 
 class Manual:
@@ -46,7 +54,7 @@ class Manual:
         timestamp = time.time()
 
         with open(config.DATA_PATH + '/' + str(timestamp) + '_record.json', 'w') as record_file:
-            json.dump({ timestamp, throttle, angle, frame }, record_file)
+            json.dump({ timestamp, throttle, angle, frame }, record_file, cls=NumpyEncoder)
             print(timestamp, throttle, angle)
 
 
@@ -60,7 +68,7 @@ class Manual:
         record = button_states["a"]
 
         if record and self.capture:
-            frame = json.dumps(self.camera.capture().tolist())
+            frame = self.camera.capture()
             self.save_data_record(angle, throttle, frame)
 
         self.servos.set_angle(angle)
