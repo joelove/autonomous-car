@@ -49,7 +49,7 @@ class Manual:
 
         timestamp = time.time()
 
-        with open(config.DATA_PATH + '/' + timestamp + '_record.json', 'w') as record_file:
+        with open(config.DATA_PATH + '/' + str(timestamp) + '_record.json', 'w') as record_file:
             json.dump({ timestamp, throttle, angle, frame_array }, record_file)
 
 
