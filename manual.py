@@ -1,6 +1,7 @@
 import time
 import json
 import config
+import numpy as np
 
 from PIL import Image
 from camera import Camera
@@ -72,27 +73,28 @@ class Manual:
         while True:
             start_time = time.time()
 
-            joystick_state = ({}, {})
+            joystick_state = (np.array([]), np.array([]))
 
             while not self.controller.joystick_state.empty():
                 joystick_state = self.controller.joystick_state.get_nowait()
 
             axis_states, button_states = joystick_state
 
-            if axis_states and button_states:
+            if axis_states.size:
                 angle = self.axis_to_angle(axis_states["left_stick_x"])
                 throttle = self.axis_to_throttle(axis_states["right_trigger"])
 
-                record = button_states["a"]
+                if button_states.size:
+                    record = button_states["a"]
 
-                if record and self.capture:
-                    latest_frame = None
+                    if record and self.capture:
+                        latest_frame = None
 
-                    while not self.camera.frames.empty():
-                        latest_frame = self.camera.frames.get_nowait()
+                        while not self.camera.frames.empty():
+                            latest_frame = self.camera.frames.get_nowait()
 
-                    if latest_frame:
-                        self.save_data_record(angle, throttle, latest_frame)
+                        if latest_frame:
+                            self.save_data_record(angle, throttle, latest_frame)
 
                 self.servos.set_angle(angle)
                 self.servos.set_throttle(throttle)
