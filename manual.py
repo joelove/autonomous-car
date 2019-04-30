@@ -63,7 +63,7 @@ class Manual:
         record = button_states["a"]
 
         if record and self.capture:
-            frame_array = self.camera.capture().tolist()
+            frame_array = tuple(self.camera.capture())
             self.save_data_record(angle, throttle, frame_array)
 
         self.servos.set_angle(angle)
