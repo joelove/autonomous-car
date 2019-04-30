@@ -1,7 +1,7 @@
-import np
 import time
 import json
 import config
+import numpy as np
 
 from camera import Camera
 from controller import Controller
