@@ -3,6 +3,7 @@ import json
 import config
 import numpy as np
 
+from PIL import Image
 from camera import Camera
 from controller import Controller
 from servo_driver import ServoDriver
@@ -53,11 +54,14 @@ class Manual:
     def save_data_record(self, angle, throttle, frame):
         timestamp = time.time()
 
-        frame_data = json.dumps(frame.tolist())
         record_path = config.DATA_PATH + '/' + str(timestamp) + '_record.json'
+        frame_path = config.DATA_PATH + '/' + str(timestamp) + '_frame.jpg'
+
+        frame_image = Image.fromarray(frame)
+        frame_image.save(frame_path)
 
         with open(record_path, 'w') as record_file:
-            json.dump({ timestamp, angle, throttle, frame_data }, record_file)
+            json.dump({ timestamp, angle, throttle, frame_path }, record_file)
 
         print(timestamp, throttle, angle)
 
