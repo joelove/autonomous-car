@@ -68,7 +68,6 @@ class Manual:
 
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
 
-
         joystick_state = ({}, {})
         latest_frame = np.array([])
 
@@ -95,8 +94,6 @@ class Manual:
                             latest_frame = self.camera.frames.get_nowait()
 
                         if latest_frame.size:
-                            print('Found frame!')
-
                             self.save_data_record(angle, throttle, latest_frame)
 
             print(time.time() - start_time)
