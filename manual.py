@@ -59,7 +59,7 @@ class Manual:
         with open(record_path, 'w') as record_file:
             json.dump(data, record_file)
 
-        print(timestamp, throttle, angle)
+        print('Saved record:', timestamp, throttle, angle)
 
 
     def drive(self):
@@ -95,7 +95,5 @@ class Manual:
 
                         if latest_frame.size:
                             self.save_data_record(angle, throttle, latest_frame)
-
-            print(time.time() - start_time)
 
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
