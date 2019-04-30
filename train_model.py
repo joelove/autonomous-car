@@ -47,7 +47,7 @@ def create_model():
 
 
 def train_model():
-    record_files = glob.glob(config.DATA_PATH + "/*.json")
+    record_files = glob.glob(f'{config.DATA_PATH}/*.json')
     total_records = len(record_files)
 
     X_train = []
@@ -66,7 +66,7 @@ def train_model():
             throttle = record["throttle"]
             frame_path = record["frame_path"]
 
-            image_array = cv2.imread(frame_path)
+            image_array = cv2.imread(f'{config.DATA_PATH}/{frame_path}')
             image_array = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
             image_array = image_array / 255.0
             image_array = image_array.reshape(image_array.shape + (1,))
