@@ -66,8 +66,6 @@ class Manual:
         print('>> Manual driving <<')
         print('Data capture: ' + str(self.capture))
 
-        joystick_state = None
-        latest_frame = None
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
 
         while True:
@@ -88,12 +86,12 @@ class Manual:
                     record = button_states["a"]
 
                     if record and self.capture:
-                        latest_frame = None
+                        latest_frame = np.array([])
 
                         while not self.camera.frames.empty():
                             latest_frame = self.camera.frames.get_nowait()
 
-                        if latest_frame:
+                        if latest_frame.size:
                             self.save_data_record(angle, throttle, latest_frame)
 
                 self.servos.set_angle(angle)
