@@ -8,11 +8,10 @@ from controller import Controller
 from servo_driver import ServoDriver
 
 
-class NumpyEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, np.ndarray):
-            return obj.tolist()
-        return super(NumpyEncoder, self).default(obj)
+def numpy_encoder(obj):
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+    return json.JSONEncoder.default(obj)
 
 
 class Manual:
@@ -44,6 +43,7 @@ class Manual:
 
         return interval
 
+
     def axis_to_reverse_throttle(self, axis):
         throttle = self.axis_to_throttle(axis)
 
@@ -54,7 +54,7 @@ class Manual:
         timestamp = time.time()
 
         data = { timestamp, throttle, angle, frame }
-        json_data = json.dumps(data, cls=NumpyEncoder)
+        json_data = json.dumps(data, default=numpy_encoder)
         record_path = config.DATA_PATH + '/' + str(timestamp) + '_record.json'
 
         with open(record_path, 'w') as record_file:
