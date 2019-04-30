@@ -60,7 +60,12 @@ class Manual:
         frame_image = Image.fromarray(frame)
         frame_image.save(frame_path)
 
-        data = { timestamp: timestamp, angle: angle, throttle: throttle, frame_path: frame_path }
+        data = {
+            "timestamp": timestamp,
+            "angle": angle,
+            "throttle": throttle,
+            "frame_path": frame_path
+        }
 
         with open(record_path, 'w') as record_file:
             json.dump(data, record_file)
