@@ -77,9 +77,9 @@ class Manual:
             while not self.controller.joystick_state.empty():
                 joystick_state = self.controller.joystick_state.get_nowait()
 
-            if joystick_state:
-                axis_states, button_states = joystick_state
+            axis_states, button_states = joystick_state
 
+            if axis_states and button_states:
                 angle = self.axis_to_angle(axis_states["left_stick_x"])
                 throttle = self.axis_to_throttle(axis_states["right_trigger"])
 
