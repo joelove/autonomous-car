@@ -97,4 +97,6 @@ class Manual:
                 self.servos.set_angle(angle)
                 self.servos.set_throttle(throttle)
 
+            print(time.time() - start_time)
+
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
