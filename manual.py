@@ -76,6 +76,8 @@ class Manual:
             while not self.controller.joystick_state.empty():
                 joystick_state = self.controller.joystick_state.get_nowait()
 
+            print(joystick_state)
+
             axis_states, button_states = joystick_state
 
             if axis_states:
@@ -84,8 +86,6 @@ class Manual:
 
                 if button_states:
                     record = button_states["a"]
-
-                    print('Record', str(record))
 
                     if record and self.capture:
                         latest_frame = np.array([])
