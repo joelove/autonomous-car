@@ -24,6 +24,7 @@ class Manual:
     def axis_to_angle(self, axis):
         exponential_axis = axis ** 2
 
+        print(axis)
         print(exponential_axis)
 
         exponential_interval = self.axis_to_unit_interval(exponential_axis)
