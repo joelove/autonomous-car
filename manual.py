@@ -17,17 +17,19 @@ class Manual:
         self.servos = ServoDriver()
 
 
-    def axis_to_unit_interval(self, range):
-        return (range + 1) / 2
+    def axis_to_unit_interval(self, axis):
+        return (axis + 1) / 2
 
 
-    def axis_to_angle(self, axis):
+    def axis_to_exponential_axis(self, axis):
         cube_axis = axis ** 3
         exponential_axis = cube_axis if axis else -cube_axis
 
-        print(axis)
-        print(exponential_axis)
+        return exponential_axis
 
+
+    def axis_to_angle(self, axis):
+        exponential_axis = self.axis_to_exponential_axis(axis)
         exponential_interval = self.axis_to_unit_interval(exponential_axis)
         steering_angle = exponential_interval * config.STEERING_RANGE
         actuation_range = self.servos.steering_servo.actuation_range
@@ -39,15 +41,16 @@ class Manual:
 
 
     def axis_to_throttle(self, axis):
-        interval = self.axis_to_unit_interval(axis)
+        exponential_axis = self.axis_to_exponential_axis(axis)
+        exponential_interval = self.axis_to_unit_interval(exponential_axis)
 
-        if interval:
+        if exponential_interval:
             throttle_range = config.THROTTLE_MAX - config.THROTTLE_MIN
-            throttle = config.THROTTLE_MIN + interval * throttle_range
+            throttle = config.THROTTLE_MIN + exponential_interval * throttle_range
 
             return throttle
 
-        return interval
+        return exponential_interval
 
 
     def save_data_record(self, angle, throttle, frame):
