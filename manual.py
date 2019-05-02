@@ -22,8 +22,8 @@ class Manual:
 
 
     def axis_to_angle(self, axis):
-        interval = self.axis_to_unit_interval(axis)
-        exponential_interval = interval**2 / 1
+        exponential_axis = axis**2 / 1
+        exponential_interval = self.axis_to_unit_interval(exponential_axis)
         steering_angle = exponential_interval * config.STEERING_RANGE
         actuation_range = self.servos.steering_servo.actuation_range
         range_difference = actuation_range - config.STEERING_RANGE
