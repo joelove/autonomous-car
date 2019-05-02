@@ -6,7 +6,8 @@ import glob
 import json
 import time
 
-from tensorflow.keras.models import model_from_json
+# from keras import backend
+from keras.models import model_from_json
 from servo_driver import ServoDriver
 from camera import Camera
 
@@ -59,6 +60,7 @@ class Auto:
 
         while True:
             start_time = time.time()
+
             while not self.camera.frames.empty():
                 frame_array = self.camera.frames.get_nowait()
 
