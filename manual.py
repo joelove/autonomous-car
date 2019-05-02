@@ -17,17 +17,6 @@ class Manual:
         self.servos = ServoDriver()
 
 
-    def axis_to_unit_interval(self, axis):
-        return (axis + 1) / 2
-
-
-    def number_to_exponential(self, axis):
-        cube_axis = axis ** 3
-        exponential_axis = -cube_axis if axis else cube_axis
-
-        return exponential_axis
-
-
     def axis_to_angle(self, axis):
         exponential_axis = self.number_to_exponential(axis)
         exponential_interval = self.axis_to_unit_interval(exponential_axis)
@@ -74,6 +63,18 @@ class Manual:
             json.dump(data, record_file)
 
         print('Saved record:', timestamp, throttle, angle)
+
+
+
+    def axis_to_unit_interval(self, axis):
+        return (axis + 1) / 2
+
+
+    def number_to_exponential(self, axis):
+        cube_axis = axis ** 3
+        exponential_axis = cube_axis if axis else -cube_axis
+
+        return exponential_axis
 
 
     def steering_axis_to_interval(self, axis):
