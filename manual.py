@@ -23,7 +23,8 @@ class Manual:
 
     def axis_to_angle(self, axis):
         interval = self.axis_to_unit_interval(axis)
-        angle = config.STEERING_RANGE - interval * config.STEERING_RANGE
+        difference = 180 - config.STEERING_RANGE
+        angle = 180 - (difference / 2) - interval * config.STEERING_RANGE
 
         return angle
 
