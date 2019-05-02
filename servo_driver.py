@@ -4,6 +4,8 @@ from adafruit_servokit import ServoKit
 
 
 class ServoDriver:
+    range = 180.0
+
     def __init__(self, channels=16):
         kit = ServoKit(channels=channels)
         self.throttle_servo = kit.continuous_servo[config.THROTTLE_CHANNEL]
