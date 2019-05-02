@@ -23,7 +23,7 @@ class Manual:
 
     def number_to_exponential(self, axis):
         cube_axis = axis ** 3
-        exponential_axis = -cube_axis if axis <= 0 else cube_axis
+        exponential_axis = -cube_axis if axis else cube_axis
 
         return exponential_axis
 
@@ -79,7 +79,8 @@ class Manual:
     def steering_axis_to_interval(self, axis):
         steering_exponential_axis = self.number_to_exponential(axis)
 
-        return axis
+        return steering_exponential_axis
+
 
     def throttle_axis_to_interval(self, axis):
         throttle_interval = self.axis_to_unit_interval(axis)
