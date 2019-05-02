@@ -22,8 +22,8 @@ class Manual:
 
 
     def axis_to_angle(self, axis):
-        square_axis = axis ** 2
-        exponential_axis = -square_axis if axis < 0 else square_axis
+        cube_axis = axis ** 3
+        exponential_axis = -cube_axis if axis < 0 else cube_axis
 
         print(exponential_axis)
 
