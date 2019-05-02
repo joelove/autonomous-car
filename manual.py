@@ -23,8 +23,11 @@ class Manual:
 
     def axis_to_angle(self, axis):
         interval = self.axis_to_unit_interval(axis)
-        difference = 180 - config.STEERING_RANGE
-        angle = 180 - (difference / 2) - interval * config.STEERING_RANGE
+        exponential_interval = interval**2 / 1
+        steering_angle = exponential_interval * config.STEERING_RANGE
+        range_difference = ServoDriver.range - config.STEERING_RANGE
+        steering_lead = range_difference / 2
+        angle = ServoDriver.range - steering_lead - steering_angle
 
         return angle
 
