@@ -25,6 +25,7 @@ class Manual:
         cube_axis = axis ** 3
         exponential_axis = -cube_axis if axis else cube_axis
 
+        print(axis)
         print(exponential_axis)
 
         exponential_interval = self.axis_to_unit_interval(exponential_axis)
