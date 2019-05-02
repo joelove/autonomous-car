@@ -21,7 +21,7 @@ class Manual:
         return (axis + 1) / 2
 
 
-    def axis_to_exponential_axis(self, axis):
+    def number_to_exponential(self, axis):
         cube_axis = axis ** 3
         exponential_axis = cube_axis if axis else -cube_axis
 
@@ -29,7 +29,7 @@ class Manual:
 
 
     def axis_to_angle(self, axis):
-        exponential_axis = self.axis_to_exponential_axis(axis)
+        exponential_axis = self.number_to_exponential(axis)
         exponential_interval = self.axis_to_unit_interval(exponential_axis)
         steering_angle = exponential_interval * config.STEERING_RANGE
         actuation_range = self.servos.steering_servo.actuation_range
@@ -41,16 +41,16 @@ class Manual:
 
 
     def axis_to_throttle(self, axis):
-        exponential_axis = self.axis_to_exponential_axis(axis)
-        exponential_interval = self.axis_to_unit_interval(exponential_axis)
+        interval = self.axis_to_unit_interval(axis)
+        exponential_interval = self.number_to_exponential(interval)
 
-        if exponential_interval:
-            throttle_range = config.THROTTLE_MAX - config.THROTTLE_MIN
-            throttle = config.THROTTLE_MIN + exponential_interval * throttle_range
+        if not exponential_interval:
+            return exponential_interval
 
-            return throttle
+        throttle_range = config.THROTTLE_MAX - config.THROTTLE_MIN
+        throttle = config.THROTTLE_MIN + exponential_interval * throttle_range
 
-        return exponential_interval
+        return throttle
 
 
     def save_data_record(self, angle, throttle, frame):
