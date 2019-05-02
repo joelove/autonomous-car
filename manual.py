@@ -76,6 +76,19 @@ class Manual:
         print('Saved record:', timestamp, throttle, angle)
 
 
+    def steering_axis_to_interval(self, axis):
+        steering_exponential_axis = self.number_to_exponential(axis)
+        steering_exponential_interval = self.axis_to_unit_interval(steering_exponential_axis)
+
+        return steering_exponential_interval
+
+    def throttle_axis_to_interval(self, axis):
+        throttle_interval = self.axis_to_unit_interval(axis)
+        throttle_exponential_interval = self.number_to_exponential(throttle_interval)
+
+        return throttle_exponential_interval
+
+
     def drive(self):
         print('>> Manual driving <<')
         print('Data capture: ' + str(self.capture))
@@ -94,8 +107,17 @@ class Manual:
             axis_states, button_states = joystick_state
 
             if axis_states:
-                angle = self.axis_to_angle(axis_states["left_stick_x"])
-                throttle = self.axis_to_throttle(axis_states["right_trigger"])
+                left_stick_x_axis = axis_states["left_stick_x"]
+                right_trigger_axis = axis_states["right_trigger"]
+
+                steering_interval = self.steering_axis_to_interval(left_stick_x_axis)
+                throttle_interval = self.throttle_axis_to_interval(right_trigger_axis)
+
+                print('Steering interval', steering_interval)
+                print('Throttle interval', throttle_interval)
+
+                angle = self.axis_to_angle(left_stick_x_axis)
+                throttle = self.axis_to_throttle(right_trigger_axis)
 
                 self.servos.set_angle(angle)
                 self.servos.set_throttle(throttle)
