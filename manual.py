@@ -122,8 +122,8 @@ class Manual:
                 print('Steering interval', steering_interval)
                 print('Throttle interval', throttle_interval)
 
-                angle = self.interval_to_steering_angle(left_stick_x_axis)
-                throttle = self.interval_to_throttle(right_trigger_axis)
+                angle = self.interval_to_steering_angle(steering_interval)
+                throttle = self.interval_to_throttle(throttle_interval)
 
                 print('Angle', angle)
                 print('Throttle', throttle)
