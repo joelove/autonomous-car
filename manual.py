@@ -23,7 +23,7 @@ class Manual:
 
     def axis_to_angle(self, axis):
         cube_axis = axis ** 3
-        exponential_axis = -cube_axis if axis < 0 else cube_axis
+        exponential_axis = cube if axis < 0 else -(cube_axis)
 
         print(exponential_axis)
 
