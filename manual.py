@@ -78,7 +78,7 @@ class Manual:
 
 
     def steering_axis_to_interval(self, axis):
-        steering_exponential_axis = self.number_to_exponential(axis)
+        steering_exponential_axis = self.number_to_exponential(-axis)
 
         return steering_exponential_axis
 
