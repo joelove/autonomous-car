@@ -56,6 +56,11 @@ class Manual:
             throttle_range = config.THROTTLE_MAX - config.THROTTLE_MIN
             throttle = config.THROTTLE_MIN + interval * throttle_range
 
+            print('config.THROTTLE_MIN', config.THROTTLE_MIN)
+            print('config.THROTTLE_MAX', config.THROTTLE_MAX)
+            print('throttle_range', throttle_range)
+            print('throttle', throttle)
+
             return throttle
 
         return interval
