@@ -22,9 +22,9 @@ class Manual:
 
 
     def axis_to_angle(self, axis):
-        exponential_axis = axis ** 2
+        square_axis = axis ** 2
+        exponential_axis = -square_axis if axis < 0 else square_axis
 
-        print(axis)
         print(exponential_axis)
 
         exponential_interval = self.axis_to_unit_interval(exponential_axis)

@@ -3,7 +3,6 @@ import cv2
 import glob
 import json
 import numpy as np
-import re
 import config
 
 from funcy import rcompose as pipe
@@ -30,11 +29,7 @@ def create_model():
         Dropout(0.2),
     )
 
-    angle_output_layer = pipe(
-        Dense(1, activation='sigmoid'),
-        Dense(1, activation='linear', name='angle_output')
-    )
-
+    angle_output_layer = Dense(1, activation='linear', name='angle_output')
     throttle_output_layer = Dense(1, activation='sigmoid', name='throttle_output')
 
     angle_output = pipe(hidden_layers, angle_output_layer)(image_input)
@@ -43,7 +38,7 @@ def create_model():
     model = Model(inputs=[image_input], outputs=[angle_output, throttle_output])
     model.compile(optimizer='adam',
                   loss={'angle_output':'mean_absolute_error', 'throttle_output': 'mean_absolute_error'},
-                  loss_weights={'angle_output': 0.9, 'throttle_output': 0.01})
+                  loss_weights={'angle_output': 1, 'throttle_output': 80})
 
     return model
 
@@ -93,7 +88,7 @@ def train_model():
     X_train = np.array(frames)
     Y_train = [np.array(angles), np.array(throttles)]
 
-    model.fit(X_train, Y_train, validation_split=0.2, epochs=5, verbose=1)
+    model.fit(X_train, Y_train, validation_split=0.2, epochs=10, verbose=1)
 
     print("Model trained!", 99*' ')
 
