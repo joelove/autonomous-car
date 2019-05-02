@@ -17,31 +17,6 @@ class Manual:
         self.servos = ServoDriver()
 
 
-    def axis_to_angle(self, axis):
-        exponential_axis = self.number_to_exponential(axis)
-        exponential_interval = self.axis_to_unit_interval(exponential_axis)
-        steering_angle = exponential_interval * config.STEERING_RANGE
-        actuation_range = self.servos.steering_servo.actuation_range
-        range_difference = actuation_range - config.STEERING_RANGE
-        steering_lead = range_difference / 2
-        angle = actuation_range - steering_lead - steering_angle
-
-        return angle
-
-
-    def axis_to_throttle(self, axis):
-        interval = self.axis_to_unit_interval(axis)
-        exponential_interval = self.number_to_exponential(interval)
-
-        if not exponential_interval:
-            return exponential_interval
-
-        throttle_range = config.THROTTLE_MAX - config.THROTTLE_MIN
-        throttle = config.THROTTLE_MIN + exponential_interval * throttle_range
-
-        return throttle
-
-
     def save_data_record(self, angle, throttle, frame):
         timestamp = time.time()
 
@@ -65,9 +40,28 @@ class Manual:
         print('Saved record:', timestamp, throttle, angle)
 
 
+    def interval_to_steering_angle(self, interval):
+        actual_angle = interval * config.STEERING_RANGE
+        actuation_range = self.servos.steering_servo.actuation_range
+        range_difference = actuation_range - config.STEERING_RANGE
+        steering_lead = range_difference / 2
+        steering_angle = actuation_range - steering_lead - actual_angle
+
+        return steering_angle
+
+
+    def interval_to_throttle(self, interval):
+        if not interval:
+            return interval
+
+        throttle_range = config.THROTTLE_MAX - config.THROTTLE_MIN
+        throttle = config.THROTTLE_MIN + interval * throttle_range
+
+        return throttle
+
 
     def axis_to_unit_interval(self, axis):
-        return (axis + 1) / 2
+        return
 
 
     def number_to_exponential(self, axis):
@@ -84,7 +78,7 @@ class Manual:
 
 
     def throttle_axis_to_interval(self, axis):
-        throttle_interval = self.axis_to_unit_interval(axis)
+        throttle_interval = (axis + 1) / 2
         throttle_exponential_interval = self.number_to_exponential(throttle_interval)
 
         return throttle_exponential_interval
@@ -117,8 +111,11 @@ class Manual:
                 print('Steering interval', steering_interval)
                 print('Throttle interval', throttle_interval)
 
-                angle = self.axis_to_angle(left_stick_x_axis)
-                throttle = self.axis_to_throttle(right_trigger_axis)
+                angle = self.interval_to_steering_angle(left_stick_x_axis)
+                throttle = self.interval_to_throttle(right_trigger_axis)
+
+                print('Angle', angle)
+                print('Throttle', throttle)
 
                 self.servos.set_angle(angle)
                 self.servos.set_throttle(throttle)
