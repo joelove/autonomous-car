@@ -52,23 +52,14 @@ class Manual:
 
 
     def interval_to_throttle(self, interval):
-        print(interval)
+        if not interval:
+            return interval
 
-        if interval:
-            throttle_range = config.THROTTLE_MAX_PERCENT - config.THROTTLE_MIN_PERCENT
-            throttle_percent = config.THROTTLE_MIN_PERCENT + (interval * throttle_range)
-            throttle = throttle_percent / 100
+        throttle_range = config.THROTTLE_MAX_PERCENT - config.THROTTLE_MIN_PERCENT
+        throttle_percent = config.THROTTLE_MIN_PERCENT + interval * throttle_range
+        throttle = throttle_percent / 100
 
-            print('config.THROTTLE_MIN_PERCENT', config.THROTTLE_MIN_PERCENT)
-            print('config.THROTTLE_MAX_PERCENT', config.THROTTLE_MAX_PERCENT)
-
-            print('throttle_range', throttle_range)
-            print('throttle_percent', throttle_percent)
-            print('throttle', throttle)
-
-            return throttle
-
-        return interval
+        return throttle
 
 
     def axis_to_unit_interval(self, axis):
@@ -119,14 +110,8 @@ class Manual:
                 steering_interval = self.steering_axis_to_interval(left_stick_x_axis)
                 throttle_interval = self.throttle_axis_to_interval(right_trigger_axis)
 
-                print('Steering interval', steering_interval)
-                print('Throttle interval', throttle_interval)
-
                 angle = self.interval_to_steering_angle(steering_interval)
                 throttle = self.interval_to_throttle(throttle_interval)
-
-                print('Angle', angle)
-                print('Throttle', throttle)
 
                 self.servos.set_angle(angle)
                 self.servos.set_throttle(throttle)
