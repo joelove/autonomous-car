@@ -41,7 +41,8 @@ class Manual:
 
 
     def interval_to_steering_angle(self, interval):
-        actual_angle = interval * config.STEERING_RANGE
+        unit_interval = self.axis_to_unit_interval(interval)
+        actual_angle = unit_interval * config.STEERING_RANGE
         actuation_range = self.servos.steering_servo.actuation_range
         range_difference = actuation_range - config.STEERING_RANGE
         steering_lead = range_difference / 2
@@ -61,7 +62,7 @@ class Manual:
 
 
     def axis_to_unit_interval(self, axis):
-        return
+        return (axis + 1) / 2
 
 
     def number_to_exponential(self, axis):
@@ -78,7 +79,7 @@ class Manual:
 
 
     def throttle_axis_to_interval(self, axis):
-        throttle_interval = (axis + 1) / 2
+        throttle_interval = self.axis_to_unit_interval(axis)
         throttle_exponential_interval = self.number_to_exponential(throttle_interval)
 
         return throttle_exponential_interval
@@ -108,14 +109,8 @@ class Manual:
                 steering_interval = self.steering_axis_to_interval(left_stick_x_axis)
                 throttle_interval = self.throttle_axis_to_interval(right_trigger_axis)
 
-                print('Steering interval', steering_interval)
-                print('Throttle interval', throttle_interval)
-
                 angle = self.interval_to_steering_angle(left_stick_x_axis)
                 throttle = self.interval_to_throttle(right_trigger_axis)
-
-                print('Angle', angle)
-                print('Throttle', throttle)
 
                 self.servos.set_angle(angle)
                 self.servos.set_throttle(throttle)
@@ -128,6 +123,6 @@ class Manual:
                             latest_frame = self.camera.frames.get_nowait()
 
                         if latest_frame.size:
-                            self.save_data_record(angle, throttle, latest_frame)
+                            self.save_data_record(steering_interval, throttle_interval, latest_frame)
 
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
