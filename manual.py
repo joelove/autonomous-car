@@ -53,12 +53,15 @@ class Manual:
 
     def interval_to_throttle(self, interval):
         if interval:
-            throttle_range = config.THROTTLE_MAX - config.THROTTLE_MIN
-            throttle = config.THROTTLE_MIN + interval * throttle_range
+            throttle_range = config.THROTTLE_MAX_PERCENT - config.THROTTLE_MIN_PERCENT
+            throttle_percent = config.THROTTLE_MIN_PERCENT + interval * throttle_range
+            throttle = throttle_percent / 100
 
-            print('config.THROTTLE_MIN', config.THROTTLE_MIN)
-            print('config.THROTTLE_MAX', config.THROTTLE_MAX)
+            print('config.THROTTLE_MIN_PERCENT', config.THROTTLE_MIN_PERCENT)
+            print('config.THROTTLE_MAX_PERCENT', config.THROTTLE_MAX_PERCENT)
+
             print('throttle_range', throttle_range)
+            print('throttle_percent', throttle_percent)
             print('throttle', throttle)
 
             return throttle
