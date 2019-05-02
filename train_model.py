@@ -4,10 +4,14 @@ import glob
 import json
 import numpy as np
 import config
+import random
 
-from funcy import rcompose as pipe
+from funcy import compose, rcompose as pipe
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Cropping3D, Convolution2D, MaxPooling3D, BatchNormalization, Dropout, Flatten, Dense
+
+
+reverse_tuple = compose(tuple, reversed)
 
 
 def save_model(model):
@@ -18,7 +22,8 @@ def save_model(model):
 
 
 def create_model():
-    image_input = Input(shape=(120, 160, 1))
+    image_shape = reverse_tuple(config.CAMERA_RESOLUTION)
+    image_input = Input(shape=(*image_shape, 1))
 
     hidden_layers = pipe(
         Convolution2D(filters=24, kernel_size=(5, 5), strides=(2, 2), activation='relu'),
@@ -29,16 +34,16 @@ def create_model():
         Dropout(0.2),
     )
 
-    angle_output_layer = Dense(1, activation='linear', name='angle_output')
+    angle_output_layer = Dense(1, activation='tanh', name='angle_output')
     throttle_output_layer = Dense(1, activation='sigmoid', name='throttle_output')
 
     angle_output = pipe(hidden_layers, angle_output_layer)(image_input)
     throttle_output = pipe(hidden_layers, throttle_output_layer)(image_input)
 
     model = Model(inputs=[image_input], outputs=[angle_output, throttle_output])
-    model.compile(optimizer='adam',
+    model.compile(optimizer='SGD',
                   loss={'angle_output':'mean_absolute_error', 'throttle_output': 'mean_absolute_error'},
-                  loss_weights={'angle_output': 1, 'throttle_output': 80})
+                  loss_weights={'angle_output': 0.9, 'throttle_output': 0.1})
 
     return model
 
@@ -88,7 +93,7 @@ def train_model():
     X_train = np.array(frames)
     Y_train = [np.array(angles), np.array(throttles)]
 
-    model.fit(X_train, Y_train, validation_split=0.2, epochs=10, verbose=1)
+    model.fit(X_train, Y_train, validation_split=0.2, epochs=16, verbose=1)
 
     print("Model trained!", 99*' ')
 
@@ -97,7 +102,6 @@ def train_model():
     save_model(model)
 
     print("Model saved!", 99*' ')
-
 
 if __name__ == "__main__":
     train_model()

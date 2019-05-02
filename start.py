@@ -6,6 +6,7 @@ from auto import Auto
 
 
 if __name__ == '__main__':
+
     parser = ArgumentParser(description='Start the vehicle in manual or fully autonomous mode')
 
     parser.add_argument("-n", "--nocapture", help="disable capturing of training data",
