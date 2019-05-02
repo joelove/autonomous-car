@@ -7,8 +7,8 @@ import re
 import config
 
 from funcy import rcompose as pipe
-from keras.models import Model
-from keras.layers import Input, Cropping3D, Convolution2D, MaxPooling3D, BatchNormalization, Dropout, Flatten, Dense
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, Cropping3D, Convolution2D, MaxPooling3D, BatchNormalization, Dropout, Flatten, Dense
 
 
 def save_model(model):
