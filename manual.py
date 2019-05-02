@@ -25,9 +25,10 @@ class Manual:
         interval = self.axis_to_unit_interval(axis)
         exponential_interval = interval**2 / 1
         steering_angle = exponential_interval * config.STEERING_RANGE
-        range_difference = ServoDriver.range - config.STEERING_RANGE
+        actuation_range = self.servos.steering_servo.actuation_range
+        range_difference = actuation_range - config.STEERING_RANGE
         steering_lead = range_difference / 2
-        angle = ServoDriver.range - steering_lead - steering_angle
+        angle = actuation_range - steering_lead - steering_angle
 
         return angle
 
