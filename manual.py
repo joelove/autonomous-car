@@ -22,7 +22,7 @@ class Manual:
 
 
     def axis_to_angle(self, axis):
-        exponential_axis = axis**2 / 1
+        exponential_axis = axis ** 2
 
         print(exponential_axis)
 
