@@ -52,13 +52,13 @@ class Manual:
 
 
     def interval_to_throttle(self, interval):
-        if not interval:
-            return interval
+        if interval:
+            throttle_range = config.THROTTLE_MAX - config.THROTTLE_MIN
+            throttle = config.THROTTLE_MIN + interval * throttle_range
 
-        throttle_range = config.THROTTLE_MAX - config.THROTTLE_MIN
-        throttle = config.THROTTLE_MIN + interval * throttle_range
+            return throttle
 
-        return throttle
+        return interval
 
 
     def axis_to_unit_interval(self, axis):
