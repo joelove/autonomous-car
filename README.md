@@ -45,10 +45,19 @@ This code has been developer and tested on a Raspberry Pi 3 Model B+ running [NO
 poetry install
 ```
 
-> **Important note:**
+> Installing the entire dependency tree using Poetry or Pip can take a _very_ long time.
 >
-> Installing the entire dependency tree using Poetry or Pip can take a _very_ long time. During manual installations with `apt-get`, the process seems to hang for an indeterminate amount of time when establishing an initial connection to `raspbian.raspberrypi.org`. Forcing these connections to use IPv4 seemed to help:
+> During manual installations with `apt-get`, the process seems to hang for an indeterminate amount of time when establishing an initial connection to `raspbian.raspberrypi.org`. This might be London office network specific. Disabling IPv6 seemed to help.
 >
+> If you have the same issue, add these lines to `/etc/sysctl.conf`:
+> ```bash
+> sysctl.conf.ipv6.conf.all.disable_ipv6 = 1
+> net.ipv6.conf.default.disable_ipv6 = 1
+> net.ipv6.conf.lo.disable_ipv6 = 1
+> net.ipv6.conf.eth0.disable_ipv6 = 1
+> net.ipv6.conf.[interface].disable_ipv6 = 1
+> ```
+> Updating the `apt-get` configuration may also help:
 > ```bash
 > apt-get -o Acquire::ForceIPv4=true update
 > apt-get -o Acquire::ForceIPv4=true -y dist-upgrade
