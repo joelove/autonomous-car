@@ -45,6 +45,15 @@ This code has been developer and tested on a Raspberry Pi 3 Model B+ running [NO
 poetry install
 ```
 
+> **Important note:**
+>
+> Installing the entire dependency tree using Poetry or Pip can take a _very_ long time. During manual installations with `apt-get`, the process seems to hang for an indeterminate amount of time when establishing an initial connection to `raspbian.raspberrypi.org`. Forcing these connections to use IPv4 seemed to help:
+>
+> ```bash
+> apt-get -o Acquire::ForceIPv4=true update
+> apt-get -o Acquire::ForceIPv4=true -y dist-upgrade
+> ```
+
 #### Connecting a controller
 
 ##### Disable ERTM
