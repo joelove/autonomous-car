@@ -2,66 +2,98 @@
 
 ## A Python script to be run on a Raspberry Pi for piloting an autonomous car
 
-### Prerequisites
-
-#### Package management
-
-This project uses [Poetry](https://poetry.eustace.io/) to make package and dependency management easier. Installation instructions can be found in the documentation:
-
-> https://poetry.eustace.io/docs/#installation
-
-If you want your virtual environments to be stored within the project directory (like `npm` or `yarn`):
-
-```bash
-poetry config settings.virtualenvs.in-project true
-```
-
-
-#### Hardware
-
-This code has been developer and tested on a Raspberry Pi 3 Model B+ running [NOOBS](https://www.raspberrypi.org/downloads/noobs/). Available from the [Raspberry Pi](https://www.raspberrypi.org/) shop:
+This code has been developed and tested on a Raspberry Pi 3 Model B+ running [NOOBS](https://www.raspberrypi.org/downloads/noobs/). Available from the [Raspberry Pi](https://www.raspberrypi.org/) shop:
 
 > https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/
 
 ### Installation steps
 
-#### Installing dependencies
+#### Prerequisites
+
+This project is designed to run on Python v3.5.3, which comes bundled with Raspbian but isn't the default. The easiest way I have found to remedy this quickly and reliably is with this psuedo-hack:
 
 ```bash
-  sudo apt-get update -y \
-  && sudo apt-get install libcblas-dev -y \
-  && sudo apt-get install libhdf5-dev -y \
-  && sudo apt-get install libhdf5-serial-dev -y \
-  && sudo apt-get install libatlas-base-dev -y \
-  && sudo apt-get install libjasper-dev -y \
-  && sudo apt-get install libqtgui4 -y \
-  && sudo apt-get install libqt4-test -y \
-  && sudo apt-get install xboxdrv -y \
-  && sudo apt-get install joystick -y \
-  && sudo apt-get install python-smbus -y \
-  && sudo apt-get install i2c-tools -y
+sudo rm /usr/bin/python
+sudo rm /usr/bin/pip
+
+sudo ln -s /usr/bin/python3.5 /usr/bin/python
+sudo ln -s /usr/bin/pip3.5 /usr/bin/pip
 ```
+
+> You probably shouldn't do this, ever. Sue me.
+
+Confirm your python version is 3.5.3 with:
+
+```bash
+python --version
+```
+
+Also, before we start with the real stuff. I've found that installing the entire dependency tree using Poetry or Pip can take a _**very**_ long time. The problem seems to be London office network specific and seems to be solved by disabling IPv6.
+
+Whilst not completely necessary, I wholeheartedly recommend you add these lines to `/etc/sysctl.conf`:
+
+```bash
+sysctl.conf.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+net.ipv6.conf.eth0.disable_ipv6 = 1
+net.ipv6.conf.[interface].disable_ipv6 = 1
+```
+
+Updating the `apt-get` configuration to explicitly use IPv4 may also help:
+
+```bash
+sudo apt-get -o Acquire::ForceIPv4=true update
+sudo apt-get -o Acquire::ForceIPv4=true -y dist-upgrade
+```
+
+Then reboot:
+```bash
+sudo reboot
+```
+
+Okay, let's get on with the actual installation.
+
+#### Installing dependencies
+
+First let's install things that can't be handled by our package manager:
+
+```bash
+sudo apt-get update -y \
+&& sudo apt-get install libcblas-dev -y \
+&& sudo apt-get install libhdf5-dev -y \
+&& sudo apt-get install libhdf5-serial-dev -y \
+&& sudo apt-get install libatlas-base-dev -y \
+&& sudo apt-get install libjasper-dev -y \
+&& sudo apt-get install libqtgui4 -y \
+&& sudo apt-get install libqt4-test -y \
+&& sudo apt-get install xboxdrv -y \
+&& sudo apt-get install joystick -y \
+&& sudo apt-get install python-smbus -y \
+&& sudo apt-get install i2c-tools -y
+```
+
+This project uses [Poetry](https://poetry.eustace.io/) to make package and dependency management easier. Installation instructions can be found in the documentation:
+
+> https://poetry.eustace.io/docs/#installation
+
+Too lazy to actually look at the documentation?
+
+```bash
+curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+```
+
+Once we have it, all the PyPI packages should be installed automatically if we run:
+
 ```bash
 poetry install
 ```
 
-> Installing the entire dependency tree using Poetry or Pip can take a _very_ long time.
->
-> During manual installations with `apt-get`, the process seems to hang for an indeterminate amount of time when establishing an initial connection to `raspbian.raspberrypi.org`. This might be London office network specific. Disabling IPv6 seemed to help.
->
-> If you have the same issue, add these lines to `/etc/sysctl.conf`:
-> ```bash
-> sysctl.conf.ipv6.conf.all.disable_ipv6 = 1
-> net.ipv6.conf.default.disable_ipv6 = 1
-> net.ipv6.conf.lo.disable_ipv6 = 1
-> net.ipv6.conf.eth0.disable_ipv6 = 1
-> net.ipv6.conf.[interface].disable_ipv6 = 1
-> ```
-> Updating the `apt-get` configuration may also help:
-> ```bash
-> apt-get -o Acquire::ForceIPv4=true update
-> apt-get -o Acquire::ForceIPv4=true -y dist-upgrade
-> ```
+All sorted? No errors? No, I didn't think so.
+
+This is the bit where you fight with Raspbian, Python and PyPI for four hours before giving up and sending an angry email to Linus Torvalds containing a picture of your genitals.
+
+Works now? Good.
 
 #### Connecting a controller
 
