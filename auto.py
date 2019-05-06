@@ -72,11 +72,14 @@ class Auto:
                 steering_interval_prediction = prediction[0][0][0]
                 throttle_interval_prediction = prediction[1][0][0]
 
-                print('steering prediction', steering_interval_prediction)
-                print('throttle prediction', throttle_interval_prediction)
+                # print('steering prediction', steering_interval_prediction)
+                # print('throttle prediction', throttle_interval_prediction)
 
                 angle = self.interval_to_steering_angle(steering_interval_prediction)
                 throttle = self.interval_to_throttle(throttle_interval_prediction)
+
+                print('angle prediction', angle)
+                print('throttle prediction', throttle)
 
                 self.servos.set_angle(angle)
                 self.servos.set_throttle(throttle)
@@ -84,5 +87,3 @@ class Auto:
                 frame_array = np.array([])
 
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
-
-            # self.servos.set_throttle(config.THROTTLE_MAX) # trololololol
