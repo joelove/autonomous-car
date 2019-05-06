@@ -53,37 +53,33 @@ class Auto:
     def drive(self):
         print('>> Autonomous driving <<')
 
-        frame_array = np.array([])
-
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
+
+        frame = np.array([])
 
         while True:
             start_time = time.time()
 
             while not self.camera.frames.empty():
-                frame_array = self.camera.frames.get_nowait()
+                frame = self.camera.frames.get_nowait()
 
-            if frame_array.size:
-                frame_array = frame_array.reshape((1,) + frame_array.shape + (1,))
+            if frame.size:
+                frame_array = frame.reshape((1,) + frame.shape + (1,))
                 frame_array = frame_array / 255.0
 
                 prediction = self.model.predict(frame_array)
 
-                steering_interval_prediction = prediction[0][0][0]
-                throttle_interval_prediction = prediction[1][0][0]
+                steering_interval, throttle_interval = prediction.reshape(2,)
 
-                # print('steering prediction', steering_interval_prediction)
-                # print('throttle prediction', throttle_interval_prediction)
+                print('steering_interval prediction', steering_interval)
+                print('throttle_interval prediction', throttle_interval)
 
-                angle = self.interval_to_steering_angle(steering_interval_prediction)
-                throttle = self.interval_to_throttle(throttle_interval_prediction)
-
-                print('angle prediction', angle)
-                print('throttle prediction', throttle)
+                angle = self.interval_to_steering_angle(steering_interval)
+                throttle = self.interval_to_throttle(throttle_interval)
 
                 self.servos.set_angle(angle)
                 self.servos.set_throttle(throttle)
 
-                frame_array = np.array([])
+                frame = np.array([])
 
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
