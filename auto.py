@@ -69,7 +69,7 @@ class Auto:
 
                 prediction = self.model.predict(frame_array)
 
-                steering_interval, throttle_interval = prediction.reshape(2,)
+                steering_interval, throttle_interval = np.array(prediction).reshape(2,)
 
                 print('steering_interval prediction', steering_interval)
                 print('throttle_interval prediction', throttle_interval)
