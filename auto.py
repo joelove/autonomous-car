@@ -68,11 +68,10 @@ class Auto:
                 frame_array = frame_array / 255.0
 
                 prediction = self.model.predict(frame_array)
-
                 steering_interval, throttle_interval = np.array(prediction).reshape(2,)
 
-                print('steering_interval prediction', steering_interval)
-                print('throttle_interval prediction', throttle_interval)
+                print('steering prediction', steering_interval)
+                print('throttle prediction', throttle_interval)
 
                 angle = self.interval_to_steering_angle(steering_interval)
                 throttle = self.interval_to_throttle(throttle_interval)
@@ -82,4 +81,8 @@ class Auto:
 
                 frame = np.array([])
 
-            time.sleep(tick_length - ((time.time() - start_time) % tick_length))
+            elapsed_time = time.time() - start_time
+
+            print('elapsed time', elapsed_time)
+
+            time.sleep(tick_length - (elapsed_time % tick_length))
