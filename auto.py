@@ -82,6 +82,7 @@ class Auto:
                 self.servos.set_angle(angle)
                 self.servos.set_throttle(throttle)
 
+                frame_array = np.array([])
 
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
 

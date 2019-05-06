@@ -10,16 +10,14 @@ This code has been developed and tested on a Raspberry Pi 3 Model B+ running [NO
 
 #### Prerequisites
 
-Before we start with the real stuff, I've found that network connections from the Raspberry Pi can hang for a long time during initialization, causing multiple dependency installations to take a _very_ long time. The problem seems to be London office network specific and is solved by disabling IPv6.
-
-Whilst not completely necessary, I wholeheartedly recommend you modify the system configuration file to explicitly disable IPv6:
+Whilst not completely necessary, I wholeheartedly recommend explicitly disabling IPv6 by adding these lines to `/etc/sysctl.conf`:
 
 ```bash
-sudo echo 'sysctl.conf.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf
-sudo echo 'net.ipv6.conf.default.disable_ipv6 = 1' >> /etc/sysctl.conf
-sudo echo 'net.ipv6.conf.lo.disable_ipv6 = 1' >> /etc/sysctl.conf
-sudo echo 'net.ipv6.conf.eth0.disable_ipv6 = 1' >> /etc/sysctl.conf
-sudo echo 'net.ipv6.conf.[interface].disable_ipv6 = 1' >> /etc/sysctl.conf
+sysctl.conf.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+net.ipv6.conf.eth0.disable_ipv6 = 1
+net.ipv6.conf.[interface].disable_ipv6 = 1
 ```
 
 Updating the `apt-get` configuration to force IPv4 may also help:
@@ -34,7 +32,7 @@ Then reboot:
 sudo reboot
 ```
 
-Once that's done, confirm the Advanced Package Tool is up to date:
+Once that's done, confirm the APT is up to date:
 
 ```bash
 sudo apt-get update -y
@@ -42,63 +40,23 @@ sudo apt-get update -y
 
 #### Python
 
-This project is designed to run on Python 3, which comes bundled with Raspbian but isn't the default or even the latest version.
+This project is designed to run on Python 3, which comes bundled with Raspbian but isn't the default.
 
-Rather than mess with the preinstalled versions by adding aliases or symbolic links, let's just handle Python versions using [pyenv](https://github.com/pyenv/pyenv). Ruby developers will recognise this tool as a port of rbenv.
-
-```bash
-sudo apt-get install bzip2 libbz2-dev libreadline6 libreadline6-dev libffi-dev libssl1.0-dev sqlite3 libsqlite3-dev -y
-```
-```bash
-git clone git://github.com/yyuu/pyenv.git ~/.pyenv
-
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(pyenv init -)"' >> ~/.bashrc
-
-exec $SHELL
-```
-
-Installing and switching versions with pyenv is as simple as:
+We can use Python 3 with the `python3` command:
 
 ```bash
-pyenv install 3.7.3
-pyenv global 3.7.3
+python3 --version
 ```
-
-Confirm your current python version with:
-
-```bash
-python --version
-```
-
-Okay, let's get on with the actual installation.
 
 #### Installing dependencies
-
-First let's install things that can't be handled by the Python package manager:
 
 ```bash
 sudo apt-get install libcblas-dev libhdf5-dev libhdf5-serial-dev libatlas-base-dev libjasper-dev libqtgui4 libqt4-test xboxdrv joystick python-smbus i2c-tools -y
 ```
 
-This project uses [Poetry](https://poetry.eustace.io/) to make package and dependency management easier:
-
 ```bash
-curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+pip3 install opencv-python tensorflow picamera adafruit-circuitpython-servokit funcy
 ```
-
-Once we have it, all the PyPI packages should be installed automatically if we run:
-
-```bash
-poetry install
-```
-
-All sorted? No errors? No, I didn't think so.
-
-This is the bit where you fight with Raspbian, Python and PyPI for four hours before giving up and sending an angry email to Linus Torvalds containing a picture of your genitals.
-
-Works now? Good.
 
 #### Connecting a controller
 
@@ -133,7 +91,7 @@ sudo jstest /dev/input/js0
 ### Starting the vehicle
 
 ```bash
-poetry run python start.py --help
+python3 start.py --help
 ```
 ---
 
