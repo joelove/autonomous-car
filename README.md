@@ -10,37 +10,19 @@ This code has been developed and tested on a Raspberry Pi 3 Model B+ running [NO
 
 #### Prerequisites
 
-This project is designed to run on Python v3.5.3, which comes bundled with Raspbian but isn't the default. The easiest way I have found to remedy this quickly and reliably is with this psuedo-hack:
+Before we start with the real stuff, I've found that network connections from the Raspberry Pi can hang for a long time during initialization, causing multiple dependency installations to take a _very_ long time. The problem seems to be London office network specific and is solved by disabling IPv6.
+
+Whilst not completely necessary, I wholeheartedly recommend you modify the system configuration file to explicitly disable IPv6:
 
 ```bash
-sudo rm /usr/bin/python
-sudo rm /usr/bin/pip
-
-sudo ln -s /usr/bin/python3.5 /usr/bin/python
-sudo ln -s /usr/bin/pip3.5 /usr/bin/pip
+sudo echo 'sysctl.conf.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf
+sudo echo 'net.ipv6.conf.default.disable_ipv6 = 1' >> /etc/sysctl.conf
+sudo echo 'net.ipv6.conf.lo.disable_ipv6 = 1' >> /etc/sysctl.conf
+sudo echo 'net.ipv6.conf.eth0.disable_ipv6 = 1' >> /etc/sysctl.conf
+sudo echo 'net.ipv6.conf.[interface].disable_ipv6 = 1' >> /etc/sysctl.conf
 ```
 
-> You probably shouldn't do this, ever. Sue me.
-
-Confirm your python version is 3.5.3 with:
-
-```bash
-python --version
-```
-
-Also, before we start with the real stuff. I've found that installing the entire dependency tree using Poetry or Pip can take a _**very**_ long time. The problem seems to be London office network specific and seems to be solved by disabling IPv6.
-
-Whilst not completely necessary, I wholeheartedly recommend you add these lines to `/etc/sysctl.conf`:
-
-```bash
-sysctl.conf.ipv6.conf.all.disable_ipv6 = 1
-net.ipv6.conf.default.disable_ipv6 = 1
-net.ipv6.conf.lo.disable_ipv6 = 1
-net.ipv6.conf.eth0.disable_ipv6 = 1
-net.ipv6.conf.[interface].disable_ipv6 = 1
-```
-
-Updating the `apt-get` configuration to explicitly use IPv4 may also help:
+Updating the `apt-get` configuration to force IPv4 may also help:
 
 ```bash
 sudo apt-get -o Acquire::ForceIPv4=true update
@@ -52,32 +34,55 @@ Then reboot:
 sudo reboot
 ```
 
+Once that's done, confirm the Advanced Package Tool is up to date:
+
+```bash
+sudo apt-get update -y
+```
+
+#### Python
+
+This project is designed to run on Python 3, which comes bundled with Raspbian but isn't the default or even the latest version.
+
+Rather than mess with the preinstalled versions by adding aliases or symbolic links, let's just handle Python versions using [pyenv](https://github.com/pyenv/pyenv). Ruby developers will recognise this tool as a port of rbenv.
+
+```bash
+sudo apt-get install bzip2 libbz2-dev libreadline6 libreadline6-dev libffi-dev libssl1.0-dev sqlite3 libsqlite3-dev -y
+```
+```bash
+git clone git://github.com/yyuu/pyenv.git ~/.pyenv
+
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+
+exec $SHELL
+```
+
+Installing and switching versions with pyenv is as simple as:
+
+```bash
+pyenv install 3.7.3
+pyenv global 3.7.3
+```
+
+Confirm your current python version with:
+
+```bash
+python --version
+```
+
 Okay, let's get on with the actual installation.
 
 #### Installing dependencies
 
-First let's install things that can't be handled by our package manager:
+First let's install things that can't be handled by the Python package manager:
 
 ```bash
-sudo apt-get update -y \
-&& sudo apt-get install libcblas-dev -y \
-&& sudo apt-get install libhdf5-dev -y \
-&& sudo apt-get install libhdf5-serial-dev -y \
-&& sudo apt-get install libatlas-base-dev -y \
-&& sudo apt-get install libjasper-dev -y \
-&& sudo apt-get install libqtgui4 -y \
-&& sudo apt-get install libqt4-test -y \
-&& sudo apt-get install xboxdrv -y \
-&& sudo apt-get install joystick -y \
-&& sudo apt-get install python-smbus -y \
-&& sudo apt-get install i2c-tools -y
+sudo apt-get install libcblas-dev libhdf5-dev libhdf5-serial-dev libatlas-base-dev libjasper-dev libqtgui4 libqt4-test xboxdrv joystick python-smbus i2c-tools -y
 ```
 
-This project uses [Poetry](https://poetry.eustace.io/) to make package and dependency management easier. Installation instructions can be found in the documentation:
-
-> https://poetry.eustace.io/docs/#installation
-
-Too lazy to actually look at the documentation?
+This project uses [Poetry](https://poetry.eustace.io/) to make package and dependency management easier:
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
@@ -101,7 +106,7 @@ Works now? Good.
 
 ```bash
 sudo touch /etc/modprobe.d/bluetooth.conf
-sudo echo "options bluetooth disable_ertm=Y" >> /etc/modprobe.d/bluetooth.conf
+sudo echo 'options bluetooth disable_ertm=Y' >> /etc/modprobe.d/bluetooth.conf
 sudo reboot
 ```
 
