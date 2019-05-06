@@ -6,8 +6,7 @@ import glob
 import json
 import time
 
-# from keras import backend
-from keras.models import model_from_json
+from tensorflow.keras.models import model_from_json
 from servo_driver import ServoDriver
 from camera import Camera
 
