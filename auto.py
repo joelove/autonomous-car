@@ -81,8 +81,6 @@ class Auto:
 
                 frame = np.array([])
 
-            elapsed_time = time.time() - start_time
+                print('elapsed time', time.time() - start_time)
 
-            print('elapsed time', elapsed_time)
-
-            time.sleep(tick_length - (elapsed_time % tick_length))
+            time.sleep(tick_length - ((time.time() - start_time) % tick_length))
