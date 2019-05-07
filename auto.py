@@ -74,6 +74,7 @@ class Auto:
                 frame = self.camera.frames.get()
 
             if not frame.size:
+                print('no frame')
                 continue
 
             start_time = time.time()
