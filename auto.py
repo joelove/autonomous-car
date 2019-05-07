@@ -46,38 +46,42 @@ class Auto:
         return throttle
 
 
+    def process_frame(self, frame):
+        frame_array = frame.reshape((1,) + frame.shape + (1,))
+        frame_array = frame_array / 255.0
+
+        prediction = self.model.predict(frame_array)
+        steering_interval, throttle_interval = np.array(prediction).reshape(2,)
+
+        angle = self.interval_to_steering_angle(steering_interval)
+        throttle = self.interval_to_throttle(throttle_interval)
+
+        print('angle', angle)
+
+        self.servos.set_angle(angle)
+        self.servos.set_throttle(0.25)
+
+
     def drive(self):
         print('>> Autonomous driving <<')
 
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
 
-        frame = np.array([])
-
         while True:
+            frame = np.array([])
+
             while not self.camera.frames.empty():
                 frame = self.camera.frames.get()
 
-            if frame.size:
-                start_time = time.time()
+            if not frame.size:
+                pass
 
-                frame_array = frame.reshape((1,) + frame.shape + (1,))
-                frame_array = frame_array / 255.0
+            start_time = time.time()
 
-                prediction = self.model.predict(frame_array)
-                steering_interval, throttle_interval = np.array(prediction).reshape(2,)
+            self.process_frame(frame)
 
-                angle = self.interval_to_steering_angle(steering_interval)
-                throttle = self.interval_to_throttle(throttle_interval)
+            elapsed_time = time.time() - start_time
 
-                print('angle', angle)
+            print('elapsed', elapsed_time)
 
-                self.servos.set_angle(angle)
-                self.servos.set_throttle(0.25)
-
-                frame = np.array([])
-
-                elapsed_time = time.time() - start_time
-
-                print('elapsed', elapsed_time)
-
-                time.sleep(tick_length - elapsed_time % tick_length)
+            time.sleep(tick_length - elapsed_time % tick_length)
