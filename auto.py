@@ -47,7 +47,7 @@ class Auto:
 
 
     def process_frame(self, frame):
-        padded_frame = np.vstack((frame, np.zeros(160, 8)))
+        padded_frame = np.vstack((frame, np.zeros((160, 8))))
 
         frame_array = frame.reshape((1,) + frame.shape + (1,))
         frame_array = frame_array / 255.0
