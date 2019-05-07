@@ -1,9 +1,5 @@
-import cv2
 import numpy as np
 import config
-import random
-import glob
-import json
 import time
 
 from tensorflow.keras.models import model_from_json
@@ -55,27 +51,22 @@ class Auto:
 
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
 
-        frame = np.array([])
-
         while True:
             start_time = time.time()
 
-            while not self.camera.frames.empty():
-                frame = self.camera.frames.get_nowait()
+            frame = self.camera.capture()
+            frame_array = frame.reshape((1,) + frame.shape + (1,))
+            frame_array = frame_array / 255.0
 
-            if frame.size:
-                frame_array = frame.reshape((1,) + frame.shape + (1,))
-                frame_array = frame_array / 255.0
+            prediction = self.model.predict(frame_array)
+            steering_interval, throttle_interval = np.array(prediction).reshape(2,)
 
-                prediction = self.model.predict(frame_array)
-                steering_interval, throttle_interval = np.array(prediction).reshape(2,)
+            angle = self.interval_to_steering_angle(steering_interval)
+            throttle = self.interval_to_throttle(throttle_interval)
 
-                angle = self.interval_to_steering_angle(steering_interval)
-                throttle = self.interval_to_throttle(throttle_interval)
+            print(angle)
 
-                self.servos.set_angle(angle)
-                self.servos.set_throttle(0.25)
+            self.servos.set_angle(angle)
+            self.servos.set_throttle(0.25)
 
-                frame = np.array([])
-
-                time.sleep(tick_length - ((time.time() - start_time) % tick_length))
+            time.sleep(tick_length - ((time.time() - start_time) % tick_length))

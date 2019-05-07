@@ -15,22 +15,12 @@ class Camera:
         self.camera.resolution = config.CAMERA_RESOLUTION
         self.camera.framerate = config.CAMERA_FRAMERATE
 
-        self.frames = Queue()
-
-        self.thread = Thread(target=self.begin_capture, args=(self.frames,))
-        self.thread.daemon = True
-        self.thread.start()
-
         time.sleep(0.1) # warm up
 
 
-    def begin_capture(self, frames):
+    def capture(self):
         stream = PiRGBArray(self.camera)
+        self.camera.capture(stream, format='bgr')
+        frame = apply_filters(stream.array)
 
-        while True:
-            self.camera.capture(stream, format='bgr')
-
-            frame = apply_filters(stream.array)
-            frames.put_nowait(frame)
-
-            stream.truncate(0)
+        return frame
