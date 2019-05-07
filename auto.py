@@ -74,7 +74,7 @@ class Auto:
                 throttle = self.interval_to_throttle(throttle_interval)
 
                 self.servos.set_angle(angle)
-                self.servos.set_throttle(0.15)
+                self.servos.set_throttle(0.25)
 
                 frame = np.array([])
 

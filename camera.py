@@ -30,8 +30,7 @@ class Camera:
         while True:
             self.camera.capture(stream, format='bgr')
 
-            if not frames.full():
-                frame = apply_filters(stream.array)
-                frames.put_nowait(frame)
+            frame = apply_filters(stream.array)
+            frames.put_nowait(frame)
 
             stream.truncate(0)
