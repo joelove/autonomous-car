@@ -20,13 +20,6 @@ net.ipv6.conf.eth0.disable_ipv6 = 1
 net.ipv6.conf.[interface].disable_ipv6 = 1
 ```
 
-Updating the `apt-get` configuration to force IPv4 may also help:
-
-```bash
-sudo apt-get -o Acquire::ForceIPv4=true update
-sudo apt-get -o Acquire::ForceIPv4=true -y dist-upgrade
-```
-
 Then reboot:
 ```bash
 sudo reboot
