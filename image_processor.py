@@ -1,4 +1,5 @@
 import cv2
+import time
 import numpy as np
 
 from funcy import compose
@@ -48,6 +49,11 @@ def detect_edges(image):
 
 
 def apply_filters(image):
-    filter = compose(rgb_to_grayscale, reduce_noise)
+    start_time = time.time()
 
-    return filter(image)
+    filter = compose(perspective_warp, reduce_noise, rgb_to_grayscale)
+    filtered_image = filter(image)
+
+    print('filter', time.time() - start_time)
+
+    return filtered_image
