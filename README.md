@@ -57,7 +57,7 @@ pip3 install opencv-python tensorflow picamera adafruit-circuitpython-servokit f
 
 ```bash
 sudo touch /etc/modprobe.d/bluetooth.conf
-sudo echo 'options bluetooth disable_ertm=Y' >> /etc/modprobe.d/bluetooth.conf
+sudo bash -c "echo 'options bluetooth disable_ertm=Y' >> /etc/modprobe.d/bluetooth.conf"
 sudo reboot
 ```
 
