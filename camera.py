@@ -15,12 +15,13 @@ class Camera:
         self.camera.resolution = config.CAMERA_RESOLUTION
         self.camera.framerate = config.CAMERA_FRAMERATE
 
+        self.stream = PiRGBArray(self.camera)
+
         time.sleep(0.1) # warm up
 
 
     def capture(self):
-        stream = PiRGBArray(self.camera)
-        self.camera.capture(stream, format='bgr')
-        frame = apply_filters(stream.array)
+        self.stream.truncate(0)
+        self.camera.capture(self.stream, format='bgr')
 
-        return frame
+        return apply_filters(self.stream.array)
