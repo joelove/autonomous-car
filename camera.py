@@ -31,6 +31,5 @@ class Camera:
             stream.truncate()
             stream.seek(0)
 
-            frame = stream.array
-            # frame = apply_filters(stream.array)
+            frame = apply_filters(stream.array)
             frames.put(frame)

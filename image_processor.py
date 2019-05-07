@@ -48,6 +48,6 @@ def detect_edges(image):
 
 
 def apply_filters(image):
-    filter = compose(perspective_warp, rgb_to_grayscale, reduce_noise)
+    filter = compose(rgb_to_grayscale, reduce_noise)
 
     return filter(image)
