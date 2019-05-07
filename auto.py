@@ -54,7 +54,7 @@ class Auto:
         while True:
             start_time = time.time()
 
-            frame = self.camera.capture()
+            frame = self.camera.latest_frame
             frame_array = frame.reshape((1,) + frame.shape + (1,))
             frame_array = frame_array / 255.0
 

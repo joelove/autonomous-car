@@ -1,3 +1,4 @@
+import io
 import time
 import config
 
@@ -15,13 +16,27 @@ class Camera:
         self.camera.resolution = config.CAMERA_RESOLUTION
         self.camera.framerate = config.CAMERA_FRAMERATE
 
-        self.stream = PiRGBArray(self.camera)
+        self.latest_frame = None
+
+        self.begin_capture()
 
         time.sleep(0.1) # warm up
 
 
-    def capture(self):
-        self.stream.truncate(0)
-        self.camera.capture(self.stream, format='bgr')
+    def begin_capture(self):
+        stream = PiRGBArray(self.camera)
 
-        return apply_filters(self.stream.array)
+        # while True:
+        #     self.camera.capture(stream, format='bgr')
+        #
+        #     if not frames.full():
+        #         frame = apply_filters(stream.array)
+        #         frames.put_nowait(frame)
+        #
+        #     stream.truncate(0)
+
+        for frame in self.camera.capture_continuous(stream, format='bgr'):
+            stream.truncate()
+            stream.seek(0)
+
+            self.latest_frame = apply_filters(stream.array)
