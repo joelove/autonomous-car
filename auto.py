@@ -54,12 +54,12 @@ class Auto:
         frame = np.array([])
 
         while True:
-            start_time = time.time()
-
             while not self.camera.frames.empty():
                 frame = self.camera.frames.get()
 
             if frame.size:
+                start_time = time.time()
+
                 frame_array = frame.reshape((1,) + frame.shape + (1,))
                 frame_array = frame_array / 255.0
 
