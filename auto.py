@@ -69,6 +69,8 @@ class Auto:
                 angle = self.interval_to_steering_angle(steering_interval)
                 throttle = self.interval_to_throttle(throttle_interval)
 
+                print('angle', angle)
+
                 self.servos.set_angle(angle)
                 self.servos.set_throttle(0.25)
 
