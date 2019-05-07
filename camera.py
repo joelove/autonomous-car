@@ -24,11 +24,12 @@ class Camera:
         time.sleep(0.1) # warm up
 
 
-    def begin_capture(self):
+    def begin_capture(self, frames):
         stream = PiRGBArray(self.camera)
 
         for frame in self.camera.capture_continuous(stream, format='bgr'):
             stream.truncate()
             stream.seek(0)
 
-            self.latest_frame = apply_filters(stream.array)
+            frame = apply_filters(stream.array)
+            frames.put(frame)
