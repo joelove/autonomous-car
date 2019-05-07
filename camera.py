@@ -17,11 +17,11 @@ class Camera:
 
         self.frames = Queue()
 
+        time.sleep(2) # warm up
+
         self.thread = Thread(target=self.begin_capture, args=(self.frames,))
         self.thread.daemon = True
         self.thread.start()
-
-        time.sleep(0.1) # warm up
 
 
     def begin_capture(self, frames):
