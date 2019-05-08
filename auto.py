@@ -59,7 +59,7 @@ class Auto:
         throttle = self.interval_to_throttle(throttle_interval)
 
         self.servos.set_angle(angle)
-        self.servos.set_throttle(0.35)
+        self.servos.set_throttle(0.9)
 
 
     def drive(self):
