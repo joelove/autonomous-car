@@ -11,23 +11,19 @@ from image_processor import apply_filters
 
 class Camera:
     def __init__(self):
-        self.camera = PiCamera()
-        self.camera.resolution = config.CAMERA_RESOLUTION
-        self.camera.framerate = config.CAMERA_FRAMERATE
-
+        self.camera = PiCamera(size=config.CAMERA_RESOLUTION, ramerate=config.CAMERA_FRAMERATE)
         self.frames = Queue()
 
         time.sleep(2) # warm up
 
-        self.thread = Thread(target=self.begin_capture, args=(self.frames,))
-        self.thread.daemon = True
+        self.thread = Thread(target=self.start, daemon=True, args=(self.frames,))
         self.thread.start()
 
 
-    def begin_capture(self, frames):
+    def start(self, frames):
         stream = PiRGBArray(self.camera)
 
-        for frame in self.camera.capture_continuous(stream, format='bgr'):
+        for frame in self.camera.capture_continuous(stream, format='bgr', use_video_port=True):
             stream.truncate()
             stream.seek(0)
 
