@@ -1,8 +1,8 @@
 import config
 
 from argparse import ArgumentParser
-from manual import Manual
-from auto import Auto
+from Manual import Manual
+from Auto import Auto
 
 
 if __name__ == '__main__':
