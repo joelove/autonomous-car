@@ -16,7 +16,7 @@ class Vehicle:
 
     def number_to_exponential(self, axis):
         cube_axis = axis ** 2
-        exponential_axis = cube_axis if axis else -cube_axis
+        exponential_axis = -cube_axis if axis else cube_axis
 
         return exponential_axis
 
