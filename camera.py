@@ -27,9 +27,9 @@ class Camera:
     def start(self, frames):
         stream = PiRGBArray(self.camera)
 
-        for frame in self.camera.capture_continuous(stream, format='bgr', use_video_port=True):
+        for _ in self.camera.capture_continuous(stream, format='bgr', use_video_port=True):
             stream.truncate()
             stream.seek(0)
 
             if not frames.full():
-                frames.put_nowait(frame)
+                frames.put_nowait(stream.array)
