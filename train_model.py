@@ -43,7 +43,7 @@ def create_model():
     model = Model(inputs=[image_input], outputs=[angle_output, throttle_output])
     model.compile(optimizer='SGD',
                   loss={'angle_output':'mean_absolute_error', 'throttle_output': 'mean_absolute_error'},
-                  loss_weights={'angle_output': 0.9, 'throttle_output': 0.1})
+                  loss_weights={'angle_output': 0.95, 'throttle_output': 0.05})
 
     return model
 
