@@ -7,6 +7,7 @@ from PIL import Image
 from camera import Camera
 from controller import Controller
 from servo_driver import ServoDriver
+from image_processor import apply_filters
 
 
 class Manual:
@@ -24,7 +25,9 @@ class Manual:
         frame_path = config.DATA_PATH + '/' + frame_filename
         record_path = config.DATA_PATH + '/' + str(timestamp) + '_record.json'
 
-        frame_image = Image.fromarray(frame)
+        filtered_frame = apply_filters(frame)
+
+        frame_image = Image.fromarray(filtered_frame)
         frame_image.save(frame_path)
 
         data = {

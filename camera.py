@@ -7,7 +7,6 @@ from picamera.array import PiRGBArray
 
 from threading import Thread
 from multiprocessing import Queue
-from image_processor import apply_filters
 
 
 class Camera:
@@ -33,5 +32,4 @@ class Camera:
             stream.seek(0)
 
             if not frames.full():
-                frame = apply_filters(stream.array)
                 frames.put_nowait(frame)

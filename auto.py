@@ -5,6 +5,7 @@ import time
 from tensorflow.keras.models import model_from_json
 from servo_driver import ServoDriver
 from camera import Camera
+from image_processor import apply_filters
 
 
 class Auto:
@@ -47,9 +48,8 @@ class Auto:
 
 
     def process_frame(self, frame):
-        padded_frame = np.vstack((frame, np.zeros((8, 160))))
-
-        frame_array = padded_frame.reshape((1,) + padded_frame.shape + (1,))
+        filtered_frame = apply_filters(frame)
+        frame_array = filtered_frame.reshape((1,) + filtered_frame.shape + (1,))
         frame_array = frame_array / 255.0
 
         prediction = self.model.predict(frame_array)
