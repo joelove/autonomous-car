@@ -58,8 +58,6 @@ class Auto:
         angle = self.interval_to_steering_angle(steering_interval)
         throttle = self.interval_to_throttle(throttle_interval)
 
-        print('angle', angle)
-
         self.servos.set_angle(angle)
         self.servos.set_throttle(0.25)
 
@@ -68,8 +66,6 @@ class Auto:
         print('>> Autonomous driving <<')
 
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
-
-        begin_capture = time.time()
 
         while True:
             frame = np.array([])
@@ -80,18 +76,10 @@ class Auto:
             if not frame.size:
                 continue
 
-            capture_time = time.time() - begin_capture
-
-            print('capture time', capture_time)
-
             start_time = time.time()
 
             self.process_frame(frame)
 
             elapsed_time = time.time() - start_time
 
-            print('elapsed', elapsed_time)
-
             time.sleep(tick_length - elapsed_time % tick_length)
-
-            begin_capture = time.time()

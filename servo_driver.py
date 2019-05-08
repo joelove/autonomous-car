@@ -12,6 +12,7 @@ class ServoDriver:
                                                   config.STEERING_RIGHT_PWM)
 
     def set_angle(self, angle):
+        print('set angle', angle)
         self.steering_servo.angle = angle
 
     def set_throttle(self, throttle):
