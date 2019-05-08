@@ -74,7 +74,6 @@ def train_model():
             frame_filename = record["frame_filename"]
 
             frame_array = cv2.imread(f'{config.DATA_PATH}/{frame_filename}')
-            frame_array = cv2.cvtColor(frame_array, cv2.COLOR_BGR2GRAY)
             frame_array = frame_array.reshape(frame_array.shape + (1,))
             frame_array = frame_array / 255.0
 
