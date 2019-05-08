@@ -49,11 +49,7 @@ def detect_edges(image):
 
 
 def apply_filters(image):
-    start_time = time.time()
-
     filter = compose(perspective_warp, reduce_noise, rgb_to_grayscale)
     filtered_image = filter(image)
-
-    print('filter', time.time() - start_time)
 
     return filtered_image
