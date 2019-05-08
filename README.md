@@ -48,7 +48,7 @@ sudo apt-get install libcblas-dev libhdf5-dev libhdf5-serial-dev libatlas-base-d
 ```
 
 ```bash
-pip3 install opencv-python tensorflow picamera adafruit-circuitpython-servokit funcy
+pip3 install numpy==1.13.3 opencv-python tensorflow picamera adafruit-circuitpython-servokit funcy
 ```
 
 #### Connecting a controller
