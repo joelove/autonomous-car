@@ -31,5 +31,6 @@ class Camera:
             stream.truncate()
             stream.seek(0)
 
-            frame = apply_filters(stream.array)
-            frames.put(frame)
+            if not frames.full():
+                frame = apply_filters(stream.array)
+                frames.put_nowait(frame)

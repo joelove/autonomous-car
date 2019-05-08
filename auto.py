@@ -75,7 +75,7 @@ class Auto:
             frame = np.array([])
 
             while not self.camera.frames.empty():
-                frame = self.camera.frames.get()
+                frame = self.camera.frames.get_nowait()
 
             if not frame.size:
                 continue
