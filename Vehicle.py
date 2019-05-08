@@ -15,10 +15,7 @@ class Vehicle:
 
 
     def number_to_exponential(self, axis):
-        cube_axis = axis ** 2
-        exponential_axis = cube_axis if axis >= 0 else -cube_axis
-
-        return exponential_axis
+        return axis ** 3
 
 
     def steering_axis_to_interval(self, axis):
