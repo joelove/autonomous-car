@@ -56,7 +56,7 @@ class Auto:
         steering_interval, throttle_interval = np.array(prediction).reshape(2,)
 
         angle = self.interval_to_steering_angle(steering_interval)
-        throttle = self.interval_to_throttle(0.4)
+        throttle = self.interval_to_throttle(0.5)
 
         self.servos.set_angle(angle)
         self.servos.set_throttle(throttle)
