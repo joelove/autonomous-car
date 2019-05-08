@@ -81,22 +81,13 @@ def train_model():
 
     print(f'{total_records} records processed!', 99*' ')
 
-    print("Creating model...", end="\r")
-
-    model = create_model()
-
-    print("Model created!", 99*' ')
-
     print("Training model...", end="\r")
 
     X_train = np.array(frames)
     Y_train = [np.array(angles), np.array(throttles)]
 
+    model = create_model()
     model.fit(X_train, Y_train, validation_split=0.2, epochs=16, verbose=1)
-
-    print("Model trained!", 99*' ')
-
-    print("Saving model...", end="\r")
 
     save_model(model)
 
