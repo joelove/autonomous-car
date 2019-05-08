@@ -52,9 +52,10 @@ def train_model():
     record_files = glob.glob(f'{config.DATA_PATH}/*.json')
     total_records = len(record_files)
 
-    frames = []
-    angles = []
-    throttles = []
+    image_shape = reverse_tuple(config.CAMERA_RESOLUTION)
+    frames = np.empty((total_records, *image_shape, 1))
+    angles = np.empty(total_records)
+    throttles = np.empty(total_records)
 
     for index, filepath in enumerate(record_files):
         completion_ratio = float(index) / total_records
@@ -68,8 +69,8 @@ def train_model():
             angle = record["angle"]
             throttle = record["throttle"]
 
-            angles.append(angle)
-            throttles.append(throttle)
+            np.put(angles, index, angle)
+            np.put(throttles, index, throttle)
 
             frame_filename = record["frame_filename"]
 
@@ -77,21 +78,28 @@ def train_model():
             frame_array = frame_array.reshape(frame_array.shape + (1,))
             frame_array = frame_array / 255.0
 
-            frames.append(frame_array)
+            np.put(frames, index, frame_array)
 
     print(f'{total_records} records processed!', 99*' ')
 
-    print("Training model...", end="\r")
-
-    X_train = np.array(frames)
-    Y_train = [np.array(angles), np.array(throttles)]
+    print("Creating model...", end="\r")
 
     model = create_model()
-    model.fit(X_train, Y_train, validation_split=0.2, epochs=16, verbose=1)
+
+    print("Model created!", 99*' ')
+
+    print("Training model...", end="\r")
+
+    model.fit(frames, [angles, throttles], validation_split=0.1, epochs=5, verbose=1)
+
+    print("Model trained!", 99*' ')
+
+    print("Saving model...", end="\r")
 
     save_model(model)
 
     print("Model saved!", 99*' ')
+
 
 if __name__ == "__main__":
     train_model()
