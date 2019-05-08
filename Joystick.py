@@ -5,6 +5,8 @@ import struct
 from multiprocessing import Process
 
 
+### Shamelessly stolen from the first generation Tampere car ###
+
 class Joystick():
     """
     An interface to a physical joystick available at /dev/input

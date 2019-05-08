@@ -1,10 +1,10 @@
 import config
 
-from camera import Camera
-from servo_driver import ServoDriver
+from Camera import Camera
+from ServoDriver import ServoDriver
 
 
-class Drive:
+class Vehicle:
     def __init__(self):
         self.camera = Camera()
         self.servos = ServoDriver()

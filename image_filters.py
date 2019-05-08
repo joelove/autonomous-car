@@ -48,7 +48,7 @@ def detect_edges(image):
     return edges
 
 
-def apply_filters(image):
+def apply_default_filters(image):
     filter = compose(perspective_warp, reduce_noise, rgb_to_grayscale)
     filtered_image = filter(image)
 

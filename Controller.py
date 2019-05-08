@@ -1,9 +1,10 @@
 import time
 import config
 
-from joystick import Joystick
 from threading import Thread
 from multiprocessing import Queue
+
+from Joystick import Joystick
 
 
 class Controller:

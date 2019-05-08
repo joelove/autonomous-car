@@ -4,15 +4,15 @@ import config
 import numpy as np
 
 from PIL import Image
-from controller import Controller
-from drive import Drive
+from Controller import Controller
+from Vehicle import Vehicle
 
-from image_processor import apply_filters
+from image_filters import apply_default_filters
 
 
-class Manual(Drive):
+class Manual(Vehicle):
     def __init__(self, **kwargs):
-        super().__init__() 
+        super().__init__()
 
         self.capture = kwargs["capture"]
         self.controller = Controller()
@@ -25,7 +25,7 @@ class Manual(Drive):
         frame_path = config.DATA_PATH + '/' + frame_filename
         record_path = config.DATA_PATH + '/' + str(timestamp) + '_record.json'
 
-        filtered_frame = apply_filters(frame)
+        filtered_frame = apply_default_filters(frame)
 
         frame_image = Image.fromarray(filtered_frame)
         frame_image.save(frame_path)

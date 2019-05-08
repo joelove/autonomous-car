@@ -2,15 +2,15 @@ import numpy as np
 import config
 import time
 
-from drive import Drive
+from Vehicle import Vehicle
 
 from tensorflow.keras.models import model_from_json
-from image_processor import apply_filters
+from image_filters import apply_default_filters
 
 
-class Auto(Drive):
+class Auto(Vehicle):
     def __init__(self):
-        super().__init__() 
+        super().__init__()
 
         json_file = open("model.json", "r")
         loaded_model_json = json_file.read()
@@ -21,7 +21,7 @@ class Auto(Drive):
 
 
     def process_frame(self, frame):
-        filtered_frame = apply_filters(frame)
+        filtered_frame = apply_default_filters(frame)
         frame_array = filtered_frame.reshape((1,) + filtered_frame.shape + (1,))
         frame_array = frame_array / 255.0
 
