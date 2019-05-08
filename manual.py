@@ -12,7 +12,7 @@ from image_processor import apply_filters
 
 class Manual(Drive):
     def __init__(self, **kwargs):
-        super()
+        super().__init__() 
 
         self.capture = kwargs["capture"]
         self.controller = Controller()

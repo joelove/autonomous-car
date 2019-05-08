@@ -10,7 +10,7 @@ from image_processor import apply_filters
 
 class Auto(Drive):
     def __init__(self):
-        super()
+        super().__init__() 
 
         json_file = open("model.json", "r")
         loaded_model_json = json_file.read()
