@@ -11,7 +11,7 @@ from image_processor import apply_filters
 
 class Camera:
     def __init__(self):
-        self.camera = PiCamera(size=config.CAMERA_RESOLUTION, framerate=config.CAMERA_FRAMERATE)
+        self.camera = PiCamera(resolution=config.CAMERA_RESOLUTION, framerate=config.CAMERA_FRAMERATE)
         self.frames = Queue()
 
         time.sleep(2) # warm up
