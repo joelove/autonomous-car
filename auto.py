@@ -69,7 +69,7 @@ class Auto:
 
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
 
-        foo = time.time()
+        begin_capture = time.time()
 
         while True:
             frame = np.array([])
@@ -80,9 +80,9 @@ class Auto:
             if not frame.size:
                 continue
 
-            bar = time.time() - foo
+            capture_time = time.time() - begin_capture
 
-            print('capture time', bar)
+            print('capture time', capture_time)
 
             start_time = time.time()
 
@@ -94,4 +94,4 @@ class Auto:
 
             time.sleep(tick_length - elapsed_time % tick_length)
 
-            foo = time.time()
+            begin_capture = time.time()
