@@ -8,6 +8,7 @@ import random
 
 from funcy import compose, rcompose as pipe
 from tensorflow.keras.models import Model
+from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import Input, Cropping3D, Convolution2D, MaxPooling3D, BatchNormalization, Dropout, Flatten, Dense
 
 
@@ -25,25 +26,52 @@ def create_model():
     image_shape = reverse_tuple(config.CAMERA_RESOLUTION)
     image_input = Input(shape=(*image_shape, 1))
 
-    hidden_layers = pipe(
-        Convolution2D(filters=24, kernel_size=(5, 5), strides=(2, 2), activation='relu'),
-        BatchNormalization(),
-        Dropout(0.1),
-        Flatten(name='flattened'),
-        Dense(50, activation='relu'),
-        Dropout(0.2),
-    )
+    # hidden_layers = pipe(
+    #     Convolution2D(filters=24, kernel_size=(5, 5), strides=(2, 2), activation='relu'),
+    #     BatchNormalization(),
+    #     Dropout(0.1),
+    #     Flatten(name='flattened'),
+    #     Dense(50, activation='relu'),
+    #     Dropout(0.2),
+    # )
+    #
+    # angle_output_layer = Dense(1, activation='tanh', name='angle_output')
+    # throttle_output_layer = Dense(1, activation='sigmoid', name='throttle_output')
+    #
+    # angle_output = pipe(hidden_layers, angle_output_layer)(image_input)
+    # throttle_output = pipe(hidden_layers, throttle_output_layer)(image_input)
 
-    angle_output_layer = Dense(1, activation='tanh', name='angle_output')
-    throttle_output_layer = Dense(1, activation='sigmoid', name='throttle_output')
+    # x = image_input
+    # x = Convolution2D(8, (3, 3), strides=(2, 2), activation='relu')(x)
+    # x = BatchNormalization()(x)
+    # x = Dropout(0.1)(x)
+    # x = Flatten(name='flattened')(x)
+    # x = Dense(50, activation='relu')(x)
+    # x = Dropout(0.2)(x)
 
-    angle_output = pipe(hidden_layers, angle_output_layer)(image_input)
-    throttle_output = pipe(hidden_layers, throttle_output_layer)(image_input)
+    x = image_input
+    x = BatchNormalization()(x)
+    x = Convolution2D(8, (3, 3), strides=(2, 2), activation='relu')(x)
+    x = BatchNormalization()(x)
+    x = Convolution2D(16, (3, 3), strides=(2, 2), activation='relu')(x)
+    x = BatchNormalization()(x)
+    x = Convolution2D(32, (3, 3), strides=(2, 2), activation='relu')(x)
+    x = BatchNormalization()(x)
+    x = Convolution2D(64, (3, 3), strides=(2, 2), activation='relu')(x)
+    x = BatchNormalization()(x)
+    x = Convolution2D(64, (3, 3), strides=(2, 2), activation='relu')(x)
+    x = Flatten(name='flattened')(x)
+    x = BatchNormalization()(x)
+    x = Dense(128, activation='relu')(x)
+
+    angle_output = Dense(1, activation='tanh', name='angle_output')(x)
+    throttle_output = Dense(1, activation='sigmoid', name='throttle_output')(x)
 
     model = Model(inputs=[image_input], outputs=[angle_output, throttle_output])
-    model.compile(optimizer='SGD',
+    model.compile(optimizer=Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=1e-5, decay=0.0, amsgrad=False),
+    # model.compile(optimizer='adam',
                   loss={'angle_output':'mean_absolute_error', 'throttle_output': 'mean_absolute_error'},
-                  loss_weights={'angle_output': 0.95, 'throttle_output': 0.05})
+                  loss_weights={'angle_output': 0.9, 'throttle_output': 0.01})
 
     return model
 
@@ -53,6 +81,7 @@ def train_model():
     total_records = len(record_files)
 
     image_shape = reverse_tuple(config.CAMERA_RESOLUTION)
+
     frames = np.empty((total_records, *image_shape, 1))
     angles = np.empty(total_records)
     throttles = np.empty(total_records)
@@ -69,16 +98,16 @@ def train_model():
             angle = record["angle"]
             throttle = record["throttle"]
 
-            np.put(angles, index, angle)
-            np.put(throttles, index, throttle)
+            angles[index] = angle
+            throttles[index] = throttle
 
             frame_filename = record["frame_filename"]
 
             frame_array = cv2.imread(f'{config.DATA_PATH}/{frame_filename}')
+            frame_array = cv2.cvtColor(frame_array, cv2.COLOR_BGR2GRAY)
             frame_array = frame_array.reshape(frame_array.shape + (1,))
-            frame_array = frame_array / 255.0
 
-            np.put(frames, index, frame_array)
+            frames[index,:,:,:] = frame_array
 
     print(f'{total_records} records processed!', 99*' ')
 
@@ -90,7 +119,10 @@ def train_model():
 
     print("Training model...", end="\r")
 
-    model.fit(frames, [angles, throttles], validation_split=0.1, epochs=5, verbose=1)
+    x_train = frames
+    y_train = [angles, throttles]
+
+    model.fit(frames, [angles, throttles], validation_split=0.1, epochs=16, verbose=1)
 
     print("Model trained!", 99*' ')
 
@@ -99,6 +131,18 @@ def train_model():
     save_model(model)
 
     print("Model saved!", 99*' ')
+
+    # for index in range(0, 5):
+    #     frame = frames[index]
+    #     angle = angles[index]
+    #     throttle = throttles[index]
+    #
+    #     frame = frame.reshape((1,) + frame.shape)
+    #     predicted_angle, predicted_throttle = model.predict(frame)
+    #
+    #     print('INDEX ', index)
+    #     print('angle', angle, predicted_angle)
+    #     print('throttle', throttle, predicted_throttle)
 
 
 if __name__ == "__main__":
