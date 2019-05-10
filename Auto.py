@@ -1,6 +1,7 @@
 import numpy as np
 import config
 import time
+import cv2
 
 from Vehicle import Vehicle
 
@@ -22,8 +23,9 @@ class Auto(Vehicle):
 
     def process_frame(self, frame):
         filtered_frame = apply_default_filters(frame)
-        frame_array = filtered_frame.reshape((1,) + filtered_frame.shape + (1,))
-        frame_array = frame_array / 255.0
+
+        frame_array = cv2.cvtColor(filtered_frame, cv2.COLOR_BGR2GRAY)
+        frame_array = frame_array.reshape(frame_array.shape + (1,))
 
         prediction = self.model.predict(frame_array)
         steering_interval, throttle_interval = np.array(prediction).reshape(2,)
