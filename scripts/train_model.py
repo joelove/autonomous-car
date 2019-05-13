@@ -6,9 +6,11 @@ import json
 import numpy as np
 import random
 
+from argparse import ArgumentParser
+
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.layers import Input, Cropping3D, Convolution2D, MaxPooling3D, BatchNormalization, Dropout, Flatten, Dense
+from tensorflow.keras.layers import Input, Convolution2D, BatchNormalization, Dropout, Flatten, Dense
 
 script_path = os.path.abspath(__file__)
 script_dir = os.path.dirname(script_path)
@@ -25,24 +27,26 @@ def save_model(model):
     model.save_weights("model.h5")
 
 
-def create_model():
+def create_model(args):
     image_shape = tuple(reversed(config.CAMERA_RESOLUTION))
     image_input = Input(shape=(*image_shape, 1))
 
     x = image_input
-    x = BatchNormalization()(x)
-    x = Convolution2D(8, (3, 3), strides=(2, 2), activation='relu')(x)
-    x = BatchNormalization()(x)
-    x = Convolution2D(16, (3, 3), strides=(2, 2), activation='relu')(x)
-    x = BatchNormalization()(x)
-    x = Convolution2D(32, (3, 3), strides=(2, 2), activation='relu')(x)
-    x = BatchNormalization()(x)
-    x = Convolution2D(64, (3, 3), strides=(2, 2), activation='relu')(x)
-    x = BatchNormalization()(x)
-    x = Convolution2D(64, (3, 3), strides=(2, 2), activation='relu')(x)
+
+    channels = 8
+    while (channels <= args.max_channels):
+        x = BatchNormalization()(x)
+
+        if args.dropouts:
+            x = Dropout(0.25)(x)
+
+        x = Convolution2D(channels, (3, 3), strides=(2, 2), activation='relu')(x)
+
+        channels *= 2
+
     x = Flatten(name='flattened')(x)
     x = BatchNormalization()(x)
-    x = Dense(128, activation='relu')(x)
+    x = Dense(args.dense_size, activation='relu')(x)
 
     angle_output = Dense(1, activation='tanh', name='angle_output')(x)
     throttle_output = Dense(1, activation='sigmoid', name='throttle_output')(x)
@@ -55,9 +59,15 @@ def create_model():
     return model
 
 
-def train_model():
+def train_model(args):
+    print(">> Training model <<")
+
+    print("Dense layer size:", args.dense_size)
+    print("Include dropout layers:", "Yes" if args.dropouts else "No")
+    print("Maximum convolutional layer channels:", args.max_channels)
+
     data_dir = os.path.join(root_dir, config.DATA_PATH)
-    record_files = glob.glob(f'{data_dir}/*.json')
+    record_files = glob.glob(f'{data_dir}/*.json')[1:128]
 
     total_records = len(record_files)
     image_shape = tuple(reversed(config.CAMERA_RESOLUTION))
@@ -93,7 +103,7 @@ def train_model():
 
     print("Creating model...", end="\r")
 
-    model = create_model()
+    model = create_model(args)
 
     print("Model created!", 99*' ')
 
@@ -114,4 +124,23 @@ def train_model():
 
 
 if __name__ == "__main__":
-    train_model()
+    parser = ArgumentParser(description='Train the model using captured data')
+
+    parser.add_argument("-d", "--dropouts", help="enable dropout layers",
+                                           action="store_true",
+                                           dest="dropouts",
+                                           default=False)
+
+    parser.add_argument("-s", "--size", help="set size of final dense layer",
+                                        action="store",
+                                        dest="dense_size",
+                                        default=128)
+
+    parser.add_argument("-m", "--max-channels", help="set maximum channels for convolution layers",
+                                                action="store",
+                                                dest="max_channels",
+                                                default=64)
+
+    args = parser.parse_args()
+
+    train_model(args)
