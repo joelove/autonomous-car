@@ -6,13 +6,9 @@ import numpy as np
 import config
 import random
 
-from funcy import compose, rcompose as pipe
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import Input, Cropping3D, Convolution2D, MaxPooling3D, BatchNormalization, Dropout, Flatten, Dense
-
-
-reverse_tuple = compose(tuple, reversed)
 
 
 def save_model(model):
@@ -23,7 +19,7 @@ def save_model(model):
 
 
 def create_model():
-    image_shape = reverse_tuple(config.CAMERA_RESOLUTION)
+    image_shape = tuple(reversed(config.CAMERA_RESOLUTION))
     image_input = Input(shape=(*image_shape, 1))
 
     # hidden_layers = pipe(
@@ -80,7 +76,7 @@ def train_model():
     record_files = glob.glob(f'{config.DATA_PATH}/*.json')
     total_records = len(record_files)
 
-    image_shape = reverse_tuple(config.CAMERA_RESOLUTION)
+    image_shape = tuple(reversed(config.CAMERA_RESOLUTION))
 
     frames = np.empty((total_records, *image_shape, 1))
     angles = np.empty(total_records)

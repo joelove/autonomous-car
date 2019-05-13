@@ -33,13 +33,15 @@ sudo apt-get update -y
 
 #### Python
 
-This project is designed to run on Python 3, which comes bundled with Raspbian but isn't the default.
+This project is designed to run on Python `3.5.3`, which comes bundled with the latest version of Raspbian (at time of writing) but isn't the default.
 
 We can use Python 3 with the `python3` command:
 
 ```bash
 python3 --version
 ```
+
+Other versions might work but finding an ARM-compiled binary for `numpy` that works as intended is entirely contingent on [piwheels](https://www.piwheels.org/) and can be quite a lot of hassle.
 
 #### Installing dependencies
 
@@ -48,12 +50,12 @@ sudo apt-get install libcblas-dev libhdf5-dev libhdf5-serial-dev libatlas-base-d
 ```
 
 ```bash
-pip3 install numpy==1.13.3 opencv-python tensorflow picamera adafruit-circuitpython-servokit funcy
+pip3 install numpy==1.13.3 opencv-python tensorflow picamera adafruit-circuitpython-servokit
 ```
 
 #### Connecting a controller
 
-##### Disable ERTM
+Whilst initially configuring the Pi, we need to disable ERTM to allow Bluetooth connections from an Xbox Controller:
 
 ```bash
 sudo touch /etc/modprobe.d/bluetooth.conf
@@ -61,7 +63,7 @@ sudo bash -c "echo 'options bluetooth disable_ertm=Y' >> /etc/modprobe.d/bluetoo
 sudo reboot
 ```
 
-##### Connect using Bluetooth
+##### Pairing a new controller
 
 ```bash
 sudo bluetoothctl
@@ -75,7 +77,24 @@ trust CONTROLLER_MAC_ADDRESS
 exit
 ```
 
-##### Testing the connected controller
+Once this is done, the controller should attempt to connect to the Pi automatically any time it's turned on until it is manually connected to another device.
+
+##### Connecting to a previously paired controller
+
+If the controller becomes disconnected, we don't need to pair again. We can connect to the controller manually:
+
+```bash
+sudo bluetoothctl
+```
+```
+devices
+connect CONTROLLER_MAC_ADDRESS
+exit
+```
+
+If this doesn't work, it might be connected to another device. Plugging the controller in to a PC with micro-USB should clear its existing connection.
+
+##### Testing a connected controller
 
 ```bash
 sudo jstest /dev/input/js0

@@ -2,14 +2,9 @@ import cv2
 import time
 import numpy as np
 
-from funcy import compose
-
-
-reverse_tuple = compose(tuple, reversed)
-
 
 def perspective_warp(image):
-    image_dimensions = reverse_tuple(image.shape)
+    image_dimensions = tuple(reversed(image.shape))
 
     source_shape = [(0, 0.375), (1, 0.375), (1, 1), (0, 1)]
     destination_shape = [(0, 0), (1, 0), (1, 1), (0, 1)]
@@ -17,7 +12,6 @@ def perspective_warp(image):
     source_points = np.float32(source_shape) * np.float32(image_dimensions)
     destination_points = np.float32(destination_shape) * np.float32(image_dimensions)
 
-    # homography, _ = cv2.findHomography(source_points, destination_points)
     transformation = cv2.getPerspectiveTransform(source_points, destination_points)
 
     return cv2.warpPerspective(image, transformation, image_dimensions)
@@ -49,7 +43,8 @@ def detect_edges(image):
 
 
 def apply_default_filters(image):
-    filter = compose(perspective_warp, reduce_noise, rgb_to_grayscale)
-    filtered_image = filter(image)
+    image = rgb_to_grayscale(image)
+    image = reduce_noise(image)
+    image = perspective_warp(image)
 
-    return filtered_image
+    return image
