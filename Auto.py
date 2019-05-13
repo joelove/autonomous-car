@@ -6,7 +6,7 @@ import cv2
 from Vehicle import Vehicle
 
 from tensorflow.keras.models import model_from_json
-from image_filters import apply_default_filters
+from utilities.image_filters import apply_default_filters
 
 
 class Auto(Vehicle):

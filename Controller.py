@@ -1,6 +1,3 @@
-import time
-import config
-
 from threading import Thread
 from multiprocessing import Queue
 

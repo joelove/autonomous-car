@@ -7,7 +7,7 @@ from PIL import Image
 from Controller import Controller
 from Vehicle import Vehicle
 
-from image_filters import apply_default_filters
+from utilities.image_filters import apply_default_filters
 
 
 class Manual(Vehicle):
