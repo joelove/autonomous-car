@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "futurice-london-donkey-car"
-version = "0.1.0"
+name = "autonomous-car"
+version = "0.2.0"
 description = "A Python script to be run on a RaspberryPi for piloting an autonomous car"
 authors = ["Joe Love <joe.love@futurice.com>"]
 license = "MIT"

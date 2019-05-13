@@ -1,4 +1,4 @@
-# futurice-london-donkey-car
+# autonomous-car
 
 ## A Python script to be run on a Raspberry Pi for piloting an autonomous car
 

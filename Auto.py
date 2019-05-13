@@ -31,9 +31,6 @@ class Auto(Vehicle):
         if config.FIXED_SPEED_MODE:
             throttle_interval = config.FIXED_SPEED_INTERVAL
 
-        print('steering_interval', steering_interval)
-        print('throttle_interval', throttle_interval)
-
         angle = self.interval_to_steering_angle(steering_interval)
         throttle = self.interval_to_throttle(throttle_interval)
 
