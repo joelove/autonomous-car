@@ -10,7 +10,7 @@ This code has been developed and tested on a Raspberry Pi 3 Model B+ running [NO
 
 #### Prerequisites
 
-Whilst not completely necessary, I wholeheartedly recommend explicitly disabling IPv6 by adding these lines to `/etc/sysctl.conf`:
+Whilst not completely necessary, I wholeheartedly recommend explicitly disabling IPv6 on the Raspberry Pi by adding these lines to `/etc/sysctl.conf`:
 
 ```bash
 sysctl.conf.ipv6.conf.all.disable_ipv6 = 1
@@ -20,12 +20,12 @@ net.ipv6.conf.eth0.disable_ipv6 = 1
 net.ipv6.conf.[interface].disable_ipv6 = 1
 ```
 
-Then reboot:
+This should make network connections significantly quicker to initialise on _some_ networks (most notably, the London Futurice office). Once that's done, reboot:
 ```bash
 sudo reboot
 ```
 
-Once that's done, confirm the APT is up to date:
+Before we install anything, let's confirm the APT is up to date:
 
 ```bash
 sudo apt-get update -y
