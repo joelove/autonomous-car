@@ -5,12 +5,14 @@ import glob
 import json
 import numpy as np
 import random
+import datetime
 
 from argparse import ArgumentParser
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import Input, Convolution2D, BatchNormalization, Dropout, Flatten, Dense
+from tensorflow.keras.callbacks import TensorBoard
 
 script_path = os.path.abspath(__file__)
 script_dir = os.path.dirname(script_path)
@@ -65,6 +67,7 @@ def train_model(args):
     print("Dense layer size:", args.dense_size)
     print("Include dropout layers:", "Yes" if args.dropouts else "No")
     print("Maximum convolutional layer channels:", args.max_channels)
+    print("Total training epochs:", args.epochs)
 
     data_dir = os.path.join(root_dir, config.DATA_PATH)
     record_files = glob.glob(f'{data_dir}/*.json')
@@ -112,7 +115,10 @@ def train_model(args):
     x_train = frames
     y_train = [angles, throttles]
 
-    model.fit(frames, y_train, validation_split=args.validation_split, epochs=args.epochs, verbose=1)
+    date = datetime.datetime.now().strftime('%y-%m-%d-%H-%M')
+    tb_callback = TensorBoard(log_dir=('./tensorboard_logs/%s' % date), histogram_freq=0, write_graph=True, write_images=True)
+
+    model.fit(frames, y_train, validation_split=args.validation_split, epochs=args.epochs, verbose=1, callbacks=[tb_callback])
 
     print("Model trained!", 99*' ')
 
