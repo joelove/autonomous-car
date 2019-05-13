@@ -1,5 +1,5 @@
 # Training scripts
 
 ```
-pip install python-opencv tensorflow
+pip install python-opencv tensorflow pillow
 ```
