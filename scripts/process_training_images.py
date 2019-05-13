@@ -3,6 +3,13 @@ import glob
 import json
 import numpy as np
 import cv2
+
+script_path = os.path.abspath(__file__)
+script_dir = os.path.dirname(script_path)
+root_dir = os.path.join(script_dir, os.pardir)
+
+sys.path.append(root_dir)
+
 import config
 
 
@@ -21,7 +28,8 @@ def append_suffix_to_path(filepath, suffix):
 
 
 def process_training_images():
-    record_files = glob.glob(f'{config.DATA_PATH}/*.json')
+    data_dir = os.path.join(root_dir, config.DATA_PATH)
+    record_files = glob.glob(f'{data_dir}/*.json')
     total_images = len(record_files)
 
     frames = []
@@ -38,7 +46,7 @@ def process_training_images():
             record = json.load(record_file)
 
             frame_filename = record["frame_filename"]
-            frame = cv2.imread(f'{config.DATA_PATH}/{frame_filename}')
+            frame = cv2.imread(f'{data_dir}/{frame_filename}')
 
             for n in range(1, 5):
                 new_frame = modify_brightness(frame, n * 16)
@@ -46,7 +54,7 @@ def process_training_images():
                 new_image_filename = append_suffix_to_path(frame_filename, f'_l{n}')
                 with open(new_record_filepath, "w") as outfile:
                     json.dump(record, outfile)
-                    cv2.imwrite(f'{config.DATA_PATH}/{new_image_filename}', new_frame)
+                    cv2.imwrite(f'{data_dir}/{new_image_filename}', new_frame)
 
             for n in range(1, 5):
                 new_frame = modify_brightness(frame, -(n * 16))
@@ -54,7 +62,7 @@ def process_training_images():
                 new_image_filename = append_suffix_to_path(frame_filename, f'_d{n}')
                 with open(new_record_filepath, "w") as outfile:
                     json.dump(record, outfile)
-                    cv2.imwrite(f'{config.DATA_PATH}/{new_image_filename}', new_frame)
+                    cv2.imwrite(f'{data_dir}/{new_image_filename}', new_frame)
 
     print(f'{total_images} images processed!', 99*' ')
 
