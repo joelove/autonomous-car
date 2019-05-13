@@ -20,6 +20,7 @@ sys.path.append(root_dir)
 
 import config
 
+
 def save_model(model):
     with open("model.json", "w") as json_file:
         json_file.write(model.to_json())
@@ -36,11 +37,10 @@ def create_model(args):
     channels = 8
     while (channels <= args.max_channels):
         x = BatchNormalization()(x)
+        x = Convolution2D(channels, (3, 3), strides=(2, 2), activation='relu')(x)
 
         if args.dropouts:
             x = Dropout(0.25)(x)
-
-        x = Convolution2D(channels, (3, 3), strides=(2, 2), activation='relu')(x)
 
         channels *= 2
 
@@ -112,7 +112,7 @@ def train_model(args):
     x_train = frames
     y_train = [angles, throttles]
 
-    model.fit(frames, y_train, validation_split=0.1, epochs=16, verbose=1)
+    model.fit(frames, y_train, validation_split=args.validation_split, epochs=args.epochs, verbose=1)
 
     print("Model trained!", 99*' ')
 
@@ -140,6 +140,16 @@ if __name__ == "__main__":
                                                 action="store",
                                                 dest="max_channels",
                                                 default=64)
+
+    parser.add_argument("-e", "--epochs", help="set number of training epochs",
+                                          action="store",
+                                          dest="epochs",
+                                          default=16)
+
+    parser.add_argument("-v", "--validation-split", help="set the amount of data that should be used for validation",
+                                                    action="store",
+                                                    dest="validation_split",
+                                                    default=0.1)
 
     args = parser.parse_args()
 
