@@ -15,5 +15,4 @@ class ServoDriver:
         self.steering_servo.angle = angle
 
     def set_throttle(self, throttle):
-        print(throttle)
         self.throttle_servo.throttle = throttle
