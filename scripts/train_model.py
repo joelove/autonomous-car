@@ -91,11 +91,13 @@ def train_model(args):
     angles = np.empty(total_records * image_variations)
     throttles = np.empty(total_records * image_variations)
 
-    for index, filepath in enumerate(record_files):
+    index = 0
+
+    for filepath in record_files:
         completion_ratio = float(index) / total_records
         percent_complete = int(round(completion_ratio * 100))
 
-        print(f'Processing record {index} of {total_records}... ({percent_complete}%)', end="\r")
+        print(f'Processing record {index + 1} of {total_records}... ({percent_complete}%)', end="\r")
 
         with open(filepath) as record_file:
             record = json.load(record_file)
@@ -108,9 +110,11 @@ def train_model(args):
             for frame_variation in frame_variations:
                 frame_array = frame_variation.reshape(frame_variation.shape + (1,))
 
-                np.append(angles, angle)
-                np.append(throttles, throttle)
-                np.append(frames, frame_array)
+                angles[index] = angle
+                throttles[index] = throttle
+                frames[index,:,:,:] = frame_array
+
+                index += 1
 
     print(f'{total_records} records processed!', 99*' ')
     print("Creating model...", end="\r")
