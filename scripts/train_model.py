@@ -68,6 +68,8 @@ def train_model(args):
     print("Include dropout layers:", "Yes" if args.dropouts else "No")
     print("Maximum convolutional layer channels:", args.max_channels)
     print("Total training epochs:", args.epochs)
+    print("Number of image variations:", args.image_variations)
+    print("Variation brightness difference:", args.brightness_difference)
 
     data_dir = os.path.join(root_dir, config.DATA_PATH)
     record_files = glob.glob(f'{data_dir}/*.json')
@@ -132,30 +134,47 @@ def train_model(args):
 if __name__ == "__main__":
     parser = ArgumentParser(description='Train the model using captured data')
 
-    parser.add_argument("-d", "--dropouts", help="enable dropout layers",
-                                           action="store_true",
-                                           dest="dropouts",
-                                           default=False)
+    parser.add_argument("-d", "--dropouts",
+                        help="enable dropout layers",
+                        action="store_true",
+                        dest="dropouts",
+                        default=False)
 
-    parser.add_argument("-s", "--size", help="set size of final dense layer",
-                                        action="store",
-                                        dest="dense_size",
-                                        default=128)
+    parser.add_argument("-s", "--size",
+                        help="set size of final dense layer [default: 128]",
+                        action="store",
+                        dest="dense_size",
+                        default=128)
 
-    parser.add_argument("-m", "--max-channels", help="set maximum channels for convolution layers",
-                                                action="store",
-                                                dest="max_channels",
-                                                default=64)
+    parser.add_argument("-m", "--max-channels",
+                        help="set maximum channels for convolution layers [default: 64]",
+                        action="store",
+                        dest="max_channels",
+                        default=64)
 
-    parser.add_argument("-e", "--epochs", help="set number of training epochs",
-                                          action="store",
-                                          dest="epochs",
-                                          default=16)
+    parser.add_argument("-e", "--epochs",
+                        help="set number of training epochs [default: 8]",
+                        action="store",
+                        dest="epochs",
+                        default=8)
 
-    parser.add_argument("-v", "--validation-split", help="set the amount of data that should be used for validation",
-                                                    action="store",
-                                                    dest="validation_split",
-                                                    default=0.1)
+    parser.add_argument("-v", "--validation-split",
+                        help="set the amount of data that should be used for validation [default: 0.1]",
+                        action="store",
+                        dest="validation_split",
+                        default=0.1)
+
+    parser.add_argument("-i", "--image-variations",
+                        help="specify the number of image variations to be generated [default: 3]",
+                        dest="image_variations",
+                        action="store",
+                        default=3)
+
+    parser.add_argument("-b", "--brightness-difference",
+                        help="specify the brightness difference between variations [default: 32]",
+                        dest="brightness_difference",
+                        action="store",
+                        default=32)
 
     args = parser.parse_args()
 
