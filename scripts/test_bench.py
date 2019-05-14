@@ -176,11 +176,13 @@ def test(path, model_path = None):
 if __name__ == '__main__':
     parser = ArgumentParser(description='Run the test bench and assess training data in real-time')
 
-    parser.add_argument("-p", "--path", help="specify a data path",
-                                        dest="path")
+    parser.add_argument("-d", "--data-path",
+                        help="specify a data path",
+                        dest="path")
 
-    parser.add_argument("-m", "--modelpath", help="specify a model path",
-                                        dest="model_path")
+    parser.add_argument("-m", "--modelpath",
+                        help="specify a model path",
+                        dest="model_path")
 
     args = parser.parse_args()
 

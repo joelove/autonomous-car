@@ -7,6 +7,8 @@ import numpy as np
 import random
 import datetime
 
+from preview_training_images import process_training_image
+
 from argparse import ArgumentParser
 
 from tensorflow.keras.models import Model
@@ -67,12 +69,14 @@ def train_model(args):
     print("Dense layer size:", args.dense_size)
     print("Include dropout layers:", "Yes" if args.dropouts else "No")
     print("Maximum convolutional layer channels:", args.max_channels)
+    print("Total epochs:", args.epochs)
+    print("Validation data split:", args.validation_split)
     print("Total training epochs:", args.epochs)
     print("Number of image variations:", args.image_variations)
     print("Variation brightness difference:", args.brightness_difference)
 
     data_dir = os.path.join(root_dir, config.DATA_PATH)
-    record_files = glob.glob(f'{data_dir}/*.json')
+    record_files = glob.glob(f'{data_dir}/*.json')[0:128]
 
     total_records = len(record_files)
     image_shape = tuple(reversed(config.CAMERA_RESOLUTION))
@@ -93,25 +97,21 @@ def train_model(args):
             angle = record["angle"]
             throttle = record["throttle"]
 
-            angles[index] = angle
-            throttles[index] = throttle
+            frame_variations = process_training_image(filepath, args.brightness_difference, args.image_variations)
 
-            frame_filename = record["frame_filename"]
+            for frame_variation in frame_variations:
+                frame_array = frame_variation.reshape(frame_variation.shape + (1,))
 
-            frame_array = cv2.imread(f'{config.DATA_PATH}/{frame_filename}')
-            frame_array = cv2.cvtColor(frame_array, cv2.COLOR_BGR2GRAY)
-            frame_array = frame_array.reshape(frame_array.shape + (1,))
-
-            frames[index,:,:,:] = frame_array
+                angles[index] = angle
+                throttles[index] = throttle
+                frames[index,:,:,:] = frame_array
 
     print(f'{total_records} records processed!', 99*' ')
-
     print("Creating model...", end="\r")
 
     model = create_model(args)
 
     print("Model created!", 99*' ')
-
     print("Training model...", end="\r")
 
     x_train = frames
@@ -123,7 +123,6 @@ def train_model(args):
     model.fit(frames, y_train, validation_split=args.validation_split, epochs=args.epochs, verbose=1, callbacks=[tb_callback])
 
     print("Model trained!", 99*' ')
-
     print("Saving model...", end="\r")
 
     save_model(model)
@@ -144,36 +143,42 @@ if __name__ == "__main__":
                         help="set size of final dense layer [default: 128]",
                         action="store",
                         dest="dense_size",
+                        type=int,
                         default=128)
 
     parser.add_argument("-m", "--max-channels",
                         help="set maximum channels for convolution layers [default: 64]",
                         action="store",
                         dest="max_channels",
+                        type=int,
                         default=64)
 
     parser.add_argument("-e", "--epochs",
                         help="set number of training epochs [default: 8]",
                         action="store",
                         dest="epochs",
+                        type=int,
                         default=8)
 
     parser.add_argument("-v", "--validation-split",
                         help="set the amount of data that should be used for validation [default: 0.1]",
                         action="store",
                         dest="validation_split",
+                        type=float,
                         default=0.1)
 
     parser.add_argument("-i", "--image-variations",
                         help="specify the number of image variations to be generated [default: 3]",
                         dest="image_variations",
                         action="store",
+                        type=int,
                         default=3)
 
     parser.add_argument("-b", "--brightness-difference",
                         help="specify the brightness difference between variations [default: 32]",
                         dest="brightness_difference",
                         action="store",
+                        type=int,
                         default=32)
 
     args = parser.parse_args()

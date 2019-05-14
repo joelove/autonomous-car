@@ -30,28 +30,29 @@ def modify_brightness(image, value):
 
 
 def process_training_image(filepath, difference, variations):
-        with open(filepath) as record_file:
-            record = json.load(record_file)
+    with open(filepath) as record_file:
+        record = json.load(record_file)
 
-            frame_filename = record["frame_filename"]
-            frame = cv2.imread(f'{DATA_DIR}/{frame_filename}')
+        frame_filename = record["frame_filename"]
+        frame = cv2.imread(f'{DATA_DIR}/{frame_filename}')
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
 
-            if not variations % 2:
-                variations -= 1
+        if not variations % 2:
+            variations -= 1
 
-            variation_range = variations * difference
-            range_shift = int(difference / 2)
-            integer_range = int(variation_range / 2)
-            range_min = -(integer_range - range_shift)
-            range_max = integer_range + range_shift
+        variation_range = variations * difference
+        range_shift = int(difference / 2)
+        integer_range = int(variation_range / 2)
+        range_min = -(integer_range - range_shift)
+        range_max = integer_range + range_shift
 
-            preview_images = []
+        preview_images = []
 
-            for value in range(range_min, range_max, difference):
-                new_image = modify_brightness(frame, value)
-                preview_images.append(new_image)
+        for value in range(range_min, range_max, difference):
+            new_image = modify_brightness(frame, value)
+            preview_images.append(new_image)
 
-            return preview_images
+        return preview_images
 
 
 def preview_training_images(difference, variations):
