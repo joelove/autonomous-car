@@ -87,9 +87,11 @@ def train_model(args):
     if not image_variations % 2:
         image_variations -= 1
 
-    frames = np.empty((total_records * image_variations, *image_shape, 1))
-    angles = np.empty(total_records * image_variations)
-    throttles = np.empty(total_records * image_variations)
+    total_variations = total_records * image_variations
+
+    frames = np.empty((total_variations, *image_shape, 1))
+    angles = np.empty(total_variations)
+    throttles = np.empty(total_variations)
 
     index = 0
 
@@ -97,7 +99,7 @@ def train_model(args):
         completion_ratio = float(index) / total_records
         percent_complete = int(round(completion_ratio * 100))
 
-        print(f'Processing record {index + 1} of {total_records}... ({percent_complete}%)', end="\r")
+        print(f'Processing record {index + 1} of {total_variations}... ({percent_complete}%)', end="\r")
 
         with open(filepath) as record_file:
             record = json.load(record_file)
