@@ -76,7 +76,7 @@ def train_model(args):
     print("Variation brightness difference:", args.brightness_difference)
 
     data_dir = os.path.join(root_dir, config.DATA_PATH)
-    record_files = glob.glob(f'{data_dir}/*.json')[0:128]
+    record_files = glob.glob(f'{data_dir}/*.json')
 
     total_records = len(record_files)
     image_shape = tuple(reversed(config.CAMERA_RESOLUTION))
