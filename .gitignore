@@ -132,3 +132,6 @@ dmypy.json
 /camera_calibration
 /tensorboard_logs
 /backup
+
+# Mac
+.DS_Store

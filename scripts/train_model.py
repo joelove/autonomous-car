@@ -15,6 +15,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import Input, Convolution2D, BatchNormalization, Dropout, Flatten, Dense
 from tensorflow.keras.callbacks import TensorBoard
+from tensorflow.keras import backend as TfBackend
 
 script_path = os.path.abspath(__file__)
 script_dir = os.path.dirname(script_path)
@@ -184,3 +185,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     train_model(args)
+
+    TfBackend.clear_session()
