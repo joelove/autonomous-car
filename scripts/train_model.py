@@ -82,9 +82,14 @@ def train_model(args):
     total_records = len(record_files)
     image_shape = tuple(reversed(config.CAMERA_RESOLUTION))
 
-    frames = np.empty((total_records, *image_shape, 1))
-    angles = np.empty(total_records)
-    throttles = np.empty(total_records)
+    image_variations = args.image_variations
+
+    if not image_variations % 2:
+        image_variations -= 1
+
+    frames = np.empty((total_records * image_variations, *image_shape, 1))
+    angles = np.empty(total_records * image_variations)
+    throttles = np.empty(total_records * image_variations)
 
     for index, filepath in enumerate(record_files):
         completion_ratio = float(index) / total_records
@@ -98,14 +103,14 @@ def train_model(args):
             angle = record["angle"]
             throttle = record["throttle"]
 
-            frame_variations = process_training_image(filepath, args.brightness_difference, args.image_variations)
+            frame_variations = process_training_image(filepath, args.brightness_difference, image_variations)
 
             for frame_variation in frame_variations:
                 frame_array = frame_variation.reshape(frame_variation.shape + (1,))
 
-                angles[index] = angle
-                throttles[index] = throttle
-                frames[index,:,:,:] = frame_array
+                np.append(angles, angle)
+                np.append(throttles, throttle)
+                np.append(frames, frame_array)
 
     print(f'{total_records} records processed!', 99*' ')
     print("Creating model...", end="\r")
