@@ -49,8 +49,16 @@ Other versions might work but finding an ARM-compiled binary for `numpy` that wo
 sudo apt-get install libcblas-dev libhdf5-dev libhdf5-serial-dev libatlas-base-dev libjasper-dev libqtgui4 libqt4-test xboxdrv joystick python-smbus i2c-tools -y
 ```
 
+##### Raspberry Pi
+
 ```bash
 pip3 install numpy==1.13.3 opencv-python tensorflow picamera adafruit-circuitpython-servokit
+```
+
+##### Jetson Nano
+
+```bash
+pip3 install adafruit-circuitpython-pca9685 adafruit-circuitpython-motor
 ```
 
 #### Connecting a controller
