@@ -1,35 +1,20 @@
-import time
-import math
-import config
-
-from picamera import PiCamera
-from picamera.array import PiRGBArray
+import cv2
 
 from threading import Thread
 from multiprocessing import Queue
+from utilities.stream_pipelines import gstreamer_pipeline
 
 
 class Camera:
     def __init__(self):
-        self.camera = PiCamera(
-            sensor_mode=4,
-            resolution=config.CAMERA_RESOLUTION,
-            framerate=config.CAMERA_FRAMERATE)
-
+        self.capture = cv2.VideoCapture(gstreamer_pipeline(), cv2.CAP_GSTREAMER)
         self.frames = Queue()
-
-        time.sleep(2) # warm up
-
-        self.thread = Thread(target=self.start, daemon=True, args=(self.frames,))
+        self.thread = Thread(target=self.capture_continuous, daemon=True, args=(self.frames,))
         self.thread.start()
 
 
-    def start(self, frames):
-        stream = PiRGBArray(self.camera)
-
-        for _ in self.camera.capture_continuous(stream, format='bgr', use_video_port=True):
-            stream.truncate()
-            stream.seek(0)
-
-            if not frames.full():
-                frames.put_nowait(stream.array)
+    def capture_continuous(self, frames):
+        while self.capture.isOpened():
+            if frames.full():
+                _, frame = self.capture.read();
+                frames.put_nowait(frame)
