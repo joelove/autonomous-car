@@ -33,9 +33,9 @@ class Vehicle:
 
     def interval_to_steering_angle(self, interval):
         unit_interval = self.axis_to_unit_interval(interval)
-        actual_angle = unit_interval * config.STEERING_RANGE
+        actual_angle = unit_interval * config.STEERING_RANGE_DEGREES
         actuation_range = self.servos.steering_servo.actuation_range
-        range_difference = actuation_range - config.STEERING_RANGE
+        range_difference = actuation_range - config.STEERING_RANGE_DEGREES
         steering_lead = range_difference / 2
         steering_angle = actuation_range - steering_lead - actual_angle
 

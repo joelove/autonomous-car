@@ -8,7 +8,6 @@ import config
 
 class ServoDriver:
     def __init__(self):
-        print(SCL, SDA)
         i2c = busio.I2C(SCL, SDA)
         pca = PCA9685(i2c)
         pca.frequency = 50
