@@ -33,7 +33,7 @@ sudo apt-get update -y
 
 #### Python
 
-This project is designed to run on Python `3.5.3`, which comes bundled with the latest version of Raspbian (at time of writing) but isn't the default.
+This project is designed to run on Python `3.5.x` or `3.6.x`, which comes bundled with the Raspbian and Ubuntu (at time of writing) but isn't the default.
 
 We can use Python 3 with the `python3` command:
 
@@ -58,7 +58,10 @@ pip3 install numpy==1.13.3 opencv-python tensorflow picamera adafruit-circuitpyt
 ##### Jetson Nano
 
 ```bash
-pip3 install adafruit-circuitpython-pca9685 adafruit-circuitpython-motor
+sudo apt-get install libhdf5-serial-dev hdf5-tools
+sudo apt-get install zlib1g-dev zip libjpeg8-dev libhdf5-dev
+pip3 install adafruit-circuitpython-pca9685 adafruit-circuitpython-motor numpy grpcio absl-py py-cpuinfo psutil portpicker grpcio six mock requests gast h5py astor termcolor
+pip3 install --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v42 tensorflow-gpu==1.13.1+nv19.3
 ```
 
 #### Connecting a controller
