@@ -132,7 +132,7 @@ def train_model(args):
     date = datetime.datetime.now().strftime('%y-%m-%d-%H-%M')
     tb_callback = TensorBoard(log_dir=('./tensorboard_logs/%s' % date), histogram_freq=0, write_graph=True, write_images=True)
 
-    model.fit(frames, y_train, validation_split=args.validation_split, epochs=args.epochs, verbose=1, callbacks=[tb_callback])
+    model.fit(x_train, y_train, validation_split=args.validation_split, epochs=args.epochs, verbose=1, callbacks=[tb_callback])
 
     print("Model trained!", 99*' ')
     print("Saving model...", end="\r")
