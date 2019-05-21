@@ -18,9 +18,7 @@ class ServoDriver:
             max_pulse=config.STEERING_MAX_PULSE)
 
     def set_angle(self, angle):
-        print('angle', angle)
         self.steering_servo.angle = angle
 
     def set_throttle(self, throttle):
-        print('throttle', throttle)
         self.throttle_servo.throttle = throttle
