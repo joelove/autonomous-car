@@ -53,6 +53,6 @@ class Vehicle:
 
         return throttle
 
-    def end(self):
+    def end(self, signal, frame):
         self.servos.reset_all()
         sys.exit(0)
