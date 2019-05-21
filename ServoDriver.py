@@ -9,10 +9,14 @@ import config
 class ServoDriver:
     def __init__(self):
         i2c = busio.I2C(SCL, SDA)
+
         pca = PCA9685(i2c)
         pca.frequency = 50
 
-        self.throttle_servo = servo.ContinuousServo(pca.channels[config.THROTTLE_CHANNEL])
+        self.throttle_servo = servo.ContinuousServo(pca.channels[config.THROTTLE_CHANNEL],
+            min_pulse=config.THROTTLE_MIN_PULSE,
+            max_pulse=config.THROTTLE_MAX_PULSE)
+
         self.steering_servo = servo.Servo(pca.channels[config.STEERING_CHANNEL],
             min_pulse=config.STEERING_MIN_PULSE,
             max_pulse=config.STEERING_MAX_PULSE)
