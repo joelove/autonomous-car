@@ -22,3 +22,7 @@ class ServoDriver:
 
     def set_throttle(self, throttle):
         self.throttle_servo.throttle = throttle
+
+    def reset_all(self):
+        self.steering_servo.angle = None
+        self.throttle_servo.throttle = None

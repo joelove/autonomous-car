@@ -47,43 +47,50 @@ class Manual(Vehicle):
         print('>> Manual driving <<')
         print('Data capture: ' + str(self.capture))
 
+        self.servos.reset_all()
+
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
 
         joystick_state = ({}, {})
         latest_frame = np.array([])
 
-        while True:
-            start_time = time.time()
+        try:
+            while True:
+                start_time = time.time()
 
-            while not self.controller.joystick_state.empty():
-                joystick_state = self.controller.joystick_state.get_nowait()
+                while not self.controller.joystick_state.empty():
+                    joystick_state = self.controller.joystick_state.get_nowait()
 
-            axis_states, button_states = joystick_state
+                axis_states, button_states = joystick_state
 
-            if axis_states:
-                left_stick_x_axis = axis_states["left_stick_x"]
-                right_trigger_axis = axis_states["right_trigger"]
+                if axis_states:
+                    left_stick_x_axis = axis_states["left_stick_x"]
+                    right_trigger_axis = axis_states["right_trigger"]
 
-                steering_interval = self.steering_axis_to_interval(left_stick_x_axis)
-                throttle_interval = self.throttle_axis_to_interval(right_trigger_axis)
+                    steering_interval = self.steering_axis_to_interval(left_stick_x_axis)
+                    throttle_interval = self.throttle_axis_to_interval(right_trigger_axis)
 
-                if config.FIXED_SPEED_MODE and throttle_interval > 0:
-                    throttle_interval = config.FIXED_SPEED_INTERVAL
+                    if config.FIXED_SPEED_MODE and throttle_interval > 0:
+                        throttle_interval = config.FIXED_SPEED_INTERVAL
 
-                angle = self.interval_to_steering_angle(steering_interval)
-                throttle = self.interval_to_throttle(throttle_interval)
+                    angle = self.interval_to_steering_angle(steering_interval)
+                    throttle = self.interval_to_throttle(throttle_interval)
 
-                self.servos.set_angle(angle)
-                self.servos.set_throttle(throttle)
+                    self.servos.set_angle(angle)
+                    self.servos.set_throttle(throttle)
 
-                if button_states:
-                    record = button_states["a"]
+                    if button_states:
+                        record = button_states["a"]
 
-                    if record and self.capture:
-                        while not self.camera.frames.empty():
-                            latest_frame = self.camera.frames.get_nowait()
+                        if record and self.capture:
+                            while not self.camera.frames.empty():
+                                latest_frame = self.camera.frames.get_nowait()
 
-                        if latest_frame.size:
-                            self.save_data_record(steering_interval, throttle_interval, latest_frame)
+                            if latest_frame.size:
+                                self.save_data_record(steering_interval, throttle_interval, latest_frame)
 
-            time.sleep(tick_length - ((time.time() - start_time) % tick_length))
+                time.sleep(tick_length - ((time.time() - start_time) % tick_length))
+
+        except KeyboardInterrupt:
+            self.servos.reset_all()
+            print('KeyboardInterrupt')
