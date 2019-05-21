@@ -1,5 +1,5 @@
 from adafruit_pca9685 import PCA9685
-from adafruit_motor import servo
+from adafruit_motor import servo, motor
 from board import SCL, SDA
 
 import busio
@@ -13,7 +13,7 @@ class ServoDriver:
         pca = PCA9685(i2c)
         pca.frequency = 50
 
-        self.throttle_servo = servo.DCMotor(pca.channels[config.THROTTLE_CHANNEL])
+        self.throttle_servo = motor.DCMotor(pca.channels[config.THROTTLE_CHANNEL])
         self.steering_servo = servo.Servo(pca.channels[config.STEERING_CHANNEL],
             min_pulse=config.STEERING_MIN_PULSE,
             max_pulse=config.STEERING_MAX_PULSE)
