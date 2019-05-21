@@ -1,3 +1,4 @@
+import sys
 import config
 
 from Camera import Camera
@@ -51,3 +52,7 @@ class Vehicle:
         throttle = throttle_percent / 100
 
         return throttle
+
+    def end(self):
+        self.servos.reset_all()
+        sys.exit(0)
