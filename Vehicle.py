@@ -15,14 +15,19 @@ class Vehicle:
         return (axis + 1) / 2
 
 
+    def axis_to_inverse(self, interval):
+        return -interval
+
+
     def number_to_exponential(self, axis):
         return axis ** 3
 
 
     def steering_axis_to_interval(self, axis):
         steering_exponential_axis = self.number_to_exponential(axis)
+        inverse_axis = self.axis_to_inverse(steering_exponential_axis)
 
-        return steering_exponential_axis
+        return inverse_axis
 
 
     def throttle_axis_to_interval(self, axis):
