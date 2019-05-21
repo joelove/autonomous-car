@@ -11,7 +11,7 @@ class ServoDriver:
         i2c = busio.I2C(SCL, SDA)
 
         pca = PCA9685(i2c)
-        pca.frequency = 100
+        pca.frequency = 50
 
         self.throttle_servo = servo.ContinuousServo(pca.channels[config.THROTTLE_CHANNEL],
             min_pulse=config.THROTTLE_MIN_PULSE,
