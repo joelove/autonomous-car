@@ -44,8 +44,8 @@ class ServoDriver:
 
     def reset(self):
         print('RESET')
-        self.throttle_servo.throttle = None
-        self.steering_servo.angle = None
+        self.throttle_servo.throttle = 0
+        self.steering_servo.angle = 90
 
 
     def clean(self):
