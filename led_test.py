@@ -1,15 +1,15 @@
 import Jetson.GPIO as GPIO
 import time
 
+channel = 14
 
 GPIO.setmode(GPIO.BOARD)
-GPIO.setwarnings(False)
-GPIO.setup(13, GPIO.OUT)
+GPIO.setup(channel, GPIO.OUT)
 
 while True:
     print('HIGH')
-    GPIO.output(13, GPIO.HIGH)
+    GPIO.output(channel, GPIO.HIGH)
     time.sleep(0.5)
     print('LOW')
-    GPIO.output(13, GPIO.LOW)
+    GPIO.output(channel, GPIO.LOW)
     time.sleep(0.5)
