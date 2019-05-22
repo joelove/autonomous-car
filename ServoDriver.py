@@ -24,12 +24,10 @@ class ServoDriver:
 
         signal.signal(signal.SIGINT, self.handle_sigint)
 
-        self.reset()
-
 
     def handle_sigint(self, signal, frame):
         print('HANDLE', signal)
-        self.clean()
+        self.reset()
 
 
     def set_angle(self, angle):
@@ -44,11 +42,5 @@ class ServoDriver:
 
     def reset(self):
         print('RESET')
-        self.throttle_servo.throttle = 0
-        self.steering_servo.angle = 90
-
-
-    def clean(self):
-        print('CLEAN')
         self.throttle_servo.deinit()
-        self.steering_servo.deinit()
+        self.steering_servo.angle = 90
