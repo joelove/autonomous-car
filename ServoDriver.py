@@ -41,6 +41,7 @@ class ServoDriver:
 
 
     def enable_led(self, channel):
+        print('ENABLE', channel)
         self.pca.channels[channel].duty_cycle = 0xffff
 
 
