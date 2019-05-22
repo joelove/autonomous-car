@@ -18,7 +18,7 @@ class ServoDriver:
         #     min_pulse=config.THROTTLE_MIN_PULSE,
         #     max_pulse=config.THROTTLE_MAX_PULSE)
 
-        self.throttle_servo = servo.DCMotor(pca.channels[config.THROTTLE_CHANNEL],
+        self.throttle_servo = motor.DCMotor(pca.channels[config.THROTTLE_CHANNEL],
             pca.channels[5])
 
         self.steering_servo = servo.Servo(pca.channels[config.STEERING_CHANNEL],
