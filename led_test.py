@@ -3,7 +3,7 @@ import time
 
 channel = 13
 
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 GPIO.setup(channel, GPIO.OUT)
 
