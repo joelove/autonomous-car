@@ -1,5 +1,3 @@
-import sys
-import signal
 import config
 
 from Camera import Camera
@@ -10,12 +8,6 @@ class Vehicle:
     def __init__(self):
         self.camera = Camera()
         self.servos = ServoDriver()
-
-        signal.signal(signal.SIGINT, self.exit)
-
-
-    def exit(self, frame, foo):
-        sys.exit(0)
 
 
     def axis_to_unit_interval(self, axis):

@@ -5,6 +5,7 @@ from board import SCL, SDA
 import busio
 import config
 import signal
+import sys
 
 
 class ServoDriver:
@@ -28,6 +29,7 @@ class ServoDriver:
     def handle_sigint(self, signal, frame):
         print('HANDLE', signal)
         self.reset()
+        sys.exit(0)
 
 
     def set_angle(self, angle):
