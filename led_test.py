@@ -1,16 +1,13 @@
-import Jetson.GPIO as GPIO
-import time
+from adafruit_pca9685 import PCA9685
+from board import SCL, SDA
 
-channel = 33
+import busio
 
-GPIO.setmode(GPIO.BOARD)
-GPIO.setwarnings(False)
-GPIO.setup(channel, GPIO.OUT)
 
-while True:
-    print('HIGH')
-    GPIO.output(channel, GPIO.HIGH)
-    time.sleep(0.5)
-    print('LOW')
-    GPIO.output(channel, GPIO.LOW)
-    time.sleep(0.5)
+i2c = busio.I2C(SCL, SDA)
+
+pca = PCA9685(i2c)
+pca.frequency = 60
+
+led_channel = pca.channels[8]
+led_channel.duty_cycle = 0xffff
