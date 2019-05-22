@@ -1,7 +1,7 @@
 import Jetson.GPIO as GPIO
 import time
 
-channel = 14
+channel = 13
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(channel, GPIO.OUT)
