@@ -20,8 +20,8 @@ while True:
     red_led.duty_cycle = 0xffff
     time.sleep(0.1)
     white_led.duty_cycle = 0xffff
-    time.sleep(0.1)
+    time.sleep(0.25)
     red_led.duty_cycle = 0
     time.sleep(0.1)
     white_led.duty_cycle = 0
-    time.sleep(0.1)
+    time.sleep(0.25)
