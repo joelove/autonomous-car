@@ -4,6 +4,7 @@ import time
 channel = 13
 
 GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
 GPIO.setup(channel, GPIO.OUT)
 
 while True:
