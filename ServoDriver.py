@@ -4,6 +4,7 @@ from board import SCL, SDA
 
 import busio
 import config
+import signal
 
 
 class ServoDriver:
@@ -21,15 +22,29 @@ class ServoDriver:
             min_pulse=config.STEERING_MIN_PULSE,
             max_pulse=config.STEERING_MAX_PULSE)
 
+        signal.signal(signal.SIGINT, self.clean)
+        signal.signal(signal.SIGTERM, self.clean)
+
+        self.reset()
+
+
     def set_angle(self, angle):
-        print('angle', angle)
+        print('ANGLE', angle)
         self.steering_servo.angle = angle
 
+
     def set_throttle(self, throttle):
-        print('throttle', throttle)
+        print('THROTTLE', throttle)
         self.throttle_servo.throttle = throttle
 
-    def reset_all(self):
-        print('reset all')
-        self.steering_servo.angle = None
-        self.throttle_servo.throttle = None
+
+    def reset(self):
+        print('RESET')
+        self.throttle_servo.throttle = 0
+        self.steering_servo.angle = 0
+
+
+    def clean(self):
+        print('CLEAN')
+        self.throttle_servo.deinit()
+        self.steering_servo.deinit()

@@ -1,6 +1,5 @@
 import time
 import json
-import signal
 import config
 import numpy as np
 
@@ -47,8 +46,6 @@ class Manual(Vehicle):
     def drive(self):
         print('>> Manual driving <<')
         print('Data capture: ' + 'Yes' if self.capture else 'No')
-
-        signal.signal(signal.SIGINT, self.end)
 
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
 
