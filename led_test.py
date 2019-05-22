@@ -2,15 +2,18 @@ import Jetson.GPIO as GPIO
 import time
 
 channel = 13
+frequency = 50
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 GPIO.setup(channel, GPIO.OUT)
 
+white_led = GPIO.PWM(channel, frequency)
+
 while True:
     print('HIGH')
-    GPIO.output(channel, GPIO.HIGH)
+    white_led.ChangeDutyCycle(1)
     time.sleep(0.5)
     print('LOW')
-    GPIO.output(channel, GPIO.LOW)
+    white_led.ChangeDutyCycle(0)
     time.sleep(0.5)
