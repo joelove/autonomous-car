@@ -2,7 +2,7 @@ import Jetson.GPIO as GPIO
 import time
 
 
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 GPIO.setup(13, GPIO.OUT)
 
