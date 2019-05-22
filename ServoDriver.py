@@ -47,6 +47,7 @@ class ServoDriver:
 
     def enable_leds(self):
         print('ENABLE ALL')
+        print(config.RED_LED_CHANNELS)
         map(self.enable_led, config.RED_LED_CHANNELS)
         map(self.enable_led, config.WHITE_LED_CHANNELS)
 
