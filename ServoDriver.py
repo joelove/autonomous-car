@@ -22,10 +22,14 @@ class ServoDriver:
             min_pulse=config.STEERING_MIN_PULSE,
             max_pulse=config.STEERING_MAX_PULSE)
 
-        signal.signal(signal.SIGINT, self.clean)
-        signal.signal(signal.SIGTERM, self.clean)
+        signal.signal(signal.SIGINT, self.handle_sigint)
 
         self.reset()
+
+
+    def handle_sigint(self, signal, frame):
+        print('HANDLE', signal)
+        self.clean()
 
 
     def set_angle(self, angle):
@@ -40,8 +44,8 @@ class ServoDriver:
 
     def reset(self):
         print('RESET')
-        self.throttle_servo.throttle = 0
-        self.steering_servo.angle = 0
+        self.throttle_servo.throttle = None
+        self.steering_servo.angle = None
 
 
     def clean(self):
