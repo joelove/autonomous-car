@@ -14,7 +14,7 @@ class ServoDriver:
         pca = PCA9685(i2c)
         pca.frequency = 50
 
-        self.throttle_servo = servo.ContinuousServo(pca.channels[config.THROTTLE_CHANNEL],
+        self.throttle_servo = servo.Servo(pca.channels[config.THROTTLE_CHANNEL],
             min_pulse=config.THROTTLE_MIN_PULSE,
             max_pulse=config.THROTTLE_MAX_PULSE)
 
@@ -39,7 +39,7 @@ class ServoDriver:
 
     def set_throttle(self, throttle):
         print('THROTTLE', throttle)
-        self.throttle_servo.throttle = throttle
+        self.throttle_servo.angle = throttle
 
 
     def reset(self):
