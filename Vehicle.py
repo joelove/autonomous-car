@@ -34,7 +34,7 @@ class Vehicle:
         throttle_exponential_interval = self.number_to_exponential(throttle_interval)
         throttle_inverse = self.interval_to_inverse(throttle_exponential_interval)
 
-        return throttle_inverse + 0.05
+        return throttle_inverse + 0.1
 
 
     def interval_to_steering_angle(self, interval):
