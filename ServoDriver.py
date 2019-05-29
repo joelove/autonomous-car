@@ -66,5 +66,5 @@ class ServoDriver:
 
 
     def reset(self):
-        self.throttle_servo.deinit()
+        self.throttle_servo.throttle = config.THROTTLE_SHIFT
         self.steering_servo.angle = None
