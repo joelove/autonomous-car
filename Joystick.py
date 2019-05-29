@@ -116,6 +116,7 @@ class Joystick():
                 try:
                     self.jsdev = open(self.dev_fn, 'rb')
                     print('Controller connected!')
+                    break
                 except:
                     continue
 
