@@ -22,9 +22,9 @@ class Camera:
             start_time = time.time()
 
             if not frames.full():
-                _, frame = self.capture.read();
+                success, frame = self.capture.read();
 
-                if frame is not None:
+                if success:
                     frames.put_nowait(frame)
 
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
