@@ -17,7 +17,13 @@ class ServoDriver:
 
         self.initialize_pca()
         self.initialize_servos()
-        self.enable_leds()
+
+        self.enable_lights()
+
+
+    def handle_sigint(self, signal, frame):
+        self.reset_servos()
+        sys.exit(0)
 
 
     def initialize_pca(self):
@@ -40,31 +46,52 @@ class ServoDriver:
             max_pulse=config.STEERING_MAX_PULSE)
 
 
-    def enable_led(self, channel):
-        self.pca.channels[channel].duty_cycle = 0xffff
-
-
-    def enable_leds(self):
-        for channel in config.RED_LED_CHANNELS:
-            self.enable_led(channel)
-
-        for channel in config.WHITE_LED_CHANNELS:
-            self.enable_led(channel)
-
-
-    def handle_sigint(self, signal, frame):
-        self.reset()
-        sys.exit(0)
+    def reset_servos(self):
+        self.throttle_servo.throttle = config.THROTTLE_SHIFT
+        self.steering_servo.angle = None
 
 
     def set_angle(self, angle):
         self.steering_servo.angle = angle
+        self.set_indicators(angle)
 
 
     def set_throttle(self, throttle):
         self.throttle_servo.throttle = throttle
 
 
-    def reset(self):
-        self.throttle_servo.throttle = config.THROTTLE_SHIFT
-        self.steering_servo.angle = None
+    def enable_led(self, channel):
+        self.pca.channels[channel].duty_cycle = 0xffff
+
+
+    def disable_led(self, channel):
+        self.pca.channels[channel].duty_cycle = 0
+
+
+    def enable_lights(self):
+        for channel in config.HEAD_LIGHT_CHANNELS:
+            self.enable_led(channel)
+
+        for channel in config.REAR_LIGHT_CHANNELS:
+            self.enable_led(channel)
+
+
+    def disable_indicators(self):
+        self.disable_led(config.LEFT_INDICATOR_CHANNEL)
+        self.disable_led(config.RIGHT_INDICATOR_CHANNEL)
+
+
+    def enable_indicator(self, angle):
+        positive_steering_angle = angle > 0
+
+        if positive_steering_angle:
+            self.enable_led(config.LEFT_INDICATOR_CHANNEL)
+        else:
+            self.enable_led(config.RIGHT_INDICATOR_CHANNEL)
+
+
+    def set_indicators(self, angle):
+        if not angle:
+            self.disable_indicators()
+
+        self.enable_indicator(angle)
