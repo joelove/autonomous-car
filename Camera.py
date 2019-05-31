@@ -1,4 +1,6 @@
+import time
 import cv2
+import config
 
 from threading import Thread
 from multiprocessing import Queue
@@ -14,7 +16,13 @@ class Camera:
 
 
     def capture_continuous(self, frames):
+        tick_length = (1.0 / config.DRIVE_LOOP_HZ) / 2
+
         while True:
+            start_time = time.time()
+
             if not frames.full():
                 _, frame = self.capture.read();
                 frames.put_nowait(frame)
+
+            time.sleep(tick_length - ((time.time() - start_time) % tick_length))
