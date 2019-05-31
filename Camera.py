@@ -16,7 +16,7 @@ class Camera:
 
 
     def capture_continuous(self, frames):
-        tick_length = (1.0 / config.DRIVE_LOOP_HZ) / 2
+        tick_length = 1.0 / config.CAMERA_FRAMERATE
 
         while True:
             start_time = time.time()
