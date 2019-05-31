@@ -12,12 +12,12 @@ import config
 
 def gstreamer_pipeline ():
     print((
-        *config.CAMERA_RESOLUTION,
+        *config.CAMERA_CAPTURE_RESOLUTION,
         config.CAMERA_FRAMERATE,
         config.CAMERA_FLIP_METHOD,
-        *config.CAMERA_RESOLUTION,
+        *config.CAMERA_OUTPUT_RESOLUTION,
     ))
-    
+
     return (
         'nvarguscamerasrc ! '
         'video/x-raw(memory:NVMM), '
@@ -27,9 +27,9 @@ def gstreamer_pipeline ():
         'video/x-raw, width=(int)%d, height=(int)%d, format=(string)BGRx ! '
         'videoconvert ! '
         'video/x-raw, format=(string)BGR ! appsink'  % (
-            *config.CAMERA_RESOLUTION,
+            *config.CAMERA_CAPTURE_RESOLUTION,
             config.CAMERA_FRAMERATE,
             config.CAMERA_FLIP_METHOD,
-            *config.CAMERA_RESOLUTION,
+            *config.CAMERA_OUTPUT_RESOLUTION,
         )
     )
