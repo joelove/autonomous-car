@@ -10,7 +10,7 @@ sys.path.append(root_dir)
 import config
 
 
-def gstreamer_pipeline ():
+def gstreamer_pipeline():
     return (
         'nvarguscamerasrc ! '
         'video/x-raw(memory:NVMM), '
