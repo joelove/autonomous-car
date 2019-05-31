@@ -25,6 +25,8 @@ class Camera:
                 success, frame = self.capture.read();
 
                 if success:
+                    print('success')
                     frames.put_nowait(frame)
+                    print('PUT')
 
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
