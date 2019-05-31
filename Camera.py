@@ -22,6 +22,7 @@ class Camera:
             start_time = time.time()
 
             if not frames.full():
+                print('not full')
                 success, frame = self.capture.read();
 
                 if success:

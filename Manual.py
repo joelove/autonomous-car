@@ -87,6 +87,7 @@ class Manual(Vehicle):
                             latest_frame = self.camera.frames.get_nowait()
 
                         if latest_frame.size:
+                            print("SIZE")
                             self.save_data_record(steering_interval, throttle_interval, latest_frame)
 
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
