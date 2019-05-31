@@ -9,6 +9,7 @@ from utilities.stream_pipelines import gstreamer_pipeline
 
 class Camera:
     def __init__(self):
+        print(gstreamer_pipeline())
         self.capture = cv2.VideoCapture(gstreamer_pipeline(), cv2.CAP_GSTREAMER)
         self.frames = Queue()
         self.thread = Thread(target=self.capture_continuous, daemon=True, args=(self.frames,))
