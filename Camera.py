@@ -15,9 +15,6 @@ class Camera:
 
     def capture_continuous(self, frames):
         while True:
-            print('capture')
             if not frames.full():
-                print('read')
                 _, frame = self.capture.read();
-                print('put')
                 frames.put_nowait(frame)
