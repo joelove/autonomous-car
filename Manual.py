@@ -79,8 +79,6 @@ class Manual(Vehicle):
                 if button_states:
                     record = button_states["a"]
 
-                    print(record, self.capture)
-
                     if record and self.capture:
                         while not self.camera.frames.empty():
                             latest_frame = self.camera.frames.get_nowait()
