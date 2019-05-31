@@ -19,6 +19,7 @@ class Manual(Vehicle):
 
 
     def save_data_record(self, angle, throttle, frame):
+        print("Save")
         timestamp = time.time()
 
         frame_filename = str(timestamp) + '_frame.jpg'
@@ -80,7 +81,9 @@ class Manual(Vehicle):
                     record = button_states["a"]
 
                     if record and self.capture:
+                        print("Record")
                         while not self.camera.frames.empty():
+                            print("FRAME")
                             latest_frame = self.camera.frames.get_nowait()
 
                         if latest_frame.size:
