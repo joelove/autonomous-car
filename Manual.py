@@ -76,10 +76,10 @@ class Manual(Vehicle):
                 self.servos.set_angle(angle)
                 self.servos.set_throttle(throttle)
 
-                print(button_states)
-
                 if button_states:
                     record = button_states["a"]
+
+                    print(record, self.capture)
 
                     if record and self.capture:
                         while not self.camera.frames.empty():
