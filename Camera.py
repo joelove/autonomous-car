@@ -23,7 +23,7 @@ class Camera:
 
             if not frames.full():
                 success, frame = self.capture.read();
-                print(success)
+                print(frame)
 
                 if success:
                     print('success')
