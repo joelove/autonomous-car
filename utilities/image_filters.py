@@ -31,12 +31,13 @@ def crop_hood(image):
     right_horizon_shape = [(0, horizon_height), (1, peripheral_height), (1, 1), (0, 1)]
     center_horizon_shape = [(0, horizon_height), (1, horizon_height), (1, 1), (0, 1)]
 
-    left_hood_shape = [(0, 0), (1, 0), (1, 1), (0, hood_height)]
-    right_hood_shape = [(0, 0), (1, 0), (1, hood_height), (0, 1)]
+    left_hood_shape = [(0, 0), (1, 0), (1, hood_height), (0, 1)]
+    right_hood_shape = [(0, 0), (1, 0), (1, 1), (0, hood_height)]
     center_hood_shape = [(0, 0), (1, 0), (1, hood_height), (0, hood_height)]
 
     left_warped = warp_by_shape(left_image, left_horizon_shape)
     left_warped = warp_by_shape(left_warped, left_hood_shape)
+    left_warped = warp_by_shape(left_warped, right_hood_shape)
 
     right_warped = warp_by_shape(right_image, right_horizon_shape)
     right_warped = warp_by_shape(right_warped, right_hood_shape)
