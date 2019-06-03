@@ -48,7 +48,7 @@ class ServoDriver:
 
     def reset_servos(self):
         self.throttle_servo.throttle = config.THROTTLE_SHIFT
-        self.steering_servo.angle = 0
+        self.steering_servo.angle = 90
 
 
     def set_angle(self, angle):
