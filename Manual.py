@@ -74,7 +74,7 @@ class Manual(Vehicle):
 
                 print('throttle_interval', throttle_interval)
 
-                if throttle_interval and not steering_interval:
+                if throttle_interval < config.THROTTLE_SHIFT and not steering_interval:
                     throttle_interval += config.THROTTLE_STRAIGHT_INCREASE
 
                 print('throttle_interval', throttle_interval)

@@ -49,7 +49,7 @@ class Vehicle:
 
 
     def interval_to_throttle(self, interval):
-        if not interval:
+        if not interval < config.THROTTLE_SHIFT:
             return interval
 
         throttle_range = config.THROTTLE_MAX_PERCENT - config.THROTTLE_MIN_PERCENT
