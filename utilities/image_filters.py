@@ -67,6 +67,13 @@ def resize(image):
     return output_image
 
 
+def apply_clahe(image):
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+    clahed_image = clahe.apply(image)
+
+    return clahed_image
+
+
 def perspective_warp(image):
     image_dimensions = tuple(reversed(image.shape))
 
@@ -108,8 +115,9 @@ def detect_edges(image):
 
 def apply_default_filters(image):
     image = rgb_to_grayscale(image)
-    image = reduce_noise(image)
     image = crop_hood(image)
-    # image = resize(image)
+    image = resize(image)
+    # image = reduce_noise(image)
+    image = apply_clahe(image)
 
     return image
