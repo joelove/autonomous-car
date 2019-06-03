@@ -37,6 +37,9 @@ class Auto(Vehicle):
         angle = self.interval_to_steering_angle(steering_interval)
         throttle = self.interval_to_throttle(throttle_interval)
 
+        print('angle', angle)
+        print('throttle', throttle)
+
         self.servos.set_angle(angle)
         self.servos.set_throttle(throttle)
 
@@ -51,6 +54,8 @@ class Auto(Vehicle):
 
             while not self.camera.frames.empty():
                 frame = self.camera.frames.get_nowait()
+
+            print(frame)
 
             if not frame.size:
                 continue
