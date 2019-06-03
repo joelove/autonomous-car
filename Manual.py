@@ -67,22 +67,16 @@ class Manual(Vehicle):
                 steering_interval = self.steering_axis_to_interval(left_stick_x_axis)
                 throttle_interval = self.throttle_axis_to_interval(right_trigger_axis)
 
-                print('throttle_interval', throttle_interval)
+                if throttle_interval < config.THROTTLE_SHIFT:
 
-                if config.FIXED_SPEED_MODE and throttle_interval < config.THROTTLE_SHIFT:
-                    throttle_interval = config.FIXED_SPEED_INTERVAL
+                    if config.FIXED_SPEED_MODE:
+                        throttle_interval = config.FIXED_SPEED_INTERVAL
 
-                print('throttle_interval', throttle_interval)
-
-                if throttle_interval < config.THROTTLE_SHIFT and not steering_interval:
-                    throttle_interval += config.THROTTLE_STRAIGHT_INCREASE
-
-                print('throttle_interval', throttle_interval)
+                    if not steering_interval:
+                        throttle_interval += config.THROTTLE_STRAIGHT_INCREASE
 
                 angle = self.interval_to_steering_angle(steering_interval)
                 throttle = self.interval_to_throttle(throttle_interval)
-
-                print('throttle', throttle)
 
                 self.servos.set_angle(angle)
                 self.servos.set_throttle(throttle)
