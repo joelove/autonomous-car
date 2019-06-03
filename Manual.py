@@ -70,6 +70,8 @@ class Manual(Vehicle):
                 if config.FIXED_SPEED_MODE and throttle_interval < config.THROTTLE_SHIFT:
                     throttle_interval = config.FIXED_SPEED_INTERVAL
 
+                print('throttle_interval', throttle_interval)
+                
                 if throttle_interval and not steering_interval:
                     throttle_interval += config.THROTTLE_STRAIGHT_INCREASE
 
