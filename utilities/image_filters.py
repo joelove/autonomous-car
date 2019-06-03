@@ -36,7 +36,7 @@ def crop_hood(image):
 
     left_hood_shape = [(0, 0), (1, 0), (1, hood_height), (0, 1)]
     right_hood_shape = [(0, 0), (1, 0), (1, 1), (0, hood_height)]
-    center_hood_shape = [(0, 0), (1, 1), (1, hood_height), (0, hood_height)]
+    center_hood_shape = [(0, 0), (1, 0), (1, hood_height), (0, hood_height)]
 
     left_warped = warp_by_shape(left_image, left_horizon_shape, original_image_shape)
     left_warped = warp_by_shape(left_warped, left_hood_shape, original_image_shape)
