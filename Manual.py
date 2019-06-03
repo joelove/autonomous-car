@@ -69,7 +69,7 @@ class Manual(Vehicle):
 
                 print('throttle_interval', throttle_interval)
 
-                if config.FIXED_SPEED_MODE and throttle_interval > 0:
+                if config.FIXED_SPEED_MODE and throttle_interval < config.THROTTLE_SHIFT:
                     throttle_interval = config.FIXED_SPEED_INTERVAL
 
                 print('throttle_interval', throttle_interval)
