@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import config
 
 
 def warp_by_shape(image, source_shape, destination_shape=[(0, 0), (1, 0), (1, 1), (0, 1)]):
