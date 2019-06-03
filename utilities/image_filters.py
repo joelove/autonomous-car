@@ -50,7 +50,12 @@ def crop_hood(image):
     right_cropped = right_warped[:, :]
     center_cropped = center_warped[:, :]
 
-    return np.concatenate((left_cropped, center_cropped, right_cropped), axis=1)
+    vanishing_point_shape = [(0.4, 0.1), (0.6, 0.1), (1, 1), (0, 1)]
+
+    stiched_image = np.concatenate((left_cropped, center_cropped, right_cropped), axis=1)
+    output_image = warp_by_shape(stiched_image, vanishing_point_shape)
+
+    return output_image
 
 
 def resize(image):
