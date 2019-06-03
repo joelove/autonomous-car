@@ -74,7 +74,7 @@ class Manual(Vehicle):
                 angle = self.interval_to_steering_angle(steering_interval)
                 throttle = self.interval_to_throttle(throttle_interval)
 
-                if not angle:
+                if throttle and not angle:
                     throttle += 0.05
 
                 self.servos.set_angle(angle)
