@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-def warp_by_shape(image, source_shape, destination_shape):
+def warp_by_shape(image, source_shape, destination_shape=[(0, 0), (1, 0), (1, 1), (0, 1)]):
     image_dimensions = tuple(reversed(image.shape))
 
     source_points = np.float32(source_shape) * np.float32(image_dimensions)
@@ -27,25 +27,22 @@ def crop_hood(image):
     horizon_height = 0.4
     peripheral_height = 0.5
 
-    original_image_shape = [(0, 0), (1, 0), (1, 1), (0, 1)]
-    cropped_image_shape = [(0, 0), (1, 0), (1, hood_height), (0, hood_height)]
-
     left_horizon_shape = [(0, peripheral_height), (1, horizon_height), (1, 1), (0, 1)]
     right_horizon_shape = [(0, horizon_height), (1, peripheral_height), (1, 1), (0, 1)]
     center_horizon_shape = [(0, horizon_height), (1, horizon_height), (1, 1), (0, 1)]
 
-    left_hood_shape = [(0, 0), (1, 0), (1, hood_height), (0, 1)]
-    right_hood_shape = [(0, 0), (1, 0), (1, 1), (0, hood_height)]
+    left_hood_shape = [(0, 0), (1, 0), (1, 1), (0, hood_height)]
+    right_hood_shape = [(0, 0), (1, 0), (1, hood_height), (0, 1)]
     center_hood_shape = [(0, 0), (1, 0), (1, hood_height), (0, hood_height)]
 
-    left_warped = warp_by_shape(left_image, left_horizon_shape, original_image_shape)
-    left_warped = warp_by_shape(left_warped, left_hood_shape, original_image_shape)
+    left_warped = warp_by_shape(left_image, left_horizon_shape)
+    left_warped = warp_by_shape(left_warped, left_hood_shape)
 
-    right_warped = warp_by_shape(right_image, right_horizon_shape, original_image_shape)
-    right_warped = warp_by_shape(right_warped, right_hood_shape, original_image_shape)
+    right_warped = warp_by_shape(right_image, right_horizon_shape)
+    right_warped = warp_by_shape(right_warped, right_hood_shape)
 
-    center_warped = warp_by_shape(center_image, center_horizon_shape, original_image_shape)
-    center_warped = warp_by_shape(center_warped, center_hood_shape, original_image_shape)
+    center_warped = warp_by_shape(center_image, center_horizon_shape)
+    center_warped = warp_by_shape(center_warped, center_hood_shape)
 
     left_cropped = left_warped[:, :-2]
     right_cropped = right_warped[:, :]
