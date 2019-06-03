@@ -34,7 +34,7 @@ def save_model(model):
 
 
 def create_model(args):
-    image_shape = tuple(reversed(config.CAMERA_RESOLUTION))
+    image_shape = tuple(reversed(config.CAMERA_FINAL_RESOLUTION))
     image_input = Input(shape=(*image_shape, 1))
 
     x = image_input
@@ -80,7 +80,7 @@ def train_model(args):
     record_files = glob.glob(f'{data_dir}/*.json')
 
     total_records = len(record_files)
-    image_shape = tuple(reversed(config.CAMERA_RESOLUTION))
+    image_shape = tuple(reversed(config.CAMERA_FINAL_RESOLUTION))
 
     image_variations = args.image_variations
 
