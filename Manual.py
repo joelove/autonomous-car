@@ -67,11 +67,13 @@ class Manual(Vehicle):
                 steering_interval = self.steering_axis_to_interval(left_stick_x_axis)
                 throttle_interval = self.throttle_axis_to_interval(right_trigger_axis)
 
-                if config.FIXED_SPEED_MODE and throttle_interval < config.THROTTLE_SHIFT:
+                print('throttle_interval', throttle_interval)
+
+                if config.FIXED_SPEED_MODE and throttle_interval > 0:
                     throttle_interval = config.FIXED_SPEED_INTERVAL
 
                 print('throttle_interval', throttle_interval)
-                
+
                 if throttle_interval and not steering_interval:
                     throttle_interval += config.THROTTLE_STRAIGHT_INCREASE
 
