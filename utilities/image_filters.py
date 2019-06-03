@@ -16,8 +16,8 @@ def warp_by_shape(image, source_shape, destination_shape):
 def crop_hood(image):
     image_height, image_width = image.shape
 
-    first_third = math.floor(0.275 * np.float32(image_width))
-    last_third = math.floor(0.725 * np.float32(image_width))
+    first_third = int(0.275 * np.float32(image_width))
+    last_third = int(0.725 * np.float32(image_width))
 
     left_image = image[:, :first_third+2]
     right_image = image[:, last_third:]
