@@ -117,7 +117,7 @@ def apply_default_filters(image):
     image = rgb_to_grayscale(image)
     image = crop_hood(image)
     image = resize(image)
-    # image = reduce_noise(image)
     image = apply_clahe(image)
+    image = reduce_noise(image)
 
     return image
