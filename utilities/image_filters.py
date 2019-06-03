@@ -58,8 +58,9 @@ def crop_hood(image):
 def resize(image):
     scale = 4
     height, width = image.shape
-    dimensions = (height / scale, width / scale)
-    output_image = cv2.resize(image, dimensions, interpolation=cv2.INTER_NEAREST)
+    new_height = int(height / scale)
+    new_width = int(width / scale)
+    output_image = cv2.resize(image, (new_height, new_width), interpolation=cv2.INTER_NEAREST)
 
     return output_image
 
