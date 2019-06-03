@@ -23,13 +23,13 @@ def crop_hood(image):
     right_image = image[:, last_third:]
     center_image = image[:, first_third:last_third]
 
-    hood_height = 0.6
+    hood_height = 0.62
 
     original_image_shape = [(0, 0), (1, 0), (1, 1), (0, 1)]
     cropped_image_shape = [(0, 0), (1, 0), (1, hood_height), (0, hood_height)]
 
-    horizon_height = 0.275
-    peripheral_height = 0.5
+    horizon_height = 0.42
+    peripheral_height = 0.49
 
     left_horizon_shape = [(0, peripheral_height), (1, horizon_height), (1, 1), (0, 1)]
     right_horizon_shape = [(0, horizon_height), (1, peripheral_height), (1, 1), (0, 1)]
@@ -107,7 +107,7 @@ def detect_edges(image):
 def apply_default_filters(image):
     image = rgb_to_grayscale(image)
     image = reduce_noise(image)
-    # image = crop_hood(image)
+    image = crop_hood(image)
     # image = resize(image)
 
     return image
