@@ -71,11 +71,11 @@ class Manual(Vehicle):
                 if config.FIXED_SPEED_MODE and throttle_interval > 0:
                     throttle_interval = config.FIXED_SPEED_INTERVAL
 
+                if throttle_interval and not steering_interval:
+                    throttle_interval += config.THROTTLE_STRAIGHT_AUGMENTATION
+
                 angle = self.interval_to_steering_angle(steering_interval)
                 throttle = self.interval_to_throttle(throttle_interval)
-
-                if throttle and not angle:
-                    throttle += 0.05
 
                 self.servos.set_angle(angle)
                 self.servos.set_throttle(throttle)
