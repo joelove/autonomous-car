@@ -44,6 +44,6 @@ def detect_edges(image):
 def apply_default_filters(image):
     image = rgb_to_grayscale(image)
     image = reduce_noise(image)
-    image = perspective_warp(image)
+    # image = perspective_warp(image)
 
     return image
