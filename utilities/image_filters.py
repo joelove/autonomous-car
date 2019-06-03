@@ -36,26 +36,22 @@ def crop_hood(image):
 
     left_hood_shape = [(0, 0), (1, 0), (1, hood_height), (0, 1)]
     right_hood_shape = [(0, 0), (1, 0), (1, 1), (0, hood_height)]
+    center_hood_shape = [(0, 0), (1, 1), (1, hood_height), (0, hood_height)]
 
     left_warped = warp_by_shape(left_image, left_horizon_shape, original_image_shape)
-    left_warped = warp_by_shape(left_warped, left_hood_shape, cropped_image_shape)
+    left_warped = warp_by_shape(left_warped, left_hood_shape, original_image_shape)
 
     right_warped = warp_by_shape(right_image, right_horizon_shape, original_image_shape)
-    right_warped = warp_by_shape(right_warped, right_hood_shape, cropped_image_shape)
+    right_warped = warp_by_shape(right_warped, right_hood_shape, original_image_shape)
 
     center_warped = warp_by_shape(center_image, center_horizon_shape, original_image_shape)
+    center_warped = warp_by_shape(center_warped, center_hood_shape, original_image_shape)
 
-    hood_y = int(hood_height * np.float32(image_height))
-
-    left_cropped = left_warped[:hood_y, :-2]
-    right_cropped = right_warped[:hood_y, :]
-    center_cropped = center_warped[:hood_y, :]
+    left_cropped = left_warped[:, :-2]
+    right_cropped = right_warped[:, :]
+    center_cropped = center_warped[:, :]
 
     return np.concatenate((left_cropped, center_cropped, right_cropped), axis=1)
-
-
-# def draw_blinker(image):
-#     polygon = [(0, 0), (1, 0), (1, 1), (0.725, 0.35), (0.275, 0.35), (0, 1)]
 
 
 def resize(image):
