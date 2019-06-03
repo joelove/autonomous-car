@@ -13,5 +13,6 @@ while capture.isOpened():
 
     if success:
         cv2.imshow(frame)
+        cv2.waitKey(0)
 
     time.sleep(0.1)
