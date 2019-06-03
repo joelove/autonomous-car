@@ -25,7 +25,7 @@ class Camera:
             start_time = time.time()
 
             if not frames.full():
-                success, frame = self.capture.read();
+                success, frame = self.capture.read()
 
                 if success:
                     frames.put_nowait(frame)
