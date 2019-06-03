@@ -24,8 +24,8 @@ def crop_hood(image):
     center_image = image[:, first_third:last_third]
 
     hood_height = 0.3
-    horizon_height = 0.4
-    peripheral_height = 0.5
+    horizon_height = 0.5
+    peripheral_height = 0.6
 
     left_horizon_shape = [(0, peripheral_height), (1, horizon_height), (1, 1), (0, 1)]
     right_horizon_shape = [(0, horizon_height), (1, peripheral_height), (1, 1), (0, 1)]
@@ -53,9 +53,9 @@ def crop_hood(image):
     vanishing_point_shape = [(0.4, 0.1), (0.6, 0.1), (1, 1), (0, 1)]
 
     stiched_image = np.concatenate((left_cropped, center_cropped, right_cropped), axis=1)
-    output_image = warp_by_shape(stiched_image, vanishing_point_shape)
+    vanishing_point_image = warp_by_shape(stiched_image, vanishing_point_shape)
 
-    return output_image
+    return stiched_image
 
 
 def resize(image):
