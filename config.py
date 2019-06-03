@@ -6,7 +6,7 @@ DATA_PATH = os.path.join(CAR_PATH, 'data')
 MODELS_PATH = os.path.join(CAR_PATH, 'models')
 
 #VEHICLE
-DRIVE_LOOP_HZ = 10
+DRIVE_LOOP_HZ = 20
 FIXED_SPEED_MODE = True
 FIXED_SPEED_INTERVAL = -0.5
 
