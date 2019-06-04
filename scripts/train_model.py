@@ -45,9 +45,12 @@ def create_model(args):
         x = Convolution2D(channels, (3, 3), strides=(2, 2), activation='relu')(x)
 
         if args.dropouts:
-            x = Dropout(0.25)(x)
+            x = Dropout(0.2)(x)
 
         channels *= 2
+
+    x = BatchNormalization()(x)
+    x = Convolution2D(args.max_channels, (3, 3), strides=(2, 2), activation='relu')(x)
 
     x = Flatten(name='flattened')(x)
     x = BatchNormalization()(x)
