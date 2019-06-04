@@ -25,21 +25,16 @@ class Camera:
         sys.exit(0)
 
 
-    def capture_continuous( self, frames):
-        tick_length = 1.0 / config.CAMERA_FRAMERATE
+    def capture_continuous(self, frames):
+        tick_length = 1.0 / config.CAMERA_CAPTURE_RATE
 
         while self.capture.isOpened():
             start_time = time.time()
 
-            while True:
-                if frames.full():
-                    break
-
+            if not frames.full():
                 success, frame = self.capture.read()
 
-                if not success:
-                    break
-
-                frames.put_nowait(frame)
+                if success:
+                    frames.put_nowait(frame)
 
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
