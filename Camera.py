@@ -31,10 +31,15 @@ class Camera:
         while self.capture.isOpened():
             start_time = time.time()
 
-            if not frames.full():
+            while True:
+                if frames.full():
+                    break
+
                 success, frame = self.capture.read()
 
-                if success:
-                    frames.put_nowait(frame)
+                if not success:
+                    break
+
+                frames.put_nowait(frame)
 
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
