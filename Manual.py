@@ -22,7 +22,10 @@ class Manual(Vehicle):
         timestamp = time.time()
 
         frame_filename = str(timestamp) + '_frame.jpg'
+        raw_filename = str(timestamp) + '_raw.jpg'
+
         frame_path = config.DATA_PATH + '/' + frame_filename
+        raw_path = config.DATA_PATH + '/' + raw_filename
         record_path = config.DATA_PATH + '/' + str(timestamp) + '_record.json'
 
         filtered_frame = apply_default_filters(frame)
@@ -30,11 +33,15 @@ class Manual(Vehicle):
         frame_image = Image.fromarray(filtered_frame)
         frame_image.save(frame_path)
 
+        raw_image = Image.fromarray(frame)
+        raw_image.save(raw_path)
+
         data = {
             "timestamp": timestamp,
             "angle": angle,
             "throttle": throttle,
-            "frame_filename": frame_filename
+            "frame_filename": frame_filename,
+            "raw_frame_filename": raw_filename
         }
 
         with open(record_path, 'w') as record_file:
