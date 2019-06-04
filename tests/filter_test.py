@@ -13,6 +13,6 @@ while capture.isOpened():
 
     if success:
         cv2.imshow('Filter preview', frame)
-        cv2.waitKey(0)
+        cv2.waitKey(1)
 
     time.sleep(0.1)
