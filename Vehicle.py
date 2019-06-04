@@ -1,12 +1,13 @@
 import config
+import cv2
 
-from Camera import Camera
 from ServoDriver import ServoDriver
+from utilities.stream_pipelines import gstreamer_pipeline
 
 
 class Vehicle:
     def __init__(self):
-        self.camera = Camera()
+        self.camera = cv2.VideoCapture(gstreamer_pipeline(), cv2.CAP_GSTREAMER)
         self.servos = ServoDriver()
 
 

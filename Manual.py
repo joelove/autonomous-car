@@ -85,10 +85,9 @@ class Manual(Vehicle):
                     record = button_states["a"]
 
                     if record and self.capture:
-                        while not self.camera.frames.empty():
-                            latest_frame = self.camera.frames.get_nowait()
+                        success, latest_frame = self.camera.read()
 
-                        if latest_frame.size:
+                        if success:
                             self.save_data_record(steering_interval, throttle_interval, latest_frame)
 
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
