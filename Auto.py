@@ -60,10 +60,7 @@ class Auto(Vehicle):
             while not self.camera.frames.empty():
                 frame = self.camera.frames.get_nowait()
 
-            print(frame)
-
             if not frame.size:
-                print('no size')
                 continue
 
             start_time = time.time()
@@ -72,8 +69,4 @@ class Auto(Vehicle):
 
             elapsed_time = time.time() - start_time
 
-            print(elapsed_time)
-
             time.sleep(tick_length - elapsed_time % tick_length)
-
-            print('slept')
