@@ -78,7 +78,7 @@ class Vehicle:
         throttle_adjust = angle_modifier ** 3
         throttle_adjust = throttle_adjust * config.THROTTLE_STRAIGHT_INCREASE
 
-        throttle_modifier = 1 + throttle_adjust
+        throttle_modifier = 1 - throttle_adjust
 
         print(throttle_interval, throttle_modifier)
 
