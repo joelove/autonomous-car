@@ -99,7 +99,7 @@ def train_model(args):
     index = 0
 
     for filepath in record_files:
-        completion_ratio = float(index) / total_records
+        completion_ratio = float(index) / total_variations
         percent_complete = int(round(completion_ratio * 100))
 
         print(f'Processing record {index + 1} of {total_variations}... ({percent_complete}%)', end="\r")
