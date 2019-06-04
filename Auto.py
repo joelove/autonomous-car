@@ -28,11 +28,16 @@ class Auto(Vehicle):
         prediction = self.model.predict(frame_array)
         steering_interval, throttle_interval = np.array(prediction).reshape(2,)
 
+        print('PREDICT')
+        print('steering_interval', steering_interval)
+
         if config.FIXED_SPEED_MODE:
             throttle_interval = config.FIXED_SPEED_INTERVAL
 
         if throttle_interval and not steering_interval:
             throttle_interval += config.THROTTLE_STRAIGHT_INCREASE
+
+        print('throttle_interval', throttle_interval)
 
         angle = self.interval_to_steering_angle(steering_interval)
         throttle = self.interval_to_throttle(throttle_interval)
