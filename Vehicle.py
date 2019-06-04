@@ -1,5 +1,7 @@
 import config
 import cv2
+import signal
+import sys
 
 from ServoDriver import ServoDriver
 from utilities.stream_pipelines import gstreamer_pipeline
@@ -7,8 +9,17 @@ from utilities.stream_pipelines import gstreamer_pipeline
 
 class Vehicle:
     def __init__(self):
+        signal.signal(signal.SIGINT, self.handle_sigint)
+
         self.camera = cv2.VideoCapture(gstreamer_pipeline(), cv2.CAP_GSTREAMER)
         self.servos = ServoDriver()
+
+
+    def handle_sigint(self, signal, frame):
+        self.servos.reset_servos()
+        self.camera.release()
+
+        sys.exit(0)
 
 
     def axis_to_unit_interval(self, axis):

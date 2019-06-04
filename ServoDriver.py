@@ -4,8 +4,6 @@ from board import SCL, SDA
 
 import busio
 import config
-import signal
-import sys
 
 from adafruit_pca9685 import PCA9685
 from board import SCL, SDA
@@ -13,17 +11,10 @@ from board import SCL, SDA
 
 class ServoDriver:
     def __init__(self):
-        signal.signal(signal.SIGINT, self.handle_sigint)
-
         self.initialize_pca()
         self.initialize_servos()
 
         self.enable_lights()
-
-
-    def handle_sigint(self, signal, frame):
-        self.reset_servos()
-        sys.exit(0)
 
 
     def initialize_pca(self):

@@ -47,12 +47,9 @@ class Auto(Vehicle):
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
 
         while True:
-            frame = np.array([])
+            success, frame = self.camera.read()
 
-            while not self.camera.frames.empty():
-                frame = self.camera.frames.get_nowait()
-
-            if not frame.size:
+            if not success:
                 continue
 
             start_time = time.time()
