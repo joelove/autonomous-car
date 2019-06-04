@@ -75,12 +75,10 @@ class Manual(Vehicle):
                 throttle_interval = self.throttle_axis_to_interval(right_trigger_axis)
 
                 if throttle_interval < config.THROTTLE_SHIFT:
-
                     if config.FIXED_SPEED_MODE:
                         throttle_interval = config.FIXED_SPEED_INTERVAL
 
-                    if not steering_interval:
-                        throttle_interval += config.THROTTLE_STRAIGHT_INCREASE
+                    throttle_interval = self.throttle_angle_adjust(throttle_interval, steering_interval)
 
                 angle = self.interval_to_steering_angle(steering_interval)
                 throttle = self.interval_to_throttle(throttle_interval)

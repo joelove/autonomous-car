@@ -69,3 +69,15 @@ class Vehicle:
         throttle = throttle_percent / 100
 
         return throttle
+
+
+    def throttle_angle_adjust(self, throttle_interval, steering_interval):
+        angle_modifier = steering_interval if steering_interval > 0 else -steering_interval
+        angle_modifier = 1 - angle_modifier
+
+        throttle_adjust = angle_modifier ** 3
+        throttle_adjust = throttle_adjust * config.THROTTLE_STRAIGHT_INCREASE
+
+        throttle_modifier = 1 + throttle_adjust
+
+        return throttle_interval * throttle_modifier
