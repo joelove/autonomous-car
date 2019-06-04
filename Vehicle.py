@@ -80,6 +80,4 @@ class Vehicle:
 
         throttle_modifier = 1 - throttle_adjust
 
-        print(throttle_interval, throttle_modifier)
-
         return throttle_interval * throttle_modifier
