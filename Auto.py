@@ -23,6 +23,7 @@ class Auto(Vehicle):
         self.controller = Controller()
         self.launched = False
 
+
     def process_frame(self, frame):
         filtered_frame = apply_default_filters(frame)
         frame_array = filtered_frame.reshape(
@@ -43,6 +44,7 @@ class Auto(Vehicle):
         self.servos.set_angle(angle)
         self.servos.set_throttle(throttle)
 
+
     def drive(self):
         print('>> Autonomous driving <<')
 
@@ -57,7 +59,9 @@ class Auto(Vehicle):
 
             if button_states:
                 launch = button_states["y"]
+                print('launch', launch)
                 stop = button_states["x"]
+                print('stop', stop)
 
                 if launch:
                     self.launched = True
