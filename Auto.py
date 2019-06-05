@@ -20,6 +20,7 @@ class Auto(Vehicle):
 
         self.model = model_from_json(loaded_model_json)
         self.model.load_weights("model.h5")
+
         self.controller = Controller()
         self.launched = False
 
@@ -41,8 +42,11 @@ class Auto(Vehicle):
         angle = self.interval_to_steering_angle(steering_interval)
         throttle = self.interval_to_throttle(throttle_interval)
 
-        self.servos.set_angle(angle)
-        self.servos.set_throttle(throttle)
+        if self.launched:
+            self.servos.set_angle(angle)
+            self.servos.set_throttle(throttle)
+        else:
+            self.servos.release()
 
 
     def drive(self):
@@ -61,9 +65,7 @@ class Auto(Vehicle):
 
             if button_states:
                 launch = button_states["y"]
-                print('launch', launch)
                 stop = button_states["x"]
-                print('stop', stop)
 
                 if launch:
                     self.launched = True
@@ -71,13 +73,13 @@ class Auto(Vehicle):
                 if stop:
                     self.launched = False
 
-            if self.launched:
-                success, frame = self.camera.read()
+            success, frame = self.camera.read()
 
-                if not success:
-                    continue
+            if not success:
+                continue
 
-                self.process_frame(frame)
+            self.process_frame(frame)
 
             elapsed_time = time.time() - start_time
+
             time.sleep(tick_length - elapsed_time % tick_length)
