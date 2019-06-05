@@ -37,7 +37,7 @@ class ServoDriver:
             max_pulse=config.STEERING_MAX_PULSE)
 
 
-    def reset_servos(self):
+    def release(self):
         self.throttle_servo.throttle = config.THROTTLE_SHIFT
         self.steering_servo.angle = 90
 

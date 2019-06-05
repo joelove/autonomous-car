@@ -6,6 +6,7 @@ import numpy as np
 from PIL import Image
 from Controller import Controller
 from Vehicle import Vehicle
+from Auto import Auto
 
 from utilities.image_filters import apply_default_filters
 
@@ -50,6 +51,13 @@ class Manual(Vehicle):
         print('Saved record:', timestamp, throttle, angle)
 
 
+    def switch_mode(self):
+        self.release_all()
+
+        vehicle = Auto()
+        vehicle.drive()
+
+
     def drive(self):
         print('>> Manual driving <<')
         print('Data capture: ' + 'Yes' if self.capture else 'No')
@@ -87,8 +95,12 @@ class Manual(Vehicle):
                 self.servos.set_throttle(throttle)
 
                 if button_states:
-                    print(button_states)
                     record = button_states["a"]
+                    switch_mode = button_states["start"]
+
+                    if switch_mode:
+                        self.switch_mode()
+                        break
 
                     if record and self.capture:
                         success, latest_frame = self.camera.read()
