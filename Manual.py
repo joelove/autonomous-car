@@ -87,6 +87,7 @@ class Manual(Vehicle):
                 self.servos.set_throttle(throttle)
 
                 if button_states:
+                    print(button_states)
                     record = button_states["a"]
 
                     if record and self.capture:
