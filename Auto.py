@@ -52,6 +52,8 @@ class Auto(Vehicle):
         joystick_state = ({}, {})
 
         while True:
+            start_time = time.time()
+
             while not self.controller.joystick_state.empty():
                 joystick_state = self.controller.joystick_state.get_nowait()
 
@@ -69,18 +71,13 @@ class Auto(Vehicle):
                 if stop:
                     self.launched = False
 
-            if not self.launched:
-                continue
+            if self.launched:
+                success, frame = self.camera.read()
 
-            success, frame = self.camera.read()
+                if not success:
+                    continue
 
-            if not success:
-                continue
-
-            start_time = time.time()
-
-            self.process_frame(frame)
+                self.process_frame(frame)
 
             elapsed_time = time.time() - start_time
-
             time.sleep(tick_length - elapsed_time % tick_length)
