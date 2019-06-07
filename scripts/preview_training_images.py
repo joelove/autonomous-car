@@ -37,7 +37,7 @@ def process_training_image(filepath, difference, variations):
         frame_filename = frame_filename[:-4] + "_reprocessed.jpg"
 
         frame = cv2.imread(f'{DATA_DIR}/{frame_filename}')
-        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+        # frame = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
 
         if not variations % 2:
             variations -= 1
