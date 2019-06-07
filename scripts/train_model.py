@@ -133,6 +133,9 @@ def train_model(args):
 
         model = model_from_json(loaded_model_json)
         model.load_weights(f'{args.model}.h5')
+        model.compile(optimizer=Adam(lr=3e-4, beta_1=0.9, beta_2=0.999, epsilon=1e-5, decay=0.0, amsgrad=False),
+                      loss={'angle_output':'mean_absolute_error', 'throttle_output': 'mean_absolute_error'},
+                      loss_weights={'angle_output': 0.9, 'throttle_output': 0.01})
     else:
         print("Creating model...", end="\r")
         model = create_model(args)
