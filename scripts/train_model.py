@@ -78,8 +78,10 @@ def train_model(args):
     print("Total training epochs:", args.epochs)
     print("Number of image variations:", args.image_variations)
     print("Variation brightness difference:", args.brightness_difference)
-    print("Existing model:", args.model + ".*")
     print("Learning rate (alpha):", args.learning_rate)
+
+    if args.model:
+        print("Existing model:", args.model + ".*")
 
     data_dir = os.path.join(root_dir, config.DATA_PATH)
     record_files = glob.glob(f'{data_dir}/*.json')
