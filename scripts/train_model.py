@@ -117,7 +117,7 @@ def train_model(args):
             frame_variations = process_training_image(filepath, args.brightness_difference, image_variations)
 
             for frame_variation in frame_variations:
-                frame_array = frame_variation.reshape((116, 205) + (1,))
+                frame_array = frame_variation.reshape(frame_variation.shape + (1,))
 
                 angles[index] = angle
                 throttles[index] = throttle
