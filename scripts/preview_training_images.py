@@ -34,7 +34,7 @@ def process_training_image(filepath, difference, variations):
         record = json.load(record_file)
 
         frame_filename = record["frame_filename"]
-        frame_filename = frame_filename[:-4] + "_reprocessed.jpg"
+        frame_filename = frame_filename[:-9] + "raw_reprocessed.jpg"
 
         print(frame_filename)
 
