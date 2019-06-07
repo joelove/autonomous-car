@@ -35,7 +35,7 @@ def save_model(model, name):
 
 def create_model(args):
     image_shape = tuple(reversed(config.CAMERA_FINAL_RESOLUTION))
-    image_input = Input(shape=((117, 205), 1))
+    image_input = Input(shape=(116, 205, 1))
 
     x = image_input
 
