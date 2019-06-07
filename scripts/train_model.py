@@ -27,10 +27,10 @@ import config
 
 
 def save_model(model, name):
-    with open(f'{name}\.json', "w") as json_file:
+    with open(f'{name}.json', "w") as json_file:
         json_file.write(model.to_json())
 
-    model.save_weights(f'{name}\.h5')
+    model.save_weights(f'{name}.h5')
 
 
 def create_model(args):
@@ -78,7 +78,7 @@ def train_model(args):
     print("Total training epochs:", args.epochs)
     print("Number of image variations:", args.image_variations)
     print("Variation brightness difference:", args.brightness_difference)
-    print("Existing model:", args.model)
+    print("Existing model:", args.model + ".*")
 
     data_dir = os.path.join(root_dir, config.DATA_PATH)
     record_files = glob.glob(f'{data_dir}/*.json')
@@ -126,13 +126,13 @@ def train_model(args):
 
     if args.model:
         print(f'Loading model from {args.model}.*...')
-        json_file = open(f'{args.model}\.json', "r")
+        json_file = open(f'{args.model}.json', "r")
         loaded_model_json = json_file.read()
 
         json_file.close()
 
         model = model_from_json(loaded_model_json)
-        model.load_weights(f'{args.model}\.h5')
+        model.load_weights(f'{args.model}.h5')
     else:
         print("Creating model...", end="\r")
         model = create_model(args)
