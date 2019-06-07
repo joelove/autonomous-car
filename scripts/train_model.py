@@ -79,6 +79,7 @@ def train_model(args):
     print("Number of image variations:", args.image_variations)
     print("Variation brightness difference:", args.brightness_difference)
     print("Existing model:", args.model + ".*")
+    print("Learning rate (Alpha):", args.learning_rate)
 
     data_dir = os.path.join(root_dir, config.DATA_PATH)
     record_files = glob.glob(f'{data_dir}/*.json')
@@ -133,7 +134,7 @@ def train_model(args):
 
         model = model_from_json(loaded_model_json)
         model.load_weights(f'{args.model}.h5')
-        model.compile(optimizer=Adam(lr=3e-4, beta_1=0.9, beta_2=0.999, epsilon=1e-5, decay=0.0, amsgrad=False),
+        model.compile(optimizer=Adam(lr=args.learning_rate, beta_1=0.9, beta_2=0.999, epsilon=1e-5, decay=0.0, amsgrad=False),
                       loss={'angle_output':'mean_absolute_error', 'throttle_output': 'mean_absolute_error'},
                       loss_weights={'angle_output': 0.9, 'throttle_output': 0.01})
     else:
@@ -215,6 +216,13 @@ if __name__ == "__main__":
                         dest="model",
                         action="store",
                         default=False)
+
+    parser.add_argument("-a", "--learning-rate",
+                        help="specify the learning rate (alpha) [default: 3e-4]",
+                        dest="learning_rate",
+                        action="store",
+                        type=float,
+                        default=3e-4)
 
     args = parser.parse_args()
 
