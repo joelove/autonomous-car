@@ -34,10 +34,6 @@ def process_training_image(filepath, difference, variations):
         record = json.load(record_file)
 
         frame_filename = record["frame_filename"]
-        frame_filename = frame_filename[:-9] + "raw_reprocessed.jpg"
-
-        print(frame_filename)
-
         frame = cv2.imread(f'{DATA_DIR}/{frame_filename}')
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
 

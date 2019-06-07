@@ -14,12 +14,6 @@ def warp_by_shape(image, source_shape, destination_shape=[(0, 0), (1, 0), (1, 1)
     return cv2.warpPerspective(image, transformation, image_dimensions)
 
 
-def crop_top(image):
-    cropped_image = image[38:, :]
-
-    return cropped_image
-
-
 def crop_hood(image):
     image_height, image_width = image.shape
 
@@ -122,6 +116,5 @@ def apply_default_filters(image):
     image = resize(image)
     image = apply_clahe(image)
     image = reduce_noise(image)
-    image = crop_top(image)
 
     return image
