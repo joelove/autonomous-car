@@ -35,7 +35,7 @@ def save_model(model, name):
 
 def create_model(args):
     image_shape = tuple(reversed(config.CAMERA_FINAL_RESOLUTION))
-    image_input = Input(shape=(*image_shape, 1))
+    image_input = Input(shape=((116, 205), 1))
 
     x = image_input
 
@@ -79,7 +79,7 @@ def train_model(args):
     print("Number of image variations:", args.image_variations)
     print("Variation brightness difference:", args.brightness_difference)
     print("Existing model:", args.model + ".*")
-    print("Learning rate (Alpha):", args.learning_rate)
+    print("Learning rate (alpha):", args.learning_rate)
 
     data_dir = os.path.join(root_dir, config.DATA_PATH)
     record_files = glob.glob(f'{data_dir}/*.json')
