@@ -11,7 +11,7 @@ from preview_training_images import process_training_image
 
 from argparse import ArgumentParser
 
-from tensorflow.keras.models import Model
+from tensorflow.keras.models import Model, model_from_json
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import Input, Convolution2D, BatchNormalization, Dropout, Flatten, Dense
 from tensorflow.keras.callbacks import TensorBoard
@@ -26,11 +26,11 @@ sys.path.append(root_dir)
 import config
 
 
-def save_model(model):
-    with open("model.json", "w") as json_file:
+def save_model(model, name):
+    with open(f'{name}\.json', "w") as json_file:
         json_file.write(model.to_json())
 
-    model.save_weights("model.h5")
+    model.save_weights(f'{name}\.h5')
 
 
 def create_model(args):
@@ -78,6 +78,7 @@ def train_model(args):
     print("Total training epochs:", args.epochs)
     print("Number of image variations:", args.image_variations)
     print("Variation brightness difference:", args.brightness_difference)
+    print("Existing model:", args.model)
 
     data_dir = os.path.join(root_dir, config.DATA_PATH)
     record_files = glob.glob(f'{data_dir}/*.json')
@@ -122,11 +123,21 @@ def train_model(args):
                 index += 1
 
     print(f'{total_records} records processed!', 99*' ')
-    print("Creating model...", end="\r")
 
-    model = create_model(args)
+    if args.model:
+        print(f'Loading model from {args.model}.*...')
+        json_file = open(f'{args.model}\.json', "r")
+        loaded_model_json = json_file.read()
 
-    print("Model created!", 99*' ')
+        json_file.close()
+
+        model = model_from_json(loaded_model_json)
+        model.load_weights(f'{args.model}\.h5')
+    else:
+        print("Creating model...", end="\r")
+        model = create_model(args)
+        print("Model created!", 99*' ')
+
     print("Training model...", end="\r")
 
     x_train = frames
@@ -140,7 +151,7 @@ def train_model(args):
     print("Model trained!", 99*' ')
     print("Saving model...", end="\r")
 
-    save_model(model)
+    save_model(model, f'{datetime.datetime.now().strftime("%y-%m-%d-%H-%M")}_model')
 
     print("Model saved!", 99*' ')
 
@@ -195,6 +206,12 @@ if __name__ == "__main__":
                         action="store",
                         type=int,
                         default=32)
+
+    parser.add_argument("-m", "--load-model",
+                        help="specify an existing model to start from",
+                        dest="model",
+                        action="store",
+                        default=False)
 
     args = parser.parse_args()
 
