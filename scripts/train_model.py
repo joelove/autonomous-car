@@ -60,7 +60,7 @@ def create_model(args):
     throttle_output = Dense(1, activation='sigmoid', name='throttle_output')(x)
 
     model = Model(inputs=[image_input], outputs=[angle_output, throttle_output])
-    model.compile(optimizer=Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=1e-5, decay=0.0, amsgrad=False),
+    model.compile(optimizer=Adam(lr=3e-4, beta_1=0.9, beta_2=0.999, epsilon=1e-5, decay=0.0, amsgrad=False),
                   loss={'angle_output':'mean_absolute_error', 'throttle_output': 'mean_absolute_error'},
                   loss_weights={'angle_output': 0.9, 'throttle_output': 0.01})
 
@@ -207,7 +207,7 @@ if __name__ == "__main__":
                         type=int,
                         default=32)
 
-    parser.add_argument("-m", "--load-model",
+    parser.add_argument("-l", "--load-model",
                         help="specify an existing model to start from",
                         dest="model",
                         action="store",
