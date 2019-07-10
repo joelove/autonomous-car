@@ -55,7 +55,7 @@ class Auto(Vehicle):
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
         joystick_state = ({}, {})
 
-        self.model.predict(np.zeros((1,) + config.CAMERA_FINAL_RESOLUTION + (1,)))
+        self.model.predict(np.zeros((1,) + tuple(reversed(config.CAMERA_FINAL_RESOLUTION)) + (1,)))
 
         while True:
             start_time = time.time()
