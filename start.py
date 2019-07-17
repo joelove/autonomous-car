@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import config
 
 from argparse import ArgumentParser

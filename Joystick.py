@@ -110,7 +110,15 @@ class Joystick():
         try:
             self.jsdev = open(self.dev_fn, 'rb')
         except FileNotFoundError:
-            raise SystemError("No controller found, it's probably fallen asleep!")
+            print('Waiting for controller...')
+            while True:
+                time.sleep(1)
+                try:
+                    self.jsdev = open(self.dev_fn, 'rb')
+                    print('Controller connected!')
+                    break
+                except:
+                    continue
 
         # Get the device name.
         buf = array.array('B', [0] * 64)

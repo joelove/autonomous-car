@@ -11,7 +11,7 @@ from preview_training_images import process_training_image
 
 from argparse import ArgumentParser
 
-from tensorflow.keras.models import Model
+from tensorflow.keras.models import Model, model_from_json
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import Input, Convolution2D, BatchNormalization, Dropout, Flatten, Dense
 from tensorflow.keras.callbacks import TensorBoard
@@ -26,15 +26,15 @@ sys.path.append(root_dir)
 import config
 
 
-def save_model(model):
-    with open("model.json", "w") as json_file:
+def save_model(model, name):
+    with open(f'{name}.json', "w") as json_file:
         json_file.write(model.to_json())
 
-    model.save_weights("model.h5")
+    model.save_weights(f'{name}.h5')
 
 
 def create_model(args):
-    image_shape = tuple(reversed(config.CAMERA_RESOLUTION))
+    image_shape = tuple(reversed(config.CAMERA_FINAL_RESOLUTION))
     image_input = Input(shape=(*image_shape, 1))
 
     x = image_input
@@ -45,9 +45,12 @@ def create_model(args):
         x = Convolution2D(channels, (3, 3), strides=(2, 2), activation='relu')(x)
 
         if args.dropouts:
-            x = Dropout(0.25)(x)
+            x = Dropout(0.2)(x)
 
         channels *= 2
+
+    x = BatchNormalization()(x)
+    x = Convolution2D(args.max_channels, (3, 3), strides=(2, 2), activation='relu')(x)
 
     x = Flatten(name='flattened')(x)
     x = BatchNormalization()(x)
@@ -57,7 +60,7 @@ def create_model(args):
     throttle_output = Dense(1, activation='sigmoid', name='throttle_output')(x)
 
     model = Model(inputs=[image_input], outputs=[angle_output, throttle_output])
-    model.compile(optimizer=Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=1e-5, decay=0.0, amsgrad=False),
+    model.compile(optimizer=Adam(lr=3e-4, beta_1=0.9, beta_2=0.999, epsilon=1e-5, decay=0.0, amsgrad=False),
                   loss={'angle_output':'mean_absolute_error', 'throttle_output': 'mean_absolute_error'},
                   loss_weights={'angle_output': 0.9, 'throttle_output': 0.01})
 
@@ -75,12 +78,14 @@ def train_model(args):
     print("Total training epochs:", args.epochs)
     print("Number of image variations:", args.image_variations)
     print("Variation brightness difference:", args.brightness_difference)
+    print("Existing model:", args.model + ".*")
+    print("Learning rate (Alpha):", args.learning_rate)
 
     data_dir = os.path.join(root_dir, config.DATA_PATH)
     record_files = glob.glob(f'{data_dir}/*.json')
 
     total_records = len(record_files)
-    image_shape = tuple(reversed(config.CAMERA_RESOLUTION))
+    image_shape = tuple(reversed(config.CAMERA_FINAL_RESOLUTION))
 
     image_variations = args.image_variations
 
@@ -96,7 +101,7 @@ def train_model(args):
     index = 0
 
     for filepath in record_files:
-        completion_ratio = float(index) / total_records
+        completion_ratio = float(index) / total_variations
         percent_complete = int(round(completion_ratio * 100))
 
         print(f'Processing record {index + 1} of {total_variations}... ({percent_complete}%)', end="\r")
@@ -119,11 +124,24 @@ def train_model(args):
                 index += 1
 
     print(f'{total_records} records processed!', 99*' ')
-    print("Creating model...", end="\r")
 
-    model = create_model(args)
+    if args.model:
+        print(f'Loading model from {args.model}.*...')
+        json_file = open(f'{args.model}.json', "r")
+        loaded_model_json = json_file.read()
 
-    print("Model created!", 99*' ')
+        json_file.close()
+
+        model = model_from_json(loaded_model_json)
+        model.load_weights(f'{args.model}.h5')
+        model.compile(optimizer=Adam(lr=args.learning_rate, beta_1=0.9, beta_2=0.999, epsilon=1e-5, decay=0.0, amsgrad=False),
+                      loss={'angle_output':'mean_absolute_error', 'throttle_output': 'mean_absolute_error'},
+                      loss_weights={'angle_output': 0.9, 'throttle_output': 0.01})
+    else:
+        print("Creating model...", end="\r")
+        model = create_model(args)
+        print("Model created!", 99*' ')
+
     print("Training model...", end="\r")
 
     x_train = frames
@@ -132,12 +150,12 @@ def train_model(args):
     date = datetime.datetime.now().strftime('%y-%m-%d-%H-%M')
     tb_callback = TensorBoard(log_dir=('./tensorboard_logs/%s' % date), histogram_freq=0, write_graph=True, write_images=True)
 
-    model.fit(frames, y_train, validation_split=args.validation_split, epochs=args.epochs, verbose=1, callbacks=[tb_callback])
+    model.fit(x_train, y_train, validation_split=args.validation_split, epochs=args.epochs, verbose=1, callbacks=[tb_callback])
 
     print("Model trained!", 99*' ')
     print("Saving model...", end="\r")
 
-    save_model(model)
+    save_model(model, f'{datetime.datetime.now().strftime("%y-%m-%d-%H-%M")}_model')
 
     print("Model saved!", 99*' ')
 
@@ -192,6 +210,19 @@ if __name__ == "__main__":
                         action="store",
                         type=int,
                         default=32)
+
+    parser.add_argument("-l", "--load-model",
+                        help="specify an existing model to start from",
+                        dest="model",
+                        action="store",
+                        default=False)
+
+    parser.add_argument("-a", "--learning-rate",
+                        help="specify the learning rate (alpha) [default: 3e-4]",
+                        dest="learning_rate",
+                        action="store",
+                        type=float,
+                        default=3e-4)
 
     args = parser.parse_args()
 

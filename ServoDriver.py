@@ -1,18 +1,88 @@
+from adafruit_pca9685 import PCA9685
+from adafruit_motor import servo
+from board import SCL, SDA
+
+import busio
 import config
 
-from adafruit_servokit import ServoKit
+from adafruit_pca9685 import PCA9685
+from board import SCL, SDA
 
 
 class ServoDriver:
-    def __init__(self, channels=16):
-        kit = ServoKit(channels=channels)
-        self.throttle_servo = kit.continuous_servo[config.THROTTLE_CHANNEL]
-        self.steering_servo = kit.servo[config.STEERING_CHANNEL]
-        self.steering_servo.set_pulse_width_range(config.STEERING_LEFT_PWM,
-                                                  config.STEERING_RIGHT_PWM)
+    def __init__(self):
+        self.initialize_pca()
+        self.initialize_servos()
+
+        self.enable_lights()
+
+
+    def initialize_pca(self):
+        i2c = busio.I2C(SCL, SDA)
+
+        self.pca = PCA9685(i2c)
+        self.pca.frequency = 60
+
+
+    def initialize_servos(self):
+        throttle_channel = self.pca.channels[config.THROTTLE_CHANNEL]
+        steering_channel = self.pca.channels[config.STEERING_CHANNEL]
+
+        self.throttle_servo = servo.ContinuousServo(throttle_channel,
+            min_pulse=config.THROTTLE_MIN_PULSE,
+            max_pulse=config.THROTTLE_MAX_PULSE)
+
+        self.steering_servo = servo.Servo(steering_channel,
+            min_pulse=config.STEERING_MIN_PULSE,
+            max_pulse=config.STEERING_MAX_PULSE)
+
+
+    def release(self):
+        self.throttle_servo.throttle = config.THROTTLE_SHIFT
+        self.steering_servo.angle = 90
+
 
     def set_angle(self, angle):
         self.steering_servo.angle = angle
+        self.set_indicators(angle)
+
 
     def set_throttle(self, throttle):
         self.throttle_servo.throttle = throttle
+
+
+    def enable_led(self, channel):
+        self.pca.channels[channel].duty_cycle = 0xffff
+
+
+    def disable_led(self, channel):
+        self.pca.channels[channel].duty_cycle = 0
+
+
+    def enable_lights(self):
+        for channel in config.HEAD_LIGHT_CHANNELS:
+            self.enable_led(channel)
+
+        for channel in config.REAR_LIGHT_CHANNELS:
+            self.enable_led(channel)
+
+
+    def disable_indicators(self):
+        self.disable_led(config.LEFT_INDICATOR_CHANNEL)
+        self.disable_led(config.RIGHT_INDICATOR_CHANNEL)
+
+
+    def enable_indicator(self, angle):
+        positive_steering_angle = angle > 0
+
+        if positive_steering_angle:
+            self.enable_led(config.LEFT_INDICATOR_CHANNEL)
+        else:
+            self.enable_led(config.RIGHT_INDICATOR_CHANNEL)
+
+
+    def set_indicators(self, angle):
+        if not angle:
+            self.disable_indicators()
+
+        self.enable_indicator(angle)

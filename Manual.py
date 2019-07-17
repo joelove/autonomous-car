@@ -6,6 +6,7 @@ import numpy as np
 from PIL import Image
 from Controller import Controller
 from Vehicle import Vehicle
+from Auto import Auto
 
 from utilities.image_filters import apply_default_filters
 
@@ -22,7 +23,10 @@ class Manual(Vehicle):
         timestamp = time.time()
 
         frame_filename = str(timestamp) + '_frame.jpg'
+        raw_filename = str(timestamp) + '_raw.jpg'
+
         frame_path = config.DATA_PATH + '/' + frame_filename
+        raw_path = config.DATA_PATH + '/' + raw_filename
         record_path = config.DATA_PATH + '/' + str(timestamp) + '_record.json'
 
         filtered_frame = apply_default_filters(frame)
@@ -30,11 +34,15 @@ class Manual(Vehicle):
         frame_image = Image.fromarray(filtered_frame)
         frame_image.save(frame_path)
 
+        raw_image = Image.fromarray(frame)
+        raw_image.save(raw_path)
+
         data = {
             "timestamp": timestamp,
             "angle": angle,
             "throttle": throttle,
-            "frame_filename": frame_filename
+            "frame_filename": frame_filename,
+            "raw_frame_filename": raw_filename
         }
 
         with open(record_path, 'w') as record_file:
@@ -43,9 +51,16 @@ class Manual(Vehicle):
         print('Saved record:', timestamp, throttle, angle)
 
 
+    def switch_mode(self):
+        self.release_all()
+
+        vehicle = Auto()
+        vehicle.drive()
+
+
     def drive(self):
         print('>> Manual driving <<')
-        print('Data capture: ' + str(self.capture))
+        print('Data capture: ' + 'Yes' if self.capture else 'No')
 
         tick_length = 1.0 / config.DRIVE_LOOP_HZ
 
@@ -67,8 +82,11 @@ class Manual(Vehicle):
                 steering_interval = self.steering_axis_to_interval(left_stick_x_axis)
                 throttle_interval = self.throttle_axis_to_interval(right_trigger_axis)
 
-                if config.FIXED_SPEED_MODE and throttle_interval > 0:
-                    throttle_interval = config.FIXED_SPEED_INTERVAL
+                if throttle_interval < config.THROTTLE_SHIFT:
+                    if config.FIXED_SPEED_MODE:
+                        throttle_interval = config.FIXED_SPEED_INTERVAL
+
+                    throttle_interval = self.throttle_angle_adjust(throttle_interval, steering_interval)
 
                 angle = self.interval_to_steering_angle(steering_interval)
                 throttle = self.interval_to_throttle(throttle_interval)
@@ -78,12 +96,16 @@ class Manual(Vehicle):
 
                 if button_states:
                     record = button_states["a"]
+                    switch_mode = button_states["start"]
+
+                    if switch_mode:
+                        self.switch_mode()
+                        break
 
                     if record and self.capture:
-                        while not self.camera.frames.empty():
-                            latest_frame = self.camera.frames.get_nowait()
+                        success, latest_frame = self.camera.read()
 
-                        if latest_frame.size:
+                        if success:
                             self.save_data_record(steering_interval, throttle_interval, latest_frame)
 
             time.sleep(tick_length - ((time.time() - start_time) % tick_length))
